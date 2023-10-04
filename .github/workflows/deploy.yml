@@ -11,7 +11,6 @@ jobs:
     - name: 🚚 Get latest code
       uses: actions/checkout@v3
 
-
     - name: Use Node.js 16
       uses: actions/setup-node@v2
       with:
@@ -22,7 +21,6 @@ jobs:
         npm install -g @angular/cli --save-dev --force
         npm install --force
         ng build
-        mv dist/* . 
       env:
           CI: false
     
@@ -33,4 +31,3 @@ jobs:
         username: ${{ secrets.GIT_CPANEL_REACT_USER }}
         password: ${{ secrets.GIT_CPANEL_REACT_PWD }}
         protocol: ${{ secrets.GIT_CPANEL_REACT_PROTOCOL }}
-        remote-dir: 'public_html/webportalstaging/colorHuntApiStaging'

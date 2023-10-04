@@ -35,6 +35,3 @@ jobs:
 
         source-root: ./dist # Specify the correct path
         target: public_html/webportalstaging 
-
-        remote-dir: 'public_html/webportalstaging/colorHuntApiStaging'
-        

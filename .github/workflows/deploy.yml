@@ -24,6 +24,10 @@ jobs:
       env:
           CI: false
     
+    - name: Move dist folder
+      run: mv dist public_html/webportalstaging/
+    
+
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:

@@ -62,7 +62,7 @@ import {
 import { AppRoutingModule } from './app.routing';
 
 // Import ngx-barcode module
-import { NgxBarcodeModule } from 'ngx-barcode';
+import { NgxBarcode6Module } from 'ngx-barcode6';
 
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 

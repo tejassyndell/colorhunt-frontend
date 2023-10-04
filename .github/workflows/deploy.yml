@@ -16,14 +16,7 @@ jobs:
       with:
         node-version: '16'
       
-    - name: 🔨 Build Project
-      run: |
-        npm install -g @angular/cli --save-dev --force
-        npm install --force
-        ng build
-      env:
-          CI: false
-    
+   
     - name: Move dist folder
       run: mv dist public_html/webportalstaging/
     

@@ -1,0 +1,28 @@
+.mobileview {
+    display: none;
+}
+
+.printbutton {
+    display: block;
+}
+
+@media print {
+    // .mobileview {
+    //     display: none;
+    // }
+}
+
+@media screen and (max-width:920px) {
+    .saleorder td {
+        padding: 5px !important;
+    }
+    // .desktopview {
+    //     display: none;
+    // }
+    // .mobileview {
+    //     display: block;
+    // }
+    .printbutton {
+        display: none;
+    }
+}

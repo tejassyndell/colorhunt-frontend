@@ -1,0 +1,97 @@
+import { Component, OnInit } from '@angular/core';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { RouterModule, Routes, Router, ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { ValidationService } from '../../services/config.service';
+import { UserService } from '../../services/user.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+
+@Component({
+  selector: 'app-partymaster',
+  templateUrl: './partymaster.component.html',
+  styleUrls: ['./partymaster.component.scss']
+})
+export class PartymasterComponent implements OnInit {
+  public editarray = {};
+  partyForm: FormGroup;
+  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService, private toastr: ToastrService, private route: ActivatedRoute,private spinner: NgxSpinnerService) {
+    this.partyForm = this.formBuilder.group({
+      Name: ['', [Validators.required]],
+      Address: [''],
+      PhoneNumber: [''],
+      ContactPerson: [''],
+      GSTNumber: ['']
+    });
+  }
+
+  ngOnInit() {
+    let data = this.route.snapshot.paramMap.get('id');
+    console.log(data);
+
+    this.userService.getpartyidwise(data).subscribe((res) => {
+      console.log(res)
+      if(res !="" && res != []){
+      this.editarray = {
+        Name: res[0].Name,
+        Address: res[0].Address,
+        PhoneNumber: res[0].PhoneNumber,
+        ContactPerson: res[0].ContactPerson,
+        GSTNumber: res[0].GSTNumber        
+      }
+      this.partyForm.patchValue(this.editarray);
+    }
+    });
+  }
+  // Initicate user add  
+  dopartyadd() {
+    this.spinner.show();
+    if (this.route.snapshot.paramMap.get('id')) {
+      let editobject = {
+        id: this.route.snapshot.paramMap.get('id'),
+        Name: this.partyForm.value.Name, 
+        Address:this.partyForm.value.Address, 
+        PhoneNumber: this.partyForm.value.PhoneNumber, 
+        ContactPerson: this.partyForm.value.ContactPerson, 
+        GSTNumber: this.partyForm.value.GSTNumber          
+      }
+      console.log(editobject);
+      this.userService.updateParty(editobject).subscribe(
+        userdata => {
+          this.spinner.hide();
+          console.log(userdata);
+          this.successupdated(userdata);
+        }
+      );
+    } else {
+      console.log("Add");
+      console.log(this.partyForm.value);
+      this.userService.dopartyadd(this.partyForm.value).subscribe(
+        userdata => {
+          this.spinner.hide();
+          console.log(userdata);
+          this.success(userdata);
+        }
+      );
+    }
+
+  }
+
+  // User Add success function
+  success(data) {
+    if (data.id != "") {
+      this.router.navigate(['/partylist']);
+      this.toastr.success('Success', 'Party Add Successfully');
+    } else {
+      this.toastr.error('Failed', 'Please try agin later');
+    }
+  }
+
+  successupdated(data) {
+    if (data.id != "") {
+      this.router.navigate(['/partylist']);
+      this.toastr.success('Success', 'Party Updated Successfully');
+    } else {
+      this.toastr.error('Failed', 'Please try agin later');
+    }
+  }
+}

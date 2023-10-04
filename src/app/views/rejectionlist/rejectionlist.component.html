@@ -1,0 +1,57 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+  <div class="animated fadeIn">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="table-title"><i class="fa fa-align-justify"></i> Rejection Type List</div>
+            <div class="pull-right" *ngIf='isAdd==1'>
+              <a type="submit" [routerLink]="['/rejection/']" class="btn btn-primary">Add Rejection Type</a>
+            </div>
+          </div>
+          <div class="col-md-12 pt-3 pb-3">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th>No</th>
+                  <th>Rejection Type</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let val of rejectionlist;let i = index">
+                  <td>{{ i + 1}}</td>
+                  <td>{{val.RejectionType}}</td>
+                  <td class="flex">
+                    <button type="button" *ngIf='isEdit==1' class="btn btn-primary mr-1" (click)="edit(val.Id)">
+                      <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" *ngIf='isDelete==1' class="btn btn-danger mr-1" (click)="delete(val.Id)">
+                      <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #other_content>
+  <div class="col-sm-12 col-md-12">
+    <div class="card text-white bg-info text-center">
+      <div class="card-body">
+        <blockquote class="card-bodyquote">
+          <h3>Rights that are not assignable</h3>
+          <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ngx-spinner type="ball-beat" size="20px">
+</ngx-spinner>

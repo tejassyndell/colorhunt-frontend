@@ -1,0 +1,137 @@
+h3.h3{text-align:center; margin:1em 0; text-transform:capitalize; font-size:1.7em; color:#f0672a;}
+.container{background-color: #fff}
+#custom-search-input {margin:20px 20px 0; padding:0; width:300px;}
+#custom-search-input .search-query {width:100%; padding-right:3px; padding-left:15px; margin-bottom:0; -webkit-border-radius:3px; -moz-border-radius:3px; border-radius:0; background:#F5F5F6; border:transparent;}
+#custom-search-input button {border:0; background:none; padding:4px 10px; margin-top:2px; position:absolute; right:0; margin-bottom:0; -webkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px; color:#D9230F; cursor:unset; z-index:99;}
+.addcart {position:fixed; bottom:20px; right:20px; background:#f0672a; width:50px; height:50px; border-radius:50%; line-height:48px; text-align:center; z-index:999; -o-box-shadow: 0 -1px 12px 0 rgba(0,0,0,.15); -webkit-box-shadow: 0 -1px 12px 0 rgba(0,0,0,.15); -moz-box-shadow: 0 -1px 12px 0 rgba(0,0,0,.15); box-shadow: 0 -1px 12px 0 rgba(0,0,0,.15);}
+.cart-icon-bottom {background: url(/assets/img/cart.png) 0 -3px no-repeat; margin:15px auto; width:21px; height:19px;}
+.cart-icon-bottom span {display: block; position: absolute; right: 0px; top: -3px; background: #000; width: 20px; height: 20px; line-height: 18px; border-radius: 50%; color: #fff; font-size: 13px;}
+
+#sidebar {width:205px; padding:0; border-right:1px solid #e6e6e6; position: absolute; top: 0; bottom: 0;}
+#grid-selector {padding:30px 0 0 0;}
+.row.product-list {padding:0 15px; margin:0 0 0 205px;}
+#sidebar h3 {color:#262626; text-transform:uppercase; font-size:14px; font-weight:700; padding:30px 0 10px 0; letter-spacing:1px; clear:both; position:relative;}
+#sidebar h3.pt-0 {padding-top: 0 !important;}
+
+/********************* Shopping **********************/
+.demo {padding:45px 0;}
+.product-grid2 {font-family:'Open Sans',sans-serif; position:relative; padding-bottom:90px; height: 100%;}
+.product-grid2 a:hover {text-decoration:none;}
+.product-grid2 .product-image2 {overflow:hidden; position:relative; height: 100%; border:1px solid #e4e5e6; background: #f7f7f7;}
+.product-grid2 .product-image2 a {display:block;}
+.product-grid2 .product-image2 img {width:100%; height:auto;}
+.product-image2 .pic-1 {opacity:1; transition:all .5s;}
+.product-grid2:hover .product-image2 .pic-1 {opacity:0;}
+.product-image2 .pic-2 {width:100%; height:100%; opacity:0; position:absolute; top:0; left:0; transition:all .5s;}
+.product-grid2:hover .product-image2 .pic-2 {opacity:1;}
+.product-grid2 .product-new-label {background-color:#3498db; color:#fff; font-size:17px; padding:5px 10px; position:absolute; right:0; top:0; transition:all .3s;}
+.product-grid2:hover .product-new-label {opacity:0;}
+.product-grid2 .product-content {padding:10px 0 20px; text-align:left; position: absolute; left: 0; right: 0; bottom: 12px; background: #fff;}
+.product-grid2 .product-content p {margin:0; font-size:14px; font-weight:400; color:#212529;}
+.product-grid2 .title {font-size:16px; margin:0 0 7px; font-weight:500; text-overflow:ellipsis; white-space:nowrap; overflow:hidden; color:#212529; text-transform:uppercase;}
+.product-grid2 .title a {color:#303030; text-transform:uppercase;}
+.product-grid2 .title a:hover {color:#3498db;}
+.product-grid2 .price {color:#303030; font-size:14px; font-weight:bold;}
+.product-strike {text-decoration:line-through; color:#7e818c; font-weight:400; margin-left:5px; font-size:12px;}
+.product-discountPercentage {color:#f0672a; font-weight:400; font-size:12px; margin-left:5px;}
+
+@media screen and (min-width:1370px) and (min-width:1920px) {
+.product-list .col-md-3.col-sm-6 {flex: 0 0 20%; max-width: 20%;}
+}
+@media screen and (min-width:1650px) {
+.container {max-width: 1600px}
+}
+@media screen and (max-width:990px) {
+/*.product-grid2 {margin-bottom:30px;}*/
+}
+@media screen and (max-width:767px) {
+#custom-search-input {margin: 20px auto;}
+h3.h3 {font-size:20px;}
+.product-list .col-sm-6 {width:50%; padding:0;}
+.product-grid2 .product-content {padding:10px;}
+.product-grid2 {padding-bottom:70px;}
+.product-grid2 .title a {font-size:13px; font-weight:700;}
+.product-grid2 .product-content p {font-size:11px;}
+.product-grid2 .price {font-size:13px; font-weight:700;}
+}
+
+.wrapper {height: 100%; width: 100%; background: #fff; position: relative;}
+.available {color:#848484; font-size:11px; margin-left:4px; float:right; line-height:20px;}
+.colors span {border:none; position:relative; border-radius:100%; width:13px; height:13px; display:block; float:left; margin:2px 5px 0 0;}
+.colorname {float:left;}
+
+.checkbox label {display:inline-block; position:relative; line-height:18px; padding-left:5px;}
+.checkbox label::before {
+      content:"";
+      display:inline-block;
+      position:absolute;
+      width:17px;
+      height:17px;
+      left:0;
+      margin-left:-20px;
+      border:1px solid #cccccc;
+      border-radius:3px;
+      background-color:#fff;
+      -webkit-transition:border 0.15s ease-in-out, color 0.15s ease-in-out;
+      -o-transition:border 0.15s ease-in-out, color 0.15s ease-in-out;
+      transition:border 0.15s ease-in-out, color 0.15s ease-in-out;}
+
+.checkbox label::after {display:inline-block; position:absolute; width:16px; height:16px; left:0; top:0; margin-left:-20px; padding-left:3px; padding-top:1px; font-size:11px; color:#555555;}
+.checkbox input[type="checkbox"] {opacity:0; width:17px; height:17px;}
+.checkbox input[type="checkbox"]:focus + label::before {outline:thin dotted; outline:5px auto -webkit-focus-ring-color; outline-offset:-2px;}
+.checkbox input[type="checkbox"]:checked + label::after {font-family:'FontAwesome'; content:"\f00c";}
+.checkbox input[type="checkbox"]:disabled + label {opacity:0.65;}
+.checkbox input[type="checkbox"]:disabled + label::before {background-color:#eeeeee; cursor:not-allowed;}
+.checkbox.checkbox-circle label::before {border-radius:50%;}
+.checkbox.checkbox-inline {margin-top:0;}
+
+
+@media screen and (max-width:1200px) {
+.cartitem {height:auto !important;}
+#sidebar {width:200px !important; padding:0 0 0 30px !important;}
+.row.product-list {margin: 0 0 0 200px;}
+}
+@media screen and (max-width:990px) {
+/*.product-grid2 {margin-bottom:30px;}*/
+}
+/*@media screen and (max-width:767px) {
+h3.h3 {font-size:20px;}
+.space {margin: 20px 0 !important; font-size: 20px !important;}
+.product-list .col-sm-6 {width:50%; padding:0 10px;}
+.product-grid2 .product-content {padding:10px;}
+.product-grid2 {margin-bottom:0;}
+.product-grid2 .title a {font-size:13px; font-weight:700;}
+.product-grid2 .product-content p {font-size:11px;}
+.product-grid2 .price {font-size:13px; font-weight:700;}
+}*/
+@media screen and (max-width:767px) {
+.container {max-width: 100%;}
+.row.product-list {margin:0 -30px; clear:both;}
+.my-pagination {padding-top: 15px !important;}
+#sidebar .space {display: none;}
+#sidebar {width:100% !important; padding:0 15px 15px !important; position: relative; border: none;}
+.product-list .col-sm-6 {width:50%; padding:0; border-right:.5px solid #d4d5d9; border-top:1px solid #d4d5d9; border-bottom: #d4d5d9 solid 1px;}
+}
+
+@media screen and (max-width:550px) {
+.my-pagination {padding:20px 0px 20px !important;}
+}
+.form-check {position: relative; display: block; padding-left: 0;}
+input[type="checkbox"], input[type="radio"]{position: absolute; right: 9000px;}
+
+/*Check box*/
+/*input[type="checkbox"] + .label-text:before{content: "\f096"; font-family: "FontAwesome"; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; -webkit-font-smoothing:antialiased; width: 1em; display: inline-block; margin-right: 5px;}
+input[type="checkbox"]:checked + .label-text:before{content: "\f14a"; color: #555555; animation: effect 250ms ease-in;}
+input[type="checkbox"]:disabled + .label-text{color: #aaa;}
+input[type="checkbox"]:disabled + .label-text:before{content: "\f0c8"; color: #ccc;}*/
+
+/*Radio box*/
+input[type="radio"] + .label-text:before{content: "\f10c"; font-family: "FontAwesome"; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; -webkit-font-smoothing:antialiased; width: 17px; height: 17px; font-size:16px; display: inline-block; margin-right: 5px;}
+input[type="radio"]:checked + .label-text:before{content: "\f192"; color: #555555; animation: effect 250ms ease-in;}
+input[type="radio"]:disabled + .label-text{color: #aaa;}
+input[type="radio"]:disabled + .label-text:before{content: "\f111"; color: #ccc;}
+
+.my-pagination {text-align: right; padding:0 25px 20px; display: block;}
+.Bg-area {margin: 0 -30px; background: #fff;}
+.contain-section {position: relative;}
+.space {margin: 1em 0; font-size: 1.7em;}

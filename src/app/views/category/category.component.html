@@ -1,0 +1,153 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+    <div class="row">
+        <div class="col-sm-6">
+            <form [formGroup]="categoryForm" (ngSubmit)="docategory()">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Category - {{CATEGORYPAGE}}</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="vat">Title <span class="red">*</span></label>
+                            <input class="form-control" oninput="this.value = this.value.toUpperCase()" type="text" formControlName="Title">
+                            <div class="w3-panel w3-red" *ngIf="categoryForm.controls.Title.invalid && (categoryForm.controls.Title.dirty || categoryForm.controls.Title.touched)">
+                                This filed is required</div>
+                            <div class="w3-panel w3-red">{{errorexit}}</div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <div>
+                                        <div class="pretty p-svg p-curve">
+                                            <input type="checkbox" id="colorflag" name="colorflag" formControlName="Colorflag" (change)="onChekboxChecked($event)" />
+                                            <div class="state p-success">
+                                                <!-- svg path -->
+                                                <svg class="svg svg-icon" viewBox="0 0 20 20">
+                                                    <path
+                                                        d="M7.629,14.566c0.125,0.125,0.291,0.188,0.456,0.188c0.164,0,0.329-0.062,0.456-0.188l8.219-8.221c0.252-0.252,0.252-0.659,0-0.911c-0.252-0.252-0.659-0.252-0.911,0l-7.764,7.763L4.152,9.267c-0.252-0.251-0.66-0.251-0.911,0c-0.252,0.252-0.252,0.66,0,0.911L7.629,14.566z"
+                                                        style="stroke: white;fill:white;"></path>
+                                                    </svg>
+                                                <label></label>
+                                            </div>
+                                        </div>
+                                        <label for="city">Color - Flag</label>
+                                    </div>
+                                    <div class="w3-panel w3-red" *ngIf="categoryForm.controls.Colorflag.invalid && (categoryForm.controls.Colorflag.dirty || categoryForm.controls.Colorflag.touched)">
+                                        This filed is required</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="vat">Article Autogenerate</label>
+                                <div class="form-group">
+
+                                    <div class="pretty p-icon p-round">
+                                        <input type="radio" name="ArticleAutoGenerate" [(ngModel)]="ArticleAutoGenerate" [value]="1" formControlName="ArticleAutoGenerate" (change)="onradioChecked(1)" />
+                                        <div class="state p-success">
+                                            <i class="icon icon-check"></i>
+                                            <label>Yes</label>
+                                        </div>
+                                    </div>
+                                    <div class="pretty p-icon p-round">
+                                        <input type="radio" name="ArticleAutoGenerate" [(ngModel)]="ArticleAutoGenerate" [value]="0" formControlName="ArticleAutoGenerate" (change)="onradioChecked(0)" />
+                                        <div class="state p-success">
+                                            <i class="icon icon-check"></i>
+                                            <label>No</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <div>
+                                        <div class="pretty p-svg p-curve">
+                                            <input type="checkbox" id="articleopenflag" name="articleopenflag" formControlName="ArticleOpenFlag" (change)="onChekboxArticleOpenFlagChecked($event)" />
+                                            <div class="state p-success">
+                                                <!-- svg path -->
+                                                <svg class="svg svg-icon" viewBox="0 0 20 20">
+                              <path
+                                d="M7.629,14.566c0.125,0.125,0.291,0.188,0.456,0.188c0.164,0,0.329-0.062,0.456-0.188l8.219-8.221c0.252-0.252,0.252-0.659,0-0.911c-0.252-0.252-0.659-0.252-0.911,0l-7.764,7.763L4.152,9.267c-0.252-0.251-0.66-0.251-0.911,0c-0.252,0.252-0.252,0.66,0,0.911L7.629,14.566z"
+                                style="stroke: white;fill:white;"></path>
+                            </svg>
+                                                <label></label>
+                                            </div>
+                                        </div>
+                                        <label for="city">Article - Open Flag</label>
+                                    </div>
+                                    <div class="w3-panel w3-red" *ngIf="categoryForm.controls.ArticleOpenFlag.invalid && (categoryForm.controls.ArticleOpenFlag.dirty || categoryForm.controls.ArticleOpenFlag.touched)">
+                                        This filed is required</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6" *ngIf="ArticleSeriesAutoFlag">
+                                <label for="vat">Category wise Individual Series</label>
+                                <div class="form-group">
+
+                                    <div class="pretty p-icon p-round">
+                                        <input type="radio" name="ArticleSeriesAuto" [(ngModel)]="ArticleSeriesAuto" [value]="1" formControlName="ArticleSeriesAuto" />
+                                        <div class="state p-success">
+                                            <i class="icon icon-check"></i>
+                                            <label>Yes</label>
+                                        </div>
+                                    </div>
+                                    <div class="pretty p-icon p-round">
+                                        <input type="radio" name="ArticleSeriesAuto" [(ngModel)]="ArticleSeriesAuto" [value]="0" formControlName="ArticleSeriesAuto" checked />
+                                        <div class="state p-success">
+                                            <i class="icon icon-check"></i>
+                                            <label>No</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="file" formControlName="Image" id="file" multiple (change)="uploadFile($event)">
+
+                            <div class="w3-panel w3-red" *ngIf="categoryForm.controls.Image.invalid && (categoryForm.controls.Image.dirty || categoryForm.controls.Image.touched)">
+                                This filed is required</div>
+                        </div>
+                        <!-- <div class="form-group">
+              <label for="street">Status <span class="red">*</span></label>
+              <select class="form-control" formControlName="Status">
+                <option value="">Select</option>
+                <option value="1">Active</option>
+                <option value="0">Inactive</option>
+              </select>
+              <div class="w3-panel w3-red"
+                *ngIf="categoryForm.controls.Status.invalid && (categoryForm.controls.Status.dirty || categoryForm.controls.Status.touched)">
+                This filed is required</div>
+            </div> -->
+                        <div class="row">
+                            <div class="col-6">
+                                <button type="button" (click)="goBack()" class="btn btn-primary px-4">Back</button>
+
+                            </div>
+                            <div class="col-6 text-right">
+                                <button type="submit" id="submit-button" [disabled]="!categoryForm.valid" class="btn btn-primary px-4">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>
+<ng-template #other_content>
+    <div class="col-sm-12 col-md-12">
+        <div class="card text-white bg-info text-center">
+            <div class="card-body">
+                <blockquote class="card-bodyquote">
+                    <h3>Rights that are not assignable</h3>
+                    <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</ng-template>
+

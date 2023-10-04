@@ -1,0 +1,88 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+  <div class="clear">
+    <form [formGroup]="userForms" (ngSubmit)="doUserAdd()">
+      <div class="card">
+        <div class="card-header"> <strong>User</strong> </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="company">Role <span class="red">*</span></label>
+                <select class="form-control" formControlName="Role" (change)="onChangRoles($event)">
+                  <option value=''>Select</option>
+                  <option *ngFor="let val of roledropdown" value="{{val.RoleType}}">{{val.Role}}</option>
+                </select>
+                <div class="w3-panel w3-red"
+                  *ngIf="userForms.controls.Role.invalid && (userForms.controls.Role.dirty || userForms.controls.Role.touched)">
+                  This filed is required</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="vat">Name <span class="red">*</span></label>
+                <input type="text" class="form-control" formControlName="Name"
+                  oninput="this.value = this.value.toUpperCase()" placeholder="Enter name">
+                <div class="w3-panel w3-red"
+                  *ngIf="userForms.controls.Name.invalid && (userForms.controls.Name.dirty || userForms.controls.Name.touched)">
+                  This filed is required</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="street">Email/Users {{isDisabled}}<span class="red">*</span></label>
+                <input type="email" class="form-control" formControlName="Email" [readonly]="isReadonly"
+                  (keypress)="userEmailValidation($event)" placeholder="Enter email">
+                <div class="w3-panel w3-red"
+                  *ngIf="userForms.controls.Email.invalid && (userForms.controls.Email.dirty || userForms.controls.Email.touched)">
+                  This filed is required</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="city">Password <span class="red">*</span></label>
+                <input type="password" class="form-control" formControlName="Password" placeholder="Enter password">
+                <div class="w3-panel w3-red"
+                  *ngIf="userForms.controls.Password.invalid && (userForms.controls.Password.dirty || userForms.controls.Password.touched)">
+                  This filed is required</div>
+              </div>
+            </div>
+            <div *ngIf="PartyDropdownDisplay" class="col-md-6">
+              <div class="form-group">
+                <label for="company">Party <span class="red">*</span></label>
+                <select class="form-control" formControlName="PartyId">
+                  <option value="">Select</option>
+                  <option *ngFor="let val of partypdown" value="{{val.Id}}">{{val.Name}}</option>
+                </select>
+                <div class="w3-panel w3-red"
+                  *ngIf="userForms.controls.Role.invalid && (userForms.controls.Role.dirty || userForms.controls.Role.touched)">
+                  This filed is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <button  type="button" id="submit-button" (click)="goBack()" class="btn btn-primary px-4">Back</button>
+            </div>
+            <div class="col-6 text-right">
+              <button type="submit" [disabled]="!userForms.valid" class="btn btn-primary px-4">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #other_content>
+  <div class="col-sm-12 col-md-12">
+    <div class="card text-white bg-info text-center">
+      <div class="card-body">
+        <blockquote class="card-bodyquote">
+          <h3>Rights that are not assignable</h3>
+          <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,71 @@
+<div class="col-sm-6">
+  <form [formGroup]="poForm" (ngSubmit)="doPoform()">
+    <div class="card">
+      <div class="card-header">
+        <strong>PO</strong>
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <label for="company">Vendor <span class="red">*</span></label>
+          <select class="form-control" formControlName="VendorId">
+            <option value="">Select</option>
+            <option *ngFor="let val of vendordropdown" value="{{val.Id}}">{{val.Name}}</option>
+          </select>
+          <div class="w3-panel w3-red"
+            *ngIf="poForm.controls.VendorId.invalid && (poForm.controls.VendorId.dirty || poForm.controls.VendorId.touched)">
+            This filed is required</div>
+        </div>
+        <div class="form-group">
+          <label for="vat">Category <span class="red">*</span></label>
+          <select class="form-control" formControlName="CatId">
+            <option value="">Select</option>
+            <option *ngFor="let val of catedropdown" value="{{val.Id}}">{{val.Title}}</option>
+          </select>
+          <div class="w3-panel w3-red"
+            *ngIf="poForm.controls.CatId.invalid && (poForm.controls.CatId.dirty || poForm.controls.CatId.touched)">
+            This filed is required</div>
+        </div>
+        <div class="form-group">
+          <label for="street">Artical<span class="red">*</span></label>
+          <input class="form-control" type="text" formControlName="Artical">
+          <div class="w3-panel w3-red"
+            *ngIf="poForm.controls.Artical.invalid && (poForm.controls.Artical.dirty || poForm.controls.Artical.touched)">
+            This filed is required</div>
+        </div>
+        <div class="form-group">
+          <label for="street">Number of Packs <span class="red">*</span></label>
+          <input class="form-control" type="number" formControlName="NumPacks">
+          <div class="w3-panel w3-red"
+            *ngIf="poForm.controls.NumPacks.invalid && (poForm.controls.NumPacks.dirty || poForm.controls.NumPacks.touched)">
+            This filed is required</div>
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-12">
+            <label for="city">PO Date <span class="red">*</span></label>
+            <input class="form-control" type="date" formControlName="PoDate">
+            <div class="w3-panel w3-red"
+              *ngIf="poForm.controls.PoDate.invalid && (poForm.controls.PoDate.dirty || poForm.controls.PoDate.touched)">
+              This filed is required</div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6">
+
+          </div>
+          <div class="col-6 text-right">
+            <button type="submit" [disabled]="!poForm.valid" class="btn btn-primary px-4">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<ngx-spinner
+bdColor="rgba(51,51,51,0.8)"
+size="medium"
+color="#fff"
+type="ball-scale-multiple">
+<p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+<!--/.col-->

@@ -1,0 +1,70 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+    <div class="row">
+        <div class="col-sm-6">
+            <form [formGroup]="rangeseriesForm" (ngSubmit)="dosubcategoryadd()">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Range Series - {{rangeseriesPAGE}}</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="vat">Category <span class="red">*</span></label>
+                            <select class="form-control" (change)="onChangeCategory($event.target.value)" formControlName="CategoryId">
+                              <option value="">Select</option>
+                              <option *ngFor="let val of catedropdown" value="{{val.Id}}">{{val.Title}}</option>
+                          </select>
+                            <div class="w3-panel w3-red" *ngIf="rangeseriesForm.controls.CategoryId.invalid && (rangeseriesForm.controls.CategoryId.dirty || rangeseriesForm.controls.CategoryId.touched)">
+                                This filed is required</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="vat">Sub-Category <span class="red">*</span></label>
+                            <select class="form-control" [disabled]="SubCategoryDisabled" formControlName="SubCategoryId">
+                            <option value="">Select</option>
+                            <option *ngFor="let val of subcatedropdown" value="{{val.Id}}">{{val.Name}}</option>
+                        </select>
+                            <div class="w3-panel w3-red" *ngIf="rangeseriesForm.controls.SubCategoryId.invalid && (rangeseriesForm.controls.SubCategoryId.dirty || rangeseriesForm.controls.SubCategoryId.touched)">
+                                This filed is required</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="city">Series Name </label>
+                            <input class="form-control" type="text" oninput="this.value = this.value.toUpperCase()" formControlName="SeriesName">
+                            <div class="w3-panel w3-red" *ngIf="rangeseriesForm.controls.SeriesName.invalid && (rangeseriesForm.controls.SeriesName.dirty || rangeseriesForm.controls.SeriesName.touched)">
+                                This filed is required</div>
+                            <div class="w3-panel w3-red">{{errorexit}}</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="city">Series <span class="red">*</span></label>
+                            <input class="form-control" type="text" oninput="this.value = this.value.toUpperCase()" formControlName="Series">
+                            <div class="w3-panel w3-red" *ngIf="rangeseriesForm.controls.Series.invalid && (rangeseriesForm.controls.Series.dirty || rangeseriesForm.controls.Series.touched)">
+                                This filed is required</div>
+                            <div class="w3-panel w3-red">{{errorexit}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <button type="button" (click)="goBack()" class="btn btn-primary px-4">Back</button>
+                            </div>
+                            <div class="col-6 text-right">
+                                <button type="submit" [disabled]="!rangeseriesForm.valid" class="btn btn-primary px-4">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>
+<ng-template #other_content>
+    <div class="col-sm-12 col-md-12">
+        <div class="card text-white bg-info text-center">
+            <div class="card-body">
+                <blockquote class="card-bodyquote">
+                    <h3>Rights that are not assignable</h3>
+                    <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!--/.col-->

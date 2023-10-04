@@ -1,0 +1,45 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+  <div class="animated fadeIn">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="table-title"><i class="fa fa-align-justify"></i><span
+                style="font-size: 30px; font-weight: bold; margin-left: 20px">User Information</span></div>
+            <div class="pull-right" *ngIf='isAdd==1'>
+              <a type="submit" [routerLink]="['/users/']" routerlinkactive="active" class="btn btn-primary">Add User</a>
+            </div>
+          </div>
+          <div class="col-md-12 pt-3 pb-3">
+            <div>
+              <div><span style="font-size: 25px; font-weight:500; margin-right: 20px">Name :</span><span style="font-size: 20px;">{{userRecord[0].Name}}</span></div>
+              <div><span style="font-size: 25px; font-weight:500; margin-right: 20px">Email :</span><span style="font-size: 20px;">{{userRecord[0].Email}}</span></div>
+              <div><span style="font-size: 25px; font-weight:500; margin-right: 20px">Role : </span><span style="font-size: 20px;">{{userRecord[0].Role}}</span></div>
+              <div><span style="font-size: 25px; font-weight:500; margin-right: 20px">Status :</span><span style="font-size: 20px;" *ngIf="userRecord[0].Status==1">{{ "Active" }}</span><span
+                  *ngIf="userRecord[0].Status==0">{{ "Inactive" }}</span></div>
+              <div style="margin-top: 20px;"><button type="button" class="pull-left mr-1 btn btn-primary"
+                  (click)="goToUserLogs(userRecord[0].Id)">
+                  View User Logs
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #other_content>
+  <div class="col-sm-12 col-md-12">
+    <div class="card text-white bg-info text-center">
+      <div class="card-body">
+        <blockquote class="card-bodyquote">
+          <h3>Rights that are not assignable</h3>
+          <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</ng-template>

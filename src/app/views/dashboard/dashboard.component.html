@@ -1,0 +1,40 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-6 col-lg-3">
+      <div class="card text-white bg-info">
+        <div class="card-body text-center"> <i class="nav-icon fa fa-file-text font30"></i>
+          <div class="text-value font30">10</div>
+          <div>Number of Articles</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="card text-white bg-primary">
+        <div class="card-body text-center"> <i class="nav-icon cui-people font30"></i>
+          <div class="text-value font30">20</div>
+          <div>Number of Vendors</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <a [routerLink]="'/polist'" style="text-decoration:none">
+        <div class="card text-white bg-warning">
+          <div class="card-body text-center"> <i class="nav-icon fa fa-cart-arrow-down font30"></i>
+            <div class="text-value font30">{{Open_PO}}</div>
+            <div>Open PO</div>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <a [routerLink]="'/solist'" style="text-decoration:none"> 
+        <div class="card text-white bg-danger">
+          <div class="card-body text-center"> <i class="nav-icon fa fa-cart-plus font30"></i>
+            <div class="text-value font30">{{Open_SO}}</div>
+            <div>Open SO</div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+  </div>

@@ -1,0 +1,85 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+  <div class="Bg-area">
+    <div class="container">
+      <nav class="navbar"><a href="" class="navbar-brand"></a>
+        <div id="custom-search-input">
+          <div class="input-group">
+            <input type="text" #input [(ngModel)]="myModel" (input)="getsearch()" class="search-query form-control"
+              placeholder="Search" />
+            <span class="input-group-btn">
+              <button type="button" disabled> <span class="fa fa-search"></span> </button>
+            </span> </div>
+        </div>
+      </nav>
+      <div class="addcart"> <a [routerLink]="'/socart'">
+          <div class="cart-icon-bottom"><span class="totalcartitem">{{totalcartitem}}</span></div>
+        </a> </div>
+      <div class="contain-section">
+        <div id="sidebar">
+          <a [routerLink]="'/myorders'" class="btn btn-primary">MY ORDERS HISTORY</a>
+          <h2 class="space">&nbsp;</h2>
+          <h3 class="pt-0">CATEGORIES</h3>
+          <div class="checklist categories">
+            <div class="form-check" *ngFor="let val of categorylist">
+              <label>
+                <input type="radio" [(ngModel)]="radioSelected" value="{{val.Id}}" (click)="category(val.Id,val.Title)"
+                  name="radio" checked> <span class="label-text">
+                  {{val.Title}}</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="nodata; then norecordfound else sofrontdatashow"></div>
+        <ng-template #norecordfound>
+          <div class="row product-list">
+            <div class="text-center col-md-12">
+              <h3 class="h3">&nbsp;</h3>
+              <div class="text-center">
+                <p>Your Searched for <b style="color: #f0672a">{{typestr}}</b></p>
+                <img src="../assets/img/brand/login-logo.png" width="250">
+                <h3 class="h3">We couldn't find any matches!</h3>
+                <p>Please check the spelling or try searching something else</p>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #sofrontdatashow>
+          <div class="row product-list">
+            <div class="col-md-12">
+              <h3 class="h3">{{maintitle}}</h3>
+            </div>
+            <div class="col-md-3 col-sm-6"
+              *ngFor="let val of catarticallist| paginate: { itemsPerPage: 20, currentPage: p1 }">
+              <div class="product-grid2" (click)="gotoDetails(val.Id)">
+                <div class="product-image2">
+                  <img class="pic-1" src="{{getimagepath(val.Images, 0)}}" />
+                  <img class="pic-2" src="{{getimagepath(val.Images, 1)}}" />
+                </div>
+                <div class="product-content">
+                  <h3 class="title">{{val.ArticleNumber}}</h3>
+                  <span class="price">Rs.{{val.ArticleRate}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+      <pagination-controls autoHide="true" (pageChange)="p1 = $event" class="my-pagination">
+      </pagination-controls>
+    </div>
+  </div>
+</ng-template>
+<ng-template #other_content>
+  <div class="col-sm-12 col-md-12">
+    <div class="card text-white bg-info text-center">
+      <div class="card-body">
+        <blockquote class="card-bodyquote">
+          <h3>Rights that are not assignable</h3>
+          <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</ng-template>

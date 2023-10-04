@@ -1,0 +1,68 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+  <div class="animated fadeIn">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="table-title"><i class="fa fa-align-justify"></i>Outward Sales Remaining <b>[This bugs effecting in Outward and SO Module]</b></div>
+            <div class="pull-right" *ngIf='isAdd==1'>
+              <button type="button" (click)="goback()" class="btn btn-primary">Go Back</button>
+              <button type="button" (click)="fixOutwardSoRemainByOnce()" class="btn btn-primary">Fix All</button>
+            </div>
+          </div>
+          <div class="col-md-12 pt-3 pb-3">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+              class="row-border hover">
+              <thead class="thead-dark">
+                <tr>
+                  <th>No</th>
+                  <th>Article Number</th>
+                  <th>So Number</th>
+                  <th>Wrong Outward Sales Remaining</th>
+                  <th>Outward Sales Remaining Should Be</th>
+                  <th>So Status</th>
+                  <th>So Created Date</th>
+                  <th class="no-sort" width="120">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let val of outwardsalesremaining;let i = index">
+                  <td>{{ i + 1}}</td>
+                  <td style="background-color: #ff00005c;">{{val.ArticleNumber}}</td>
+                  <td>{{val.SoNumber}}</td>
+                  <td>{{val.OutwardNoPacks}}</td>
+                  <td>{{val.OutwardNoPacksActual}}</td>
+                  <td *ngIf="val.Status==0">Active</td>
+                  <td *ngIf="val.Status==1">Inactive</td>
+                  <td>{{val.CreatedAt}}</td>
+                  <td class="flex">
+                    <button type="button" class="btn btn-primary mr-1"
+                      (click)="fixOutwardSalesRemaining(val.SoId , val.OutwardNoPacksActual)">
+                      Fix
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="mb-3"><b>Note : Above bugs are effecting SO and Outward modules. It can show wrong remaining stock for SO in So Status listing, SO Status Challan or Outward Challan.</b></div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #other_content>
+  <div class="col-sm-12 col-md-12">
+    <div class="card text-white bg-info text-center">
+      <div class="card-body">
+        <blockquote class="card-bodyquote">
+          <h3>Rights that are not assignable</h3>
+          <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</ng-template>
+

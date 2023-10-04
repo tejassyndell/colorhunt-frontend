@@ -1,0 +1,109 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { UserService } from '../../services/user.service';
+import { Subject } from 'rxjs';
+import { RouterModule, Routes, Router } from '@angular/router';
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import Swal from 'sweetalert2'
+import { DataTableDirective } from 'angular-datatables';
+
+@Component({
+  selector: 'app-outwardlist',
+  templateUrl: './outwardlist.component.html',
+  styleUrls: ['./outwardlist.component.scss']
+})
+export class OutwardlistComponent implements OnInit {
+  public outwardlist: any = [];
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
+  dtOptions: any;
+  dtTrigger: Subject <any> = new Subject();
+  isAdd: any;
+  isEdit: any;
+  isDelete: any;
+  isList: any;
+  constructor(private userService: UserService, public router: Router) {
+
+  }
+
+  ngOnInit() {
+
+    this.dtOptions = {
+      pagingType: 'numbers',
+      pageLength: 25
+    };
+    this.isList= 1;
+    this.getOutward();
+    let item = JSON.parse(localStorage.getItem('userdata'));	
+    this.userService.getroleRights(item[0].Role).subscribe((res) => {
+      console.log(res);
+      this.rightscheck(res);
+    });
+  }
+
+
+  public getOutward() {    
+    this.userService.outwardlist().subscribe((res) => {
+      console.log(res);
+      const data = res;
+      if (typeof this.dtElement !== 'undefined' && typeof this.dtElement.dtInstance !== 'undefined') {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            // Destroy the table first
+            dtInstance.destroy();
+            this.outwardlist = data;
+            // Call the dtTrigger to rerender again
+            this.dtTrigger.complete();
+          });
+      } else {
+        this.outwardlist = data;
+          this.dtTrigger.complete();
+      }
+     
+    });
+  }
+
+  rightscheck(data) {
+    for (let i = 0; i < data.length; i++) {
+      // console.log(data[i].PageId);
+      if (data[i].PageId == 4) {
+        console.log("Page Id " + data[i].PageId);
+        this.isList = data[i].ListRights;
+        this.isAdd = data[i].AddRights;
+        this.isEdit = data[i].EditRights;
+        this.isDelete = data[i].DeleteRights;
+
+      }
+    }
+    //   console.log(data.PageId)
+
+  }
+
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger.unsubscribe();
+  }
+
+  public delete(id) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this data!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value == true) {
+        //console.log(id);
+        this.userService.deleteoutward(id).subscribe((res) => {
+          this.getOutward();
+        });
+      } else {
+
+      }
+    });
+  }
+
+  public edit(id) {
+    this.router.navigate(['outward', { id: id }])
+  }
+
+}

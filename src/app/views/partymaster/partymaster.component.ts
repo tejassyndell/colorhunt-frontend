@@ -1,0 +1,260 @@
+import { Component, OnInit } from '@angular/core';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { RouterModule, Routes, Router, ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { ValidationService } from '../../services/config.service';
+import { UserService } from '../../services/user.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Title } from '@angular/platform-browser';
+
+@Component({
+  selector: 'app-partymaster',
+  templateUrl: './partymaster.component.html',
+  styleUrls: ['./partymaster.component.scss']
+})
+export class PartymasterComponent implements OnInit {
+  public editarray = {};
+  public geoCities ;
+  public sources;
+  public geoStates;
+  public geoCountries ;
+  public geoPinCodes ;
+  public salespersons : any = [];
+  PARTYPAGE: any;
+  errorexit: string = "";
+  partyForm: FormGroup;
+  OutletAssign: any;
+  accessdenied: boolean = true;
+  isAdd: any;
+  isEdit: any;
+  isDelete: any;
+  isList: any;
+  outletDisable: boolean = false;
+  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService, private toastr: ToastrService, private route: ActivatedRoute,private spinner: NgxSpinnerService,private titleService: Title) {
+    this.titleService.setTitle("Add Party | Colorhunt");
+
+    this.partyForm = this.formBuilder.group({
+      Name: ['', [Validators.required]],
+      Address: ['', [Validators.required]],
+      PhoneNumber: ['', [Validators.required]],
+      ContactPerson: [''],
+      State:['', [Validators.required]],
+      City:['', [Validators.required]],
+      PinCode:['', [Validators.required]],
+      Country:['', [Validators.required]],
+      GSTNumber: ['', [Validators.required]],
+      GSTType: ['GST'],
+      Discount: ['0', [Validators.min(0), Validators.max(100)]],
+      OutletArticleRate: [''],
+      OutletAssign: [''],
+      SalesPerson: ['' , [Validators.required]],
+      Source: ['' , [Validators.required]],
+    });
+  }
+
+  ngOnInit() {
+    let item = JSON.parse(localStorage.getItem('userdata'));
+    if(item[0].Role==2){
+      this.outletDisable = true;
+    }
+
+    let rolerights = JSON.parse(localStorage.getItem('roleright'));
+    if (rolerights != "" && rolerights != null && rolerights != undefined) {
+      this.rightscheck(rolerights, 1);
+    } else {
+      this.userService.getroleRights(item[0].Role).subscribe((res) => {
+        this.rightscheck(res, 2);
+      });
+    }
+
+    if (this.accessdenied == false) {
+
+      if(this.isAdd==true)
+      this.PARTYPAGE= "Add";
+      let data = this.route.snapshot.paramMap.get('id');
+
+      if(this.route.snapshot.paramMap.get('id')){
+        this.PARTYPAGE= "Edit";
+        this.userService.getpartyidwise(data).subscribe((res) => {
+          if(res !=""){
+            if(res[0].OutletAssign=="0"){
+              this.OutletAssign = "";
+            }else{
+              this.OutletAssign = res[0].OutletAssign;
+            }
+
+          this.editarray = {
+            Name: res[0].Name,
+            Address: res[0].Address,
+            PhoneNumber: res[0].PhoneNumber,
+            ContactPerson: res[0].ContactPerson,
+            State:res[0].State,
+            City:res[0].City,
+            PinCode:res[0].PinCode,
+            Country:res[0].Country,
+            GSTNumber: res[0].GSTNumber,
+            GSTType: res[0].GSTType,
+            Discount: res[0].Discount,
+            OutletAssign: res[0].OutletAssign,
+            OutletArticleRate: res[0].OutletArticleRate,
+            SalesPerson: res[0].UserId,
+            Source: res[0].Source,
+          }
+          this.partyForm.patchValue(this.editarray);
+        }
+        });
+      }
+      this.userService.getgeoofparties().subscribe((res) => {
+        this.geoCities = res['cities'];
+        this.geoStates = res['states'];
+        this.geoCountries = res['countries'];
+        this.geoPinCodes = res['pincodes'];
+        this.sources = res['sources'];
+
+      });
+      this.userService.getsalespersons().subscribe((res) => {
+        this.salespersons = res['salespersons'];
+      });
+    }
+  }
+
+
+
+  // Initicate user add
+  dopartyadd() {
+console.log("test12",this.partyForm.value.SalesPerson);
+
+    document.getElementById('submit-button').setAttribute('disabled' ,'true');
+    this.spinner.show();
+    if (this.route.snapshot.paramMap.get('id')) {
+      let editobject = {
+        id: this.route.snapshot.paramMap.get('id'),
+        Name: this.partyForm.value.Name,
+        Address:this.partyForm.value.Address,
+        PhoneNumber: this.partyForm.value.PhoneNumber,
+        ContactPerson: this.partyForm.value.ContactPerson,
+        State: this.partyForm.value.State,
+        City: this.partyForm.value.City,
+        PinCode: this.partyForm.value.PinCode,
+        Country: this.partyForm.value.Country,
+        GSTNumber: this.partyForm.value.GSTNumber,
+        GSTType: this.partyForm.value.GSTType,
+        Discount: this.partyForm.value.Discount,
+        OutletArticleRate: this.partyForm.value.OutletArticleRate,
+        OutletAssign: this.partyForm.value.OutletAssign ,
+        SalesPerson: this.partyForm.value.SalesPerson,
+        Source: this.partyForm.value.Source
+      }
+      this.userService.updateParty(editobject).subscribe(
+        userdata => {
+          document.getElementById('submit-button').removeAttribute('disabled');
+          this.spinner.hide();
+          this.successupdated(userdata);
+        }
+      );
+    } else {
+      this.partyForm.value.SalesPerson = this.partyForm.value.SalesPerson
+      this.userService.dopartyadd(this.partyForm.value).subscribe(
+        userdata => {
+          document.getElementById('submit-button').removeAttribute('disabled');
+          this.spinner.hide();
+          if (userdata == "allreadyexits") {
+            this.toastr.error('Failed', 'All Ready Party Name exist');
+          } else {
+            this.errorexit = "";
+            this.success(userdata);
+          }
+
+
+        }
+      );
+    }
+
+  }
+
+  // User Add success function
+  success(data) {
+    if (data.id != "") {
+      this.router.navigate(['/partylist']);
+      this.toastr.success('Success', 'Party Add Successfully');
+    } else {
+      this.toastr.error('Failed', 'Please try agin later');
+    }
+  }
+
+  rightscheck(data, no) {
+    let item = JSON.parse(localStorage.getItem('userdata'));
+    if (no == 1) {
+      var Count = Object.keys(data).length;
+      for (let i = 0; i < Count; i++) {
+        if (data[i].PageId == 17) {
+          let parameterId = this.route.snapshot.paramMap.get('id');
+          if(data[i].AddRights==1 || data[i].EditRights==1){
+            if(parameterId==null && data[i].AddRights==1){
+              this.accessdenied = false;
+            }else{
+              if(parameterId!=null && data[i].EditRights==1){
+                this.accessdenied = false;
+              }else{
+                this.accessdenied = true;
+              }
+            }
+          }else{
+            this.accessdenied = true;
+          }
+
+          this.isList = data[i].ListRights;
+          this.isAdd = data[i].AddRights;
+          this.isEdit = data[i].EditRights;
+          this.isDelete = data[i].DeleteRights;
+          break;
+        } else {
+          this.accessdenied = true;
+        }
+
+      }
+    } else {
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].PageId == 17) {
+          let parameterId = this.route.snapshot.paramMap.get('id');
+          if(data[i].AddRights==1 || data[i].EditRights==1){
+            if(parameterId==null && data[i].AddRights==1){
+              this.accessdenied = false;
+            }else{
+              if(parameterId!=null && data[i].EditRights==1){
+                this.accessdenied = false;
+              }else{
+                this.accessdenied = true;
+              }
+            }
+          }else{
+            this.accessdenied = true;
+          }
+          this.isList = data[i].ListRights;
+          this.isAdd = data[i].AddRights;
+          this.isEdit = data[i].EditRights;
+          this.isDelete = data[i].DeleteRights;
+          break;
+        } else {
+          this.accessdenied = true;
+        }
+
+      }
+
+    }
+  }
+
+  successupdated(data) {
+    if (data.id != "") {
+      this.router.navigate(['/partylist']);
+      this.toastr.success('Success', 'Party Updated Successfully');
+    } else {
+      this.toastr.error('Failed', 'Please try agin later');
+    }
+  }
+
+  goBack (){
+    window.history.back();
+  }
+
+}

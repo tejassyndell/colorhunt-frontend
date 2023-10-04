@@ -1,0 +1,170 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+    <div *ngIf="nodata; then norecordfound else sofrontdatashow"></div>
+    <ng-template #norecordfound>
+        <div *ngIf="thanks; then thanksfound else nocartdata"></div>
+        <ng-template #thanksfound>
+            <div class="Bg-area">
+                <div class="col-md-4 PadTB50" style="margin: 0 auto;">
+                    <div class="text-center">
+                        <img src="../assets/img/brand/thankyou.png" width="100%">
+                        <h3 class="h3">Your order has been successfully</h3>
+                        <h2 *ngIf="pdficon" (click)="pdfdownload()" style="color: #5454f8; cursor: pointer;" class="pt-0"><img src="../assets/img/pdf.png" alt=""></h2>
+                        <div><a [routerLink]="['/sofrontview',{id:'1'}]" style="padding:10px;">Cuntinue Shopping</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #nocartdata>
+            <div class="Bg-area">
+                <div class="col-md-12 PadTB50">
+                    <div class="text-center">
+                        <img src="../assets/img/brand/cart-bag.png" width="250">
+                        <h3 class="h3">Hey, it feels so light!</h3>
+                        <p>There is nothing in your bag. Let's add some items.</p>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </ng-template>
+    <ng-template #sofrontdatashow>
+        <div class="Bg-area">
+            <div class="wrapper">
+                <main>
+                    <form [formGroup]="soFrontForm" (ngSubmit)="docartform()">
+                        <div class="mb-40">
+                            <div class="container">
+                                <h3 class="cart-title">My Shopping Cart</h3>
+                                <div class="row">
+                                    <ul class="list-select">
+                                        <li>
+                                            <div class="form-group">
+                                                <label for="city">Date <span class="red">*</span></label>
+                                                <input class="form-control" [ngModel]="SoCurrentDate | date:'yyyy-MM-dd'" type="date" formControlName="Date">
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group">
+                                                <label for="city">Account <span class="red">*</span></label>
+                                                <select class="form-control" formControlName="PartyId">
+                                                    <option value="">Select</option>
+                                                    <option *ngFor="let val of partypdown" value="{{val.Id}}">
+                                                        {{val.Name}}</option>
+                                                </select>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group">
+                                                <label for="city">Destination <span class="red">*</span></label>
+                                                <input class="form-control" type="text" oninput="this.value = this.value.toUpperCase()" formControlName="Destination">
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group">
+                                                <label for="city">Transporter <span class="red">*</span></label>
+                                                <input class="form-control" type="text" oninput="this.value = this.value.toUpperCase()" formControlName="Transporter">
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group">
+                                                <label for="city">Remarks</label>
+                                                <input class="form-control" type="text" oninput="this.value = this.value.toUpperCase()" formControlName="Remarks">
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <ul class="list-select">
+                                        <li>
+                                            <div class="form-group">
+                                                <label for="street">{{ GSTType }} Amount</label>
+                                                <input class="form-control" type="hidden" formControlName="GSTType">
+                                                <input class="form-control" min="0" (keypress)="restrictNumeric($event)" type="number" formControlName="GST">
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group">
+                                                <label for="street">{{ GSTType }} Percentage </label>
+                                                <input class="form-control" min="0" type="number" max="50" formControlName="GST_Percentage">
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-8">
+
+                                        <div class="cartitem" *ngFor="let val of finalarray; let i=index">
+                                            <div class="itemLeft">
+                                                <a (click)="gotoDetails(val.Id)"><img src="{{val.Images}}" alt=""></a>
+                                            </div>
+                                            <div class="itemRight">
+                                                <div class="row">
+                                                    <div class="col-md-12"><b>{{val.ArticleNumber}}</b><b class="pull-right">&#8377;{{val.ArticleRate}}</b>
+                                                        <p>Men Tshirts</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row select">
+                                                    <div class="col-md-6 col-sm-12"> <strong>Color:
+                                                        </strong>{{val.ArticleColor}} </div>
+                                                    <div class="col-md-6 col-sm-12"> <strong>Size:
+                                                        </strong>{{val.ArticleSize}} </div>
+                                                    <div class="col-md-6 col-sm-12"> <strong>Ratio:
+                                                        </strong>{{val.ArticleRatio}} </div>
+                                                    <div class="col-md-6 col-sm-12 d-flex"> <strong class="mr-1">Qty:
+                                                        </strong>{{val.RequiredNoPacks}}
+                                                        <div class="w3-panel w3-red ml-1">(Total: {{val.TotalNoPacks}})</div>
+                                                    </div>
+                                                </div>
+                                                <div class="actions desktop">
+                                                    <button (click)="removecartdata(i)" class="removeButton">Remove</button>
+                                                </div>
+                                            </div>
+                                            <div class="actions mobile">
+                                                <button (click)="removecartdata(i)" class="removeButton">Remove</button>
+                                            </div>
+                                        </div>
+                                        <div><a [routerLink]="['/sofrontview',{id:'1'}]" style="padding:10px; float: right;">Cuntinue Shopping</a></div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="option">
+                                            <div class="price">
+                                                <div class="orderSummary">
+                                                    <div class="pricetotal">Total<span class="pull-right">
+                                                            &#8377;{{Total}}</span></div>
+                                                </div>
+                                            </div>
+                                            <button [disabled]="!soFrontForm.valid" class="btn btn-primary w-100 cart-btn mt-2">Place
+                                                Order</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="btn-fixed">
+                                    <div class="row">
+                                        <div class="w-50">
+                                            <div class="pricetotal">Total<br /><span class="pull-left">
+                                                    &#8377;{{Total}}</span></div>
+                                        </div>
+                                        <div class="w-50"><button [disabled]="!soFrontForm.valid" class="btn btn-primary w-100 cart-btn">Place
+                                                Order</button></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </main>
+            </div>
+        </div>
+    </ng-template>
+</ng-template>
+<ng-template #other_content>
+    <div class="col-sm-12 col-md-12">
+        <div class="card text-white bg-info text-center">
+            <div class="card-body">
+                <blockquote class="card-bodyquote">
+                    <h3>Rights that are not assignable</h3>
+                    <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,145 @@
+import { Component, OnInit } from '@angular/core';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { RouterModule, Routes, Router, ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { ValidationService } from '../../services/config.service';
+import { UserService } from '../../services/user.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+
+@Component({
+  selector: 'app-po',
+  templateUrl: './po.component.html',
+  styleUrls: ['./po.component.scss']
+})
+export class PoComponent implements OnInit {
+  public vendordropdown: any = [];
+  public catedropdown: any = [];
+  PO_Number: any;
+  PoCurrentDate: Date;
+  poForm: FormGroup;
+  public editarray = {};
+  errorexit: string = "";
+  ArtId: any;
+  POId: any;
+  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService, private toastr: ToastrService, private route: ActivatedRoute, private spinner: NgxSpinnerService) {
+
+
+
+    this.poForm = this.formBuilder.group({
+      PO_Number: [''],
+      VendorId: ['', [Validators.required]],
+      CategoryId: ['', [Validators.required]],
+      ArticleId: ['', [Validators.required]],
+      NumPacks: ['', [Validators.required]],
+      PoDate: ['', [Validators.required]]
+    });
+  }
+
+  ngOnInit() {
+
+   this.PoCurrentDate = new Date();
+    //this.PO_Number = "TEST";
+
+    this.userService.vendorlist().subscribe((res) => {
+      console.log(res);
+      this.vendordropdown = res;
+    });
+    this.userService.categorylist().subscribe((res) => {
+      console.log(res);
+      this.catedropdown = res;
+    });
+    let data = this.route.snapshot.paramMap.get('id');
+    console.log(data);
+
+    if (this.route.snapshot.paramMap.get('id')) {
+      //this.spinner.show();
+      this.userService.getpoIdwise(data).subscribe((res) => {
+       // setTimeout(()=>{    //<<<---    using ()=> syntax
+          this.ArtId = res[0].ArticleId;
+          this.POId = res[0].POId;
+          this.editarray = {
+            PO_Number: res[0].PurchaseNumber,
+            VendorId: res[0].VendorId,
+            CategoryId: res[0].CategoryId,
+            ArticleId: res[0].ArticleNumber,
+            NumPacks: res[0].NumPacks,
+            PoDate: res[0].PoDate
+          }
+          this.poForm.patchValue(this.editarray);
+          this.spinner.hide();
+      // }, 500);
+      });
+    }else{
+
+      this.userService.getponumber().subscribe((res) => {
+        this.spinner.hide();
+        this.PONumberAssign(res);
+      });
+    }
+
+
+
+  }
+
+  PONumberAssign(res){
+    this.PO_Number = res.PO_Number;
+  }
+
+  // Initicate user add
+  // doPoform() {
+  //   this.userService.dopoform(this.poForm.value).subscribe(
+  //     userdata => {
+  //       console.log(userdata);
+  //       this.success(userdata);
+  //     }
+  //   );
+  // }
+
+  doPoform() {
+    this.spinner.show();
+    if (this.route.snapshot.paramMap.get('id')) {
+
+      let editobject = {
+        id: this.route.snapshot.paramMap.get('id'),
+        VendorId: this.poForm.value.VendorId,
+        ArticleId: this.poForm.value.ArticleId,
+        CategoryId: this.poForm.value.CategoryId,
+        ArtId: this.ArtId,
+        POId: this.POId,
+        NumPacks: this.poForm.value.NumPacks,
+        PoDate: this.poForm.value.PoDate
+      }
+      this.userService.updatePo(editobject).subscribe(
+        userdata => {
+          this.spinner.hide();
+          this.success(userdata);
+        }
+      );
+    } else {
+      this.poForm.value.PO_Number = this.PO_Number;
+      this.userService.dopoform(this.poForm.value).subscribe(
+        userdata => {
+          this.spinner.hide();
+          if (userdata == "allreadyexits") {
+            this.errorexit = "Article number already exists";
+          } else {
+            this.errorexit = "";
+            this.success(userdata);
+          }
+        }
+      );
+    }
+
+  }
+
+  // User Add success function
+  success(data) {
+    if (data.id != "") {
+      this.router.navigate(['/polist']);
+      this.toastr.success('Success', 'PO Add Successfully');
+    } else {
+      this.toastr.error('Failed', 'Please try agin later');
+    }
+  }
+
+}

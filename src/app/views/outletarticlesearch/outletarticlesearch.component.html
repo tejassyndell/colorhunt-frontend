@@ -1,0 +1,276 @@
+<div *ngIf="outletSelection==true;">
+    <div class="card">
+        <div class="card-header text-center">
+            <h3 class="m-0">Article No - {{articlenumber}}</h3>
+        </div>
+        <div class="card-body" style="min-height: 350px;">
+            <div class="row">
+                <div class="col-4">&nbsp;</div>
+                <div class="col-4" style="padding: 100px 0;">
+                    <b class="mb-2">Select Outlet</b>
+                    <ng-select [clearable]="false" class="custom" bindLabel="Name" bindValue="Id"
+                        (change)="onChangeOutlet($event)" [items]="outletArticles" placeholder="Select Outlet">
+                    </ng-select>
+
+                </div>
+                <div class="col-4">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="colorcheck">
+    <div class="card">
+        <div class="card-header text-center">
+            <h3 class="m-0">Article No - {{articlenumber}}</h3>
+        </div>
+        <div class="card-body" style="min-height: 350px;">
+            <div class="row">
+                <div class="col-4">&nbsp;</div>
+                <div class="col-4" style="padding: 100px 0;">
+                    <b class="mb-2">Select Color</b>
+                    <select class="form-control" #myarticlecolor (change)="colorselect(myarticlecolor.value)">
+                        <option value="">Select</option>
+                        <option *ngFor="let val of colordropdown" value="{{val.Id}}">{{val.Name}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-4">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="showrecords==true;" class="card">
+    <div class="card-header centeralign">
+        <div class="row" style="align-items: center;">
+            <strong class="col-md-4">Category: {{ categoryName }}</strong>
+            <span class="col-md-4 text-center">
+                <h5 class="m-0">Artical No: {{ articlenumber }} <span [ngClass]="ArticleStatusColor"></span></h5>
+            </span>
+            <span class="col-md-4 text-right"><strong>Brand: {{brandName }} </strong></span>
+        </div>
+    </div>
+
+    <div class="col-xl-12 col-md-12 col-sm-12 col-lg-12 pt-3 pb-3 ">
+        <div class="row pb-3">
+            <div class="col-xl-1 col-md-6 col-sm-6 col-lg-6 d-flex flex-column justify-content-center"><b>Select Outlet
+                    :</b></div>
+            <div class="col-xl-3 col-md-6 col-sm-6 col-lg-6">
+                <ng-select [clearable]="false" (change)="changeOutletId($event)" [(ngModel)]="OutletPartyId"
+                    class="custom" bindLabel="Name" bindValue="Id" [items]="outletArticles" placeholder="Select Outlet">
+                </ng-select>
+            </div>
+            <div class="col-xl-4 col-md-12 col-sm-12 col-lg-12">&nbsp;</div>
+            <div *ngIf="ColorId!=null"
+                class="col-xl-1 col-md-6 col-sm-6 col-lg-6 d-flex flex-column justify-content-center"><b>Select Color
+                    :</b></div>
+            <div *ngIf="ColorId!=null" class="col-xl-3 col-md-6 col-sm-6 col-lg-6">
+                <select class="form-control" [(ngModel)]="ColorId" #formarticlecolor
+                    (change)="colorselect(formarticlecolor.value)">
+                    <!-- <option value="">Select</option> -->
+                    <option *ngFor="let val of colordropdown" value="{{val.Id}}">{{val.Name}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <table width="100%" class="table search-details table-bordered desktopview">
+            <thead class="thead-dark align-center">
+                <tr>
+                    <th width="90">Date</th>
+                    <th>Particulars</th>
+                    <th width="90">Order Type</th>
+                    <th width="95">Voucher No.</th>
+                    <th colspan="2" class="p-0" width="150">
+                        <table class="table">
+                            <tr>
+                                <td colspan="2">Inward</td>
+                            </tr>
+                            <tr>
+                                <td width="85">Quantity</td>
+                                <td width="70">Rate</td>
+                            </tr>
+                        </table>
+                    </th>
+                    <th colspan="3" class="p-0" width="240">
+                        <table class="table">
+                            <tr>
+                                <td colspan="3">Outwards</td>
+                            </tr>
+                            <tr>
+                                <td width="85">Quantity</td>
+                                <td width="70">Rate</td>
+                                <td width="85">Value</td>
+                            </tr>
+                        </table>
+                    </th>
+                    <th class="p-0" width="90">
+                        <table class="table">
+                            <tr>
+                                <td>Closing</td>
+                            </tr>
+                            <tr>
+                                <td>Quantity</td>
+                            </tr>
+                        </table>
+                    </th>
+                </tr>
+            </thead>
+            <tbody *ngIf="noRecordfound==false;">
+
+                <tr *ngIf="TotalTransportOutwardpacks!=0">
+                    <td>- </td>
+                    <td>
+                        <div class="row m-0">
+                            <div class="col-12 p-0"> - </div>
+                        </div>
+                    </td>
+                    <td> Opening Stock </td>
+                    <td width="85" class="text-center">-</td>
+                    <td width="85" class="text-center">{{ TotalTransportOutwardpacks }}</td>
+                    <td width="70" class="text-center">-</td>
+                    <td width="85" class="text-center">-</td>
+                    <td width="70" class="text-center">-</td>
+                    <td width="85" class="text-center">-</td>
+                    <td width="85" class="text-center">{{ TotalTransportOutwardpacks}}</td>
+                </tr>
+
+                <tr  *ngFor="let val of articlesRecords; let i = index; last as islast ">
+                    <ng-template [ngIf]="val.ColorPacks !=0">
+                            <td>{{ val.date }}</td>
+                            <td>
+                                <div class="row m-0">
+                                    <div class="col-12 p-0">{{ val.Particulars }}</div>
+                                </div>
+                            </td>
+                            <td>{{ val.OrderType }}</td>
+                            <td style="cursor: pointer;" (click)="goTochallan(val.OrderType , val.NumberId)">{{ val.VoucherNo }}
+                            </td>
+
+                            <td *ngIf="val.OrderType=='Purchase' || val.OrderType=='Sales Return'" width="85"
+                                class="text-center">{{ val.ColorPacks }}</td>
+                            <td *ngIf="val.OrderType=='Outward' || val.OrderType=='Purchase Return'" width="85" class="text-center">-</td>
+
+                            <td *ngIf="val.OrderType=='Purchase' || val.OrderType=='Sales Return'" width="70"
+                                class="text-center">&#8377;{{ val.Rate }}</td>
+                            <td *ngIf="val.OrderType=='Outward' || val.OrderType=='Purchase Return'" width="70" class="text-center">-</td>
+
+                            <td *ngIf="val.OrderType=='Purchase' || val.OrderType=='Sales Return'" width="85"
+                                class="text-center">-</td>
+                            <td *ngIf="val.OrderType=='Outward' || val.OrderType=='Purchase Return'" width="85" class="text-center">{{ val.ColorPacks }}</td>
+
+                            <td *ngIf="val.OrderType=='Purchase' || val.OrderType=='Sales Return'" width="70"
+                                class="text-center">-</td>
+                            <td *ngIf="val.OrderType=='Outward' || val.OrderType=='Purchase Return'" width="70" class="text-center">&#8377;{{ val.Rate }}</td>
+
+                            <td *ngIf="val.OrderType=='Purchase' || val.OrderType=='Sales Return'" width="85"
+                                class="text-center">-</td>
+                            <td *ngIf="val.OrderType=='Outward' || val.OrderType=='Purchase Return'" width="85" class="text-center">&#8377;{{ val.ratevalue }}</td>
+
+                            <td width="85" class="text-center">{{ val.closingValue }}</td>
+
+                        </ng-template>
+
+
+                </tr>
+                <tr>
+                    <td colspan="4">TOTAL</td>
+                    <td width="85" class="text-center">{{ totalInwards }} PCS</td>
+                    <td width="70" class="text-center"></td>
+                    <td width="85" class="text-center">{{ totalOutwards }} PCS</td>
+                    <td width="70" class="text-center"></td>
+                    <td width="85" class="text-center"></td>
+                    <td class="p-0">
+                        <table class="table">
+                            <tr>
+                                <td><b>{{ totalPacks }} PCS</b></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody *ngIf="noRecordfound==true;">
+                <tr>
+                    <td class="text-center p-3" colspan="10"><b>No History Found</b></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="mobileview w-100">
+            <div *ngIf="noRecordfound==false;">
+                <div class="records-div" *ngFor="let val of articlesRecords; let i = index; last as islast">
+                    <div class="d-flex record-head">
+                        <div class="w-25 record-title" style="background:#20a8d8;">
+                            Date
+                        </div>
+                        <div class="w-75 record-value" style="background:#20a8d8;color:#fff;">
+                            {{ val.date }}
+                        </div>
+                    </div>
+                    <div class="d-flex record-head">
+                        <div class="w-25 record-title">
+                            Particulars
+                        </div>
+                        <div class="w-75 record-value">
+                            {{ val.Particulars }}
+                        </div>
+                    </div>
+                    <div class="d-flex record-head">
+                        <div class="w-25 record-title">
+                            Order Type
+                        </div>
+                        <div class="w-75 record-value">
+                            {{ val.OrderType }}
+                        </div>
+                    </div>
+                    <div class="d-flex record-head">
+                        <div class="w-25 record-title">
+                            Voucher No
+                        </div>
+                        <div (click)="goTochallan(val.OrderType , val.NumberId)" class="w-75 record-value">
+                         {{ val.VoucherNo }}
+                        </div>
+                    </div>
+                    <div class="d-flex record-head">
+                        <div *ngIf="val.OrderType=='Purchase' || val.OrderType=='Sales Return'" class="w-25 record-title">
+                            Inwards
+                        </div>
+                        <div *ngIf="val.OrderType=='Outward'" class="w-25 record-title">
+                            Outwards
+                        </div>
+                        <div class="w-75 record-value">
+                            <div>Ouantity - {{ val.ColorPacks }}</div>
+                            <div>Rate - &#8377;{{ val.Rate }}</div>
+                            <div *ngIf="val.OrderType=='Outward'">Value - &#8377;{{ val.ratevalue }}</div>
+                        </div>
+                    </div>
+                    <div class="d-flex record-head">
+                        <div class="w-25 record-title">
+                            Closing
+                        </div>
+                        <div class="w-75 record-value" style="text-align: end;">
+                            {{ val.closingValue }} PCS
+                        </div>
+                    </div>
+                </div>
+                <div class="records-div">
+                    <div class="d-flex record-head">
+                        <div class="w-25 record-title" style="background:#46ce46; color:#fff;">
+                            Total Stock
+                        </div>
+                        <div class="w-75 record-title" style="background:#46ce46; color:#fff;text-align: end;">
+                            {{ totalPacks }} PCS
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="not-found-records-mobile" *ngIf="noRecordfound==true;">
+                No Records Found
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

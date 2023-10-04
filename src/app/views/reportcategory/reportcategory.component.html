@@ -1,0 +1,126 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+  <div class="animated fadeIn">
+    <div *ngIf="AllReportpermissions;then allreport else outletreport"></div>
+    <ng-template #allreport>
+      <div class="row">
+
+        <div class="col-sm-6 col-lg-3">
+          <a [routerLink]="'/purchasereportlist'" style="text-decoration:none">
+            <div class="card text-white bg-info">
+              <div class="card-body text-center"> <i class="nav-icon fa fa-file-text font30"></i>
+                <div>Purchase Report</div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+          <a [routerLink]="'/salesreportlist'" style="text-decoration:none">
+            <div class="card text-white bg-success">
+              <div class="card-body text-center"> <i class="nav-icon fa fa-file-text font30"></i>
+                <div>Sales Report</div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+          <a [routerLink]="'/reportsallstocks'" style="text-decoration:none">
+            <div class="card text-white bg-warning">
+              <div class="card-body text-center"> <i class="nav-icon fa fa-file-text font30"></i>
+                <div>Stock Report</div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+          <a [routerLink]="'/rangestokesreports'" style="text-decoration:none">
+            <div class="card text-white bg-warning">
+              <div class="card-body text-center"> <i class="nav-icon fa fa-file-text font30"></i>
+                <div>Range Wise Stock Report</div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+          <a [routerLink]="'/launchreport'" style="text-decoration:none">
+            <div class="card text-white bg-info">
+              <div class="card-body text-center"> <i class="nav-icon fa fa-file-text font30"></i>
+                <!-- <div>Range Wise Daily Stock Report</div> -->
+                <div>Launch Report</div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+          <a [routerLink]="'/outwardreport'" style="text-decoration:none">
+            <div class="card text-white bg-success">
+              <div class="card-body text-center"> <i class="nav-icon fa fa-cart-plus font30"></i>
+                <div>Outward report</div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+          <a [routerLink]="'/dailyreport'" style="text-decoration:none">
+            <div class="card text-white bg-warning">
+              <div class="card-body text-center"> <i class="nav-icon fa fa-file-text font30"></i>
+                <div>Daily Report</div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+          <a [routerLink]="'/outletreport'" style="text-decoration:none">
+            <div class="card text-white bg-danger">
+              <div class="card-body text-center"> <i class="nav-icon fa fa-cart-plus font30"></i>
+                <div>Outlet report</div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+          <a [routerLink]="'/outletrefil'" style="text-decoration:none">
+            <div class="card text-white bg-danger">
+              <div class="card-body text-center"> <i class="nav-icon fa fa-cart-plus font30"></i>
+                <div>Outlet Refil</div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+          <a [routerLink]="'/rangewisedailyreports'" style="text-decoration:none">
+            <div class="card text-white bg-info">
+              <div class="card-body text-center"> <i class="nav-icon fa fa-file-text font30"></i>
+                <div>Range Wise Daily Stock Report</div>
+                <!-- <div>Launch Report</div> -->
+              </div>
+            </div>
+          </a>
+        </div>
+        
+      </div>
+    </ng-template>
+   
+  </div>
+</ng-template>
+<ng-template #other_content>
+  <div class="col-sm-12 col-md-12">
+    <div class="card text-white bg-info text-center">
+      <div class="card-body">
+        <blockquote class="card-bodyquote">
+          <h3>Rights that are not assignable</h3>
+          <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</ng-template>

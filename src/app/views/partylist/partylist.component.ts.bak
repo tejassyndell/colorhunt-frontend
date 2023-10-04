@@ -1,0 +1,123 @@
+import { ToastrService } from 'ngx-toastr';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { UserService } from '../../services/user.service';
+import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2'
+import { DataTableDirective } from 'angular-datatables';
+
+
+@Component({
+  selector: 'app-partylist',
+  templateUrl: './partylist.component.html',
+  styleUrls: ['./partylist.component.scss']
+})
+export class PartylistComponent implements OnInit {
+  public partylist: any = [];
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
+  dtOptions: any;
+  dtTrigger: Subject <any> = new Subject();
+  isAdd: any;
+  isEdit: any;
+  isDelete: any;
+  isList: any;
+  constructor(private userService: UserService, public router: Router,private toastr: ToastrService) {
+
+  }
+
+  ngOnInit() {
+
+    this.dtOptions = {
+      pagingType: 'numbers',
+      pageLength: 25
+    };
+    this.isList= 1;
+    this.getParty();
+    let item = JSON.parse(localStorage.getItem('userdata'));
+    this.userService.getroleRights(item[0].Role).subscribe((res) => {
+      console.log(res);
+      this.rightscheck(res);
+    });
+  }
+
+
+  public getParty() {    
+    this.userService.partylist().subscribe((res) => {
+      console.log(res);
+      const data = res;
+      if (typeof this.dtElement !== 'undefined' && typeof this.dtElement.dtInstance !== 'undefined') {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            // Destroy the table first
+            dtInstance.destroy();
+            this.partylist = data;
+            // Call the dtTrigger to rerender again
+            this.dtTrigger.complete();
+          });
+      } else {
+        setTimeout(() => {
+          this.partylist = data;
+          this.dtTrigger.complete();
+        }, 100);
+     
+      }
+     
+    });
+  }
+
+  rightscheck(data) {
+    for (let i = 0; i < data.length; i++) {
+      // console.log(data[i].PageId);
+      if (data[i].PageId == 14) {
+        console.log("Page Id " + data[i].PageId);
+        this.isList = data[i].ListRights;
+        this.isAdd = data[i].AddRights;
+        this.isEdit = data[i].EditRights;
+        this.isDelete = data[i].DeleteRights;
+
+      }
+    }
+    //   console.log(data.PageId)
+
+  }
+
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger.unsubscribe();
+  }
+
+  public delete(id) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this data!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value == true) {
+        //console.log(id);
+        this.userService.deleteparty(id).subscribe((res) => {
+          this.getParty();
+          this.success(res);
+        });
+      } else {
+
+      }
+    });
+  }
+
+  public edit(id) {
+    this.router.navigate(['partymaster', { id: id }])
+  }
+
+  success(data) {
+    if (data.id != "") {
+       this.toastr.success('Success', 'Party Deleted Successfully');
+    } else {
+      this.toastr.error('Failed', 'Please try agin later');
+    }
+  }
+
+
+}

@@ -1,0 +1,121 @@
+
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+  <div class="animated fadeIn">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="table-title"><i class="fa fa-align-justify"></i>Debug & Fix</div>
+          </div>
+          <div  class="m-5">
+            <div class="col-xl-8 col-lg-8 col-md-8 pt-3 pb-3 m-auto border border-secondary">
+              <div class="col-12 d-flex">
+                <div class="col-6 text-center">
+                  Diagnose all Openflag articles for remaining stocks
+                </div>
+                <div class="col-6 text-center">
+                  <button (click)="gotallremaining()" type="button">Run</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-8 col-lg-8 col-md-8 pt-3 pb-3 m-auto border border-secondary">
+              <div class="col-12 d-flex">
+                <div class="col-6 text-center">
+                  Diagnose sales remaining stocks of all articles
+                </div>
+                <div class="col-6 text-center">
+                  <button (click)="gotosoremaining()" type="button">Run</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-8 col-lg-8 col-md-8 pt-3 pb-3 m-auto border border-secondary">
+              <div class="col-12 d-flex">
+                <div class="col-6 text-center">
+                  Diagnose outwad remaining stocks of all sales orders
+                  <!-- Outward remaining for sales order bugs -->
+                </div>
+                <div class="col-6 text-center">
+                  <button (click)="gotooutwardsoremaining()" type="button">Run</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-8 col-lg-8 col-md-8 pt-3 pb-3 m-auto border border-secondary">
+              <div class="col-12 d-flex">
+                <div class="col-6 text-center">
+                  Check duplicate records in PO
+                </div>
+                <div class="col-6 text-center">
+                  <button (click)="gotopoduplication()" type="button">Run</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-8 col-lg-8 col-md-8 pt-3 pb-3 m-auto border border-secondary">
+              <div class="col-12 d-flex">
+                <div class="col-6 text-center">
+                  Check duplicate records in Inward
+                </div>
+                <div class="col-6 text-center">
+                  <button (click)="gotoinwardduplication()" type="button">Run</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-8 col-lg-8 col-md-8 pt-3 pb-3 m-auto border border-secondary">
+              <div class="col-12 d-flex">
+                <div class="col-6 text-center">
+                  Check duplicate records in SO
+                </div>
+                <div class="col-6 text-center">
+                  <button (click)="gotosalesduplicationpage()" type="button">Run</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-8 col-lg-8 col-md-8 pt-3 pb-3 m-auto border border-secondary">
+              <div class="col-12 d-flex">
+                <div class="col-6 text-center">
+                  Check duplicate records in Outward
+                </div>
+                <div class="col-6 text-center">
+                  <button (click)="gotooutwardduplicationpage()" type="button">Run</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-8 col-lg-8 col-md-8 pt-3 pb-3 m-auto border border-secondary">
+              <div class="col-12 d-flex">
+                <div class="col-6 text-center">
+                  Check duplicate records in Sales Return
+                </div>
+                <div class="col-6 text-center">
+                  <button (click)="gotosalesreturnduplication()" type="button">Run</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-8 col-lg-8 col-md-8 pt-3 pb-3 m-auto border border-secondary">
+              <div class="col-12 d-flex">
+                <div class="col-6 text-center">
+                  Check duplicate records in Stock Transfer
+                </div>
+                <div class="col-6 text-center">
+                  <button (click)="gotostocktransferduplication()" type="button">Run</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #other_content>
+  <div class="col-sm-12 col-md-12">
+    <div class="card text-white bg-info text-center">
+      <div class="card-body">
+        <blockquote class="card-bodyquote">
+          <h3>Rights that are not assignable</h3>
+          <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</ng-template>

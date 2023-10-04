@@ -1,0 +1,56 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<script>
+  location.reload();
+  <!-- console.log(123123); -->
+</script>
+<ng-template #content>
+  <div class="row">
+    <div class="col-sm-6">
+      <form [formGroup]="articleimgForm" (ngSubmit)="ArticlePhotos()">
+        <div class="card">
+          <div class="card-header">
+            <strong>Article Images - Add</strong>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="vat">Article <span class="red">*</span></label>
+              <ng-select [clearable]="false" class="custom" [(ngModel)]="ArticleId" formControlName="ArticleId"
+                [items]="articdropdown" bindLabel="ArticleNumber" placeholder="Select Article">
+              </ng-select>
+              <div class="w3-panel w3-red"
+                *ngIf="articleimgForm.controls.ArticleId.invalid && (articleimgForm.controls.ArticleId.dirty || articleimgForm.controls.ArticleId.touched)">
+                This filed is required</div>
+            </div>
+            <div class="form-group">
+              <input type="file" formControlName="Image" id="file" multiple (change)="uploadFile($event)">
+              <div class="w3-panel w3-red"
+                *ngIf="articleimgForm.controls.Image.invalid && (articleimgForm.controls.Image.dirty || articleimgForm.controls.Image.touched)">
+                This filed is required</div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <button type="button" (click)="goBack()" class="btn btn-primary px-4">Back</button>
+              </div>
+              <div class="col-6 text-right">
+                <button id="submit-button" type="submit" [disabled]="!articleimgForm.valid" class="btn btn-primary px-4">Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #other_content>
+  <div class="col-sm-12 col-md-12">
+    <div class="card text-white bg-info text-center">
+      <div class="card-body">
+        <blockquote class="card-bodyquote">
+          <h3>Rights that are not assignable</h3>
+          <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</ng-template>

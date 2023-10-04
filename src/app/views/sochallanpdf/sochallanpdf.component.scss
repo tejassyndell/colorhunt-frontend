@@ -1,0 +1,25 @@
+.page {
+    z-index: 999;
+    background: #fff;
+    margin: 0 auto;
+}
+
+#print-section {
+    margin: 0 auto !important;
+    padding: 15px 30px 15px 15px !important;
+}
+
+.width {
+    margin: 0 auto;
+}
+
+.abs {
+    //position: absolute;
+    top: 0;
+    z-index: 999999;
+    background: #fff;
+}
+
+.subpage {
+    padding: 1cm;
+}

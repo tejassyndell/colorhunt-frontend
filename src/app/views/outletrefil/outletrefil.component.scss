@@ -1,0 +1,128 @@
+.col1 {width:20%; float:left; padding:0 15px;}
+
+@media screen and (max-width:1024px) {
+.col1 {width:33%;}
+}
+
+@media screen and (max-width:855px) {
+.col1 {width:100%;}
+}
+.dataTables_wrapper {
+    display: contents;
+  }
+  
+  .dt-buttons {
+    position: absolute;
+    top: -48px;
+    right: 17px;
+  }
+  
+  .col1 {
+    width: 20%;
+    float: left;
+    padding: 0 15px;
+  }
+  .cat-button{
+    border: none;
+    outline: none;
+    padding: 0;
+    background-color: #c8ced3 !important;
+  }
+  @media screen and (max-width:1024px) {
+    .col1 {
+        width: 33%;
+    }
+  }
+  
+  @media screen and (max-width:855px) {
+    .col1 {
+        width: 100%;
+    }
+  }
+  
+  .reportbutton {
+    color: #fff;
+    background-color: #20a8d8;
+    border-color: #20a8d8;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  input.ng-valid {
+    border-left: 5px solid green;
+  }
+  
+  input.ng-invalid {
+    border-left: 5px solid red;
+  }
+  
+  .error {
+    color: red;
+  }
+  .module-heading{
+    font-size: 20px;
+    padding: 2px 0 7px;
+    font-weight: 600;
+    text-align: center;
+    border-bottom: 1px solid #c8ced3;
+  }
+  .inner-heading{
+    font-weight: 600;
+  }
+  .inner-column {
+    border-left: 1px solid #c8ced3;
+    padding: 8px 15px;
+    background-color: #ffffff;
+  }
+  .inner-heading {
+    background-color: #c8ced3;
+    border-left: 1px solid #afafaf;
+    padding: 8px 15px;
+  }
+  .total-column{
+    background-color: #c8ced3 !important;
+    border-left: 1px solid #afafaf!important;
+  }
+  .total-text-column{
+    background-color: #c8ced3 !important;
+    border-left: 1px solid #afafaf!important;
+    border-right: 1px solid #afafaf!important;
+  }
+  .first-col{
+    border:none !important;
+  }
+  .inner-cat-data{
+    border: 1px solid #c8ced3;
+    border-top: none !important;
+    padding: 8px 15px;
+    background-color: #ffffff;
+  }
+  .no-found {
+    text-align: center;
+    background: #ffffff;
+    font-weight: 500;
+    padding: 10px;
+    border-top: 1px solid #c8ced3;
+  }
+  .col-srno{
+    min-width: 78px;
+  }
+  .title-daily-report {
+    background: #c8ced3;
+    font-size: 22px;
+    margin: 30px 0;
+    letter-spacing: .3px;
+    font-weight: 600;
+    padding: 5px;
+    justify-content: center;
+  }
+  #print-section{
+    border: 1px solid #c8ced3;
+  }
+  @media print {
+    #print-section {page-break-after: always;}
+  }
+  

@@ -1,0 +1,347 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+    <div class="clear">
+
+        <div class="card">
+            <div class="card-header"> <strong>Outlet Sales Return</strong>
+                <span class="text-right pull-right"><strong *ngIf="SalesReturnOrderLabel">Sales Return Order Number:
+                        {{SRO_Number_FinancialYear}}</strong></span>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="SalesReturnForm" (ngSubmit)="dosalesReturn()">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="vat">Outlet <span class="red">*</span></label>
+                                        <div class="form-group">
+                                            <select class="form-control" name="OutletPartyId" Id="OutletPartyId"
+                                                (change)="onChangeOutletParty($event)" formControlName="OutletPartyId">
+                                                <option value="">Select</option>
+                                                <option *ngFor="let val of outletpartylist" value="{{val.Id}}">
+                                                    {{val.Name}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="city">Party <span class="red">*</span></label>
+                                        <div class="form-group">
+                                            <!-- <select [attr.disabled]="isDisabled ? '' : null" class="form-control" (change)="onChangeParty($event)" name="PartyId" Id="PartyId" formControlName="PartyId">
+                                                <option value="">Select</option>
+                                                <option *ngFor="let val of partylist" value="{{val.Id}}">{{val.Name}}
+                                                </option>
+                                            </select> -->
+                                            <ng-select [attr.disabled]="isDisabled ? '' : null"
+                                                (ngModelChange)="onChangeParty($event)" [clearable]="false"
+                                                class="custom" bindLabel="Name" [(ngModel)]="PartyId" formControlName="PartyId"
+                                                [items]="partylist" placeholder="Select">
+                                                <ng-option *ngFor="let val of partylist" [value]="val.Id">
+                                                    {{val.Name}}</ng-option>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="city">Remark <span class="red">*</span></label>
+                                        <input class="form-control" type="text"
+                                            oninput="this.value = this.value.toUpperCase()" formControlName="Remark">
+                                        <div class="w3-panel w3-red"
+                                            *ngIf="SalesReturnForm.controls.Remark.invalid && (SalesReturnForm.controls.Remark.dirty || SalesReturnForm.controls.Remark.touched)">
+                                            This filed is required</div>
+                                    </div>
+                                </div>
+
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="vat">Article No. <span class="red">*</span></label>
+                                        <ng-select class="custom" [clearable]="false"
+                                            *ngIf="AddArticle; else textarticle"
+                                            (ngModelChange)="onChangartical($event)" [(ngModel)]="ArticleId"
+                                            formControlName="ArticleId" [items]="getarticleno" bindLabel="ArticleNumber"
+                                            placeholder="Select Article">
+                                        </ng-select>
+
+                                        <ng-template #textarticle>
+                                            <input class="form-control" disabled="Disabled" type="text"
+                                                value="{{ArticleNumber}}">
+                                        </ng-template>
+                                        <div class="w3-panel w3-red"
+                                            *ngIf="SalesReturnForm.controls.ArticleId.invalid && (SalesReturnForm.controls.ArticleId.dirty || SalesReturnForm.controls.ArticleId.touched)">
+                                            This filed is required</div>
+                                    </div>
+                                </div>
+
+                                <div class="col1 salesreturnfields_outlet" style="display: none;">
+                                    <div class="form-group">
+                                        <label for="vat">Outward Number - outlet </label>
+                                        <div class="form-group">
+                                            <select class="form-control" *ngIf="AddArticle; else textoutwardnumber"
+                                                name="OutwardNumberId" Id="OutwardNumberId"
+                                                (change)="onChangeOutletNumber($event)"
+                                                formControlName="OutwardNumberId">
+                                                <option value="">Select</option>
+                                                <option *ngFor="let val of articleoutwordlist"
+                                                    value="{{val.OutwardNumberId}}">{{val.OutwardNumber}}</option>
+                                            </select>
+                                            <ng-template #textoutwardnumber>
+                                                <input class="form-control" disabled="Disabled" type="text"
+                                                    value="{{OutletNumber}}">
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="col1 salesreturnfields_outward" style="display: none;">
+                                    <div class="form-group">
+                                        <label for="vat">Outward Number - outward </label>
+                                        <div class="form-group">
+                                            <select class="form-control" name="OutwardNumberId" Id="OutwardNumberId" (change)="onChangeOutwardNumber($event)" formControlName="OutwardNumberId">
+                                                <option value="">Select</option>
+                                                <option *ngFor="let val of articleoutwordlist"
+                                                    value="{{val.OutwardNumberId}}">{{val.OutwardNumber}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div> -->
+
+                            </div>
+                        </div>
+                        <div class="col-md-12 salesreturnfields" style="display: none;">
+
+                            <div class="row">
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="street">Category</label>
+                                        <input class="form-control" readonly type="text" [(ngModel)]="Category"
+                                            formControlName="Category">
+                                    </div>
+                                </div>
+                                <div class="col1" *ngIf="ArticleOpenFlag">
+                                    <div class="form-group">
+                                        <label for="vat">Color</label>
+                                        <ng-multiselect-dropdown [placeholder]="'Article Color Select'"
+                                            formControlName="ArticleSelectedColor" [disabled]="Disabled"
+                                            [(ngModel)]="ArticleSelectedColor" [data]="colordropdown"
+                                            [settings]="dropdownSettings"> </ng-multiselect-dropdown>
+                                    </div>
+                                </div>
+                                <div class="col1" *ngIf="ArticleOpenFlag">
+                                    <div class="form-group">
+                                        <label for="vat">Size</label>
+                                        <ng-multiselect-dropdown [placeholder]="'Article Size Select'"
+                                            [disabled]="Disabled" formControlName="ArticleSelectedSize"
+                                            [(ngModel)]="ArticleSelectedSize" [data]="sizedropdown"
+                                            [settings]="dropdownSettings"> </ng-multiselect-dropdown>
+                                    </div>
+                                </div>
+                                <div class="col1" *ngIf="ArticleOpenFlag">
+                                    <div class="form-group">
+                                        <label for="street">Article Ratio</label>
+                                        <input class="form-control" readonly type="text" [(ngModel)]="ArticleRatio"
+                                            formControlName="ArticleRatio">
+                                    </div>
+                                </div>
+                                <div class="col1" *ngIf="ArticleOpenFlag">
+                                    <div class="form-group">
+                                        <label for="street">Color Flag</label>
+                                        <input class="form-control" readonly type="text" [(ngModel)]="ArticleColorFlag"
+                                            formControlName="ArticleColorFlag">
+                                    </div>
+                                </div>
+                                <div class="col1" *ngIf="ArticleOpenFlag">
+                                    <div class="form-group">
+                                        <label for="street">Article Rate</label>
+                                        <input class="form-control" readonly type="text" [(ngModel)]="ArticleRate"
+                                            formControlName="ArticleRate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 salesreturnfields" style="display: none;">
+                            <div class="clear" *ngIf='articalData'>
+
+                                <div class="row" *ngIf="noofpackcount; else elseBlock">
+
+                                    <ng-container *ngIf="partyflag; else partyflagfalse">
+                                        <div class="col2 ppp" *ngFor="let val of colorcountdown">
+                                            <div class="form-group">
+                                                <label for="vat">Color - {{val.Name}}</label>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <input readonly class="form-control" id="qtd_{{val.Id}}" type="number"
+                                                            (keypress)="restrictNumeric($event)" disabled="Disabled"
+                                                            formControlName="NoPacks_{{val.Id}}">
+                                                        <label>Order Pieces</label>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <input class="form-control" id="qtd_{{val.Id}}" type="number"
+                                                            (keypress)="restrictNumeric($event)" disabled="Disabled"
+                                                            formControlName="NoPacks_TotalOutlet_{{val.Id}}">
+                                                        <label>Total Outlet Stock</label>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <input min="0" formControlName="NoPacksNew_{{val.Id}}"
+                                                            id="qtb_{{val.Id}}" (keypress)="restrictNumeric($event)"
+                                                            class="form-control" type="number">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                    <ng-template #partyflagfalse>
+                                        <div class="col1 ppf" *ngFor="let val of colorcountdown">
+                                            <div class="form-group">
+                                                <label for="vat">Color - {{val.Name}}</label>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <input readonly class="form-control" id="qtd_{{val.Id}}" type="number"
+                                                            (keypress)="restrictNumeric($event)" disabled="Disabled"
+                                                            formControlName="NoPacks_{{val.Id}}">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input min="0" formControlName="NoPacksNew_{{val.Id}}"
+                                                            id="qtb_{{val.Id}}" (keypress)="restrictNumeric($event)"
+                                                            class="form-control" type="number">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                                <ng-template #elseBlock>
+                                    <div class="row">
+                                        <ng-container *ngIf="partyflag; else partyflagfalse">
+                                            <div class="col2 ppp">
+                                                <div class="form-group">
+                                                    <label for="vat">Number of {{sets_label}}<span
+                                                            class="red">*</span></label>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <input readonly class="form-control"
+                                                                (keypress)="restrictNumeric($event)" type="number"
+                                                                disabled="Disabled" [(ngModel)]="NoPacks"
+                                                                formControlName="NoPacks">
+                                                            <label>Order Pieces</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input class="form-control"
+                                                                (keypress)="restrictNumeric($event)" type="number"
+                                                                disabled="Disabled" [(ngModel)]="NoPacks_TotalOutlet"
+                                                                formControlName="NoPacks_TotalOutlet">
+                                                            <label>Total Outlet Stock</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input min="0" [(ngModel)]="GETNOPACKS"
+                                                                formControlName="NoPacksNew" class="form-control"
+                                                                (keypress)="restrictNumeric($event)" type="number">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+
+                                        <ng-template #partyflagfalse>
+                                            <div class="col1 ppf">
+                                                <div class="form-group">
+                                                    <label for="vat">Number of {{sets_label}}<span
+                                                            class="red">*</span></label>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <input readonly class="form-control"
+                                                                (keypress)="restrictNumeric($event)" type="number"
+                                                                disabled="Disabled" [(ngModel)]="NoPacks"
+                                                                formControlName="NoPacks">
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input min="0" [(ngModel)]="GETNOPACKS"
+                                                                formControlName="NoPacksNew" class="form-control"
+                                                                (keypress)="restrictNumeric($event)" type="number">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </ng-template>
+                                <div class="row" *ngIf="totalqualityLength">
+                                    <div class="col1">
+                                        <div class="form-group">
+                                            <label for="vat">Total Pieces: </label>
+                                            <div class="w3-panel w3-red totalquality">0</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 text-left">
+                            <div class="salesreturnfields" style="display: none;">
+                                <button id="submit-button" type="submit" [disabled]="!SalesReturnForm.valid"
+                                    class="btn btn-primary px-4">Submit</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <div class="text-right">
+                                <button [routerLink]="'/outletsalesreturnlist'"
+                                    class="btn btn-primary px-4 mgr5">Back</button>
+                                <button (click)="cancelform()" class="btn btn-primary px-4">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <table datatable [dtOptions]="dtOptions" class="row-border hover" width="100%">
+        <thead class="thead-dark">
+            <tr>
+                <th>No</th>
+                <th>Article No</th>
+                <th>Category</th>
+                <!-- <th>Outward No</th> -->
+                <th>Party Name</th>
+                <th>Pieces</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let val of srolist; let i = index">
+                <td>{{ i + 1}}</td>
+                <td>{{val.ArticleNumber}}</td>
+                <td>{{val.Category}}</td>
+                <td>{{val.PartyName}}</td>
+                <td>{{val.NoPacks}}</td>
+                <td>{{val.CreatedDate | date:'dd/MM/y'}}</td>
+                <td class="flex">
+                    <button type="button"
+                        [routerLink]="['/outletsalesreturn',{OSRONO:val.SaleReturnNumberId, id:val.Id}]"
+                        class="btn btn-primary mr-1" (click)="edit(val.Id)"> <i class="fa fa-pencil-square-o"
+                            aria-hidden="true"></i> </button>
+                    <button type="button" class="btn btn-danger mr-1" (click)="delete(val.Id)">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i> </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</ng-template>
+
+<ng-template #other_content>
+    <div class="col-sm-12 col-md-12">
+        <div class="card text-white bg-info text-center">
+            <div class="card-body">
+                <blockquote class="card-bodyquote">
+                    <h3>Rights that are not assignable</h3>
+                    <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</ng-template>
+

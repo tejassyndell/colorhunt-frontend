@@ -1,0 +1,91 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+    <div class="animated fadeIn">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="table-title"><i class="fa fa-align-justify"></i> Party List</div>
+                        <div class="pull-right" *ngIf='isAdd==1'>
+                            <a type="submit" [routerLink]="['/partymaster/']" class="btn btn-primary">Add
+                                Party</a>
+                        </div>
+                        <div *ngIf="AdminRoleId==2" class="pull-right mr-1">
+                            <button (click)="exportPartyList(partylist)" class="btn btn-primary ">Excel</button>
+                        </div>
+                    </div>
+                    <div class="col-md-12 pt-3 pb-3">
+                        <table datatable width="100%" [dtOptions]="dtOptions" class="row-border hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="no-sort">No</th>
+                                    <th>Name</th>
+                                    <th>PhoneNumber</th>
+                                    <th>ContactPerson</th>
+                                    <th>State</th>
+                                    <th>City</th>
+                                    <th>Pincode</th>
+                                    <th>Country</th>
+                                    <th>GSTNumber</th>
+                                    <th>SalesPerson</th>
+                                    <th>Source</th>
+                                    <th>Status</th>
+                                    <th class="no-sort">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let val of partylist;let i = index">
+                                    <td class="no-sort">{{startnumber + i + 1}}</td>
+                                    <td>{{val.Name}}</td>
+                                    <td>{{val.PhoneNumber}}</td>
+                                    <td>{{val.ContactPerson}}</td>
+                                    <td>{{val.State}}</td>
+                                    <td>{{val.City}}</td>
+                                    <td>{{val.PinCode}}</td>
+                                    <td>{{val.Country}}</td>
+                                    <td>{{val.GSTNumber}}</td>
+                                    <td>{{val.UserName}}</td>
+                                    <th>{{val.Source}}</th>
+                                    <td>
+                                        <label class="switch">
+                                          <input (change)="changePartyStatus(val.Id)" value="{{ val.Status }}" [checked]="val.Status==1" type="checkbox">
+                                          <span class="slider round"></span>
+                                        </label>
+                                      </td>
+                                    <td class="no-sort" class="flex">
+                                        <button type="button" *ngIf='isEdit==1' class="btn btn-primary mr-1"
+                                            (click)="edit(val.Id)">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" *ngIf='isDelete==1' class="btn btn-danger mr-1"
+                                            (click)="delete(val.Id)">
+                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="partylist?.length == 0">
+                                    <td colspan="3" class="no-data-available">No data available in table!</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #other_content>
+    <div class="col-sm-12 col-md-12">
+        <div class="card text-white bg-info text-center">
+            <div class="card-body">
+                <blockquote class="card-bodyquote">
+                    <h3>Rights that are not assignable</h3>
+                    <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ngx-spinner type="ball-beat" size="20px">
+</ngx-spinner>

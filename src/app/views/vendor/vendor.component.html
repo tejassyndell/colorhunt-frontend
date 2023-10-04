@@ -1,0 +1,83 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+  <div class="clear">
+    <form [formGroup]="vendorForm" (ngSubmit)="dovendorkadd()">
+      <div class="card">
+        <div class="card-header"> <strong>Vendor - {{VENDERPAGE}}</strong> </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="city">Name <span class="red">*</span></label>
+                <input class="form-control" type="text" oninput="this.value = this.value.toUpperCase()"
+                  formControlName="Name">
+                <div class="w3-panel w3-red"
+                  *ngIf="vendorForm.controls.Name.invalid && (vendorForm.controls.Name.dirty || vendorForm.controls.Name.touched)">
+                  This filed is required</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="city">Address <span class="red">*</span></label>
+                <input class="form-control" type="text" oninput="this.value = this.value.toUpperCase()"
+                  formControlName="Address">
+                <div class="w3-panel w3-red"
+                  *ngIf="vendorForm.controls.Address.invalid && (vendorForm.controls.Address.dirty || vendorForm.controls.Address.touched)">
+                  This filed is required</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="city">Phone Number <span class="red">*</span></label>
+                <input class="form-control" type="text" formControlName="PhoneNumber">
+                <div class="w3-panel w3-red"
+                  *ngIf="vendorForm.controls.PhoneNumber.invalid && (vendorForm.controls.PhoneNumber.dirty || vendorForm.controls.PhoneNumber.touched)">
+                  This filed is required</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="city">Contact Person <span class="red">*</span></label>
+                <input class="form-control" type="text" oninput="this.value = this.value.toUpperCase()"
+                  formControlName="ContactPerson">
+                <div class="w3-panel w3-red"
+                  *ngIf="vendorForm.controls.ContactPerson.invalid && (vendorForm.controls.ContactPerson.dirty || vendorForm.controls.ContactPerson.touched)">
+                  This filed is required</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="city">GST Number <span class="red">*</span></label>
+                <input class="form-control" oninput="this.value = this.value.toUpperCase()" type="text"
+                  formControlName="GSTNumber">
+                <div class="w3-panel w3-red"
+                  *ngIf="vendorForm.controls.GSTNumber.invalid && (vendorForm.controls.GSTNumber.dirty || vendorForm.controls.GSTNumber.touched)">
+                  This filed is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <button type="button" (click)="goBack()" class="btn btn-primary px-4">Back</button>
+            </div>
+            <div class="col-6 text-right">
+              <button type="submit" id="submit-button" [disabled]="!vendorForm.valid" class="btn btn-primary px-4">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>
+<ng-template #other_content>
+  <div class="col-sm-12 col-md-12">
+    <div class="card text-white bg-info text-center">
+      <div class="card-body">
+        <blockquote class="card-bodyquote">
+          <h3>Rights that are not assignable</h3>
+          <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</ng-template>

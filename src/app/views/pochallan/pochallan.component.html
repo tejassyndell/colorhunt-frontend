@@ -1,0 +1,326 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+    <div id="contentToConvert" class="card">
+        <div id="print-section" class="card-body" style="overflow:auto; margin:1.25rem; padding:0;">
+            <table width="100%" border="0" cellspacing="0" style="font-family:Arial; border:0; ">
+                <tbody>
+                    <tr style="background:#000;">
+                        <td style="border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; text-align:center;" colspan="3">
+                            <h2 style="margin:0; padding:12px; color:#fff;"><strong>PURCHASE ORDER</strong></h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;">
+                            <strong>VENDOR:</strong></td>
+                        <td style="width:100px; padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                            <strong>DATE:</strong></td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                            {{PoDate | date:'dd/MM/y'}}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;">
+                            {{Name}}</td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                            <strong>PO NO:</strong></td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                            {{PurchaseNumber}}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;">
+                            {{Address}}</td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                            <strong>GST:</strong></td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                            {{GSTNumber}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="padding:15px 12px; border-left:1px solid #c8ced3; border-bottom:1px solid #c8ced3; border-right:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                            <strong>REMARKS:</strong> {{Remarks}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <table width="100%" style="margin:35px 0;" *ngFor="let val of polist; let i = index; last as islast">
+                                <tr>
+                                    <td colspan="3" style="padding:13px; background:#eee; border-left:1px solid #c8ced3; border-right:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                        <strong>ARTICLE NO:</strong>{{val.ArticleNumber}}</td>
+                                </tr>
+                                <tr style="text-align:center">
+                                    <td style="padding:10px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;" width="50%"><strong>CATEGORY:</strong></td>
+                                    <td style="padding:10px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px;" colspan="2">{{val.Title}}</td>
+                                </tr>
+                                <tr style="text-align:center">
+                                    <td style="padding:10px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;" width="50%"><strong>QTY IN PCS:</strong></td>
+                                    <td style="padding:10px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px;" colspan="2">{{val.NumPacks}}</td>
+                                </tr>
+                                <tr style="text-align:center">
+                                    <td style="padding:10px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;" width="50%"><strong>BRAND NAME:</strong></td>
+                                    <td style="padding:10px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px;" colspan="2">{{val.Brandname}}</td>
+                                </tr>
+                                <tr style="text-align:center">
+                                    <td style="padding:10px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;" width="50%"><strong>SUB CATEGORY:</strong></td>
+                                    <td style="padding:10px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px;" colspan="2">{{val.SubcategoryName}}</td>
+                                </tr>
+                                <tr style="text-align:center">
+                                    <td style="padding:10px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;" width="50%"><strong>SERIES:</strong></td>
+                                    <td style="padding:10px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px;" colspan="2">{{val.SeriesNo}}</td>
+                                </tr>
+                                <tr style="text-align:center">
+                                    <td style="padding:10px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;" width="50%"><strong>STYLE DESCRIPTION:</strong></td>
+                                    <td style="padding:10px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px;" colspan="2">{{val.StyleDescription}}</td>
+                                </tr>
+                                <tr *ngIf="multipleimageflag">
+                                    <td style="padding:12px; text-align:center;" colspan="3"><img src="{{BaseURL}}uploads/po/{{val.MultiplePO_Image}}" width="100%" alt="" /></td>
+                                </tr>
+                                <!-- <tr>
+                                    <td style="padding:17px;  text-align:center;"
+                                        colspan="3"><img src="https://colorhunt.in/colorHuntApi/uploads/po/PDJFvgmjKh.jpg" height="450" alt="" /></td>
+                                </tr> -->
+                            </table>
+                            <!-- <table width="100%" style="margin:35px 0;">
+                                <tr>
+                                    <td colspan="3"
+                                        style="padding:13px; background:#eee; border-left:1px solid #c8ced3; border-right:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                        <strong>ARTICLE NO:</strong>{{ArticleNumber}}</td>
+                                </tr>
+                                <tr style="text-align:center">
+                                    <td style="padding:10px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;"
+                                        width="50%"><strong>CATEGORY:</strong></td>
+                                    <td style="padding:10px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px;"
+                                        colspan="2">{{Title}}</td>
+                                </tr>
+                                <tr style="text-align:center">
+                                    <td style="padding:10px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;"
+                                        width="50%"><strong>QTY IN PCS:</strong></td>
+                                        <td style="padding:10px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px;"
+                                        colspan="2">{{NumPacks}}</td>
+                                </tr>
+                                <tr style="text-align:center">
+                                    <td style="padding:10px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;"
+                                        width="50%"><strong>BRAND NAME:</strong></td>
+                                    <td style="padding:10px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px;"
+                                        colspan="2">{{Brandname}}</td>
+                                </tr>
+                                <tr style="text-align:center">
+                                    <td style="padding:10px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;"
+                                        width="50%"><strong>STYLE DESCRIPTION:</strong></td>
+                                    <td style="padding:10px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px;"
+                                        colspan="2">{{StyleDescription}}</td>
+                                </tr>
+                                <tr *ngIf="isEnable">
+                                    <td style="padding:12px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; text-align:center;"
+                                        colspan="3"><img src="{{BaseURL}}uploads/po/{{PO_Image}}" width="100%" alt="" /></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:17px; text-align:center;"
+                                        colspan="3"><img src="https://colorhunt.in/colorHuntApi/uploads/po/PDJFvgmjKh.jpg" height="450" alt="" /></td>
+                                </tr>
+                            </table> -->
+                            <!-- <table width="100%" style="margin:35px 0;">
+                                <tr>
+                                    <td colspan="3"
+                                        style="padding:13px; background:#eee; border-left:1px solid #c8ced3; border-right:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                        <strong>ARTICLE NO:</strong>{{ArticleNumber}}</td>
+                                </tr>
+                                <tr style="text-align:center">
+                                    <td style="padding:10px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;"
+                                        width="50%"><strong>CATEGORY:</strong></td>
+                                    <td style="padding:10px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px;"
+                                        colspan="2">{{Title}}</td>
+                                </tr>
+                                <tr style="text-align:center">
+                                    <td style="padding:10px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;"
+                                        width="50%"><strong>QTY IN PCS:</strong></td>
+                                        <td style="padding:10px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px;"
+                                        colspan="2">{{NumPacks}}</td>
+                                </tr>
+                                <tr style="text-align:center">
+                                    <td style="padding:10px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;"
+                                        width="50%"><strong>BRAND NAME:</strong></td>
+                                    <td style="padding:10px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px;"
+                                        colspan="2">{{Brandname}}</td>
+                                </tr>
+                                <tr style="text-align:center">
+                                    <td style="padding:10px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;"
+                                        width="50%"><strong>STYLE DESCRIPTION:</strong></td>
+                                    <td style="padding:10px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px;"
+                                        colspan="2">{{StyleDescription}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:17px; text-align:center;"
+                                        colspan="3"><img src="https://colorhunt.in/colorHuntApi/uploads/po/PDJFvgmjKh.jpg" height="450" alt="" /></td>
+                                </tr>
+                            </table>  -->
+                            <table style="margin-top:55px;" *ngIf="multipleimageflag==false" width="100%">
+                                <tr>
+                                    <td style="padding:12px; text-align:center;" colspan="3"><img src="{{BaseURL}}uploads/po/{{PO_Image}}" width="100%" alt="" /></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+
+
+                <!-- <tbody>
+                    <tr style="text-align:center; font-size:14px;">
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                            <strong>SN</strong>
+                        </td>
+                        <td
+                            style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; min-width:100px;">
+                            <strong>ARTICLE</strong></td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                            <strong>CATEGORY</strong></td>
+                        <td
+                            style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; width:180px;">
+                            <strong>STYLE DESC</strong></td>
+                        <td
+                            style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; width:100px;">
+                            <strong>RATIO</strong></td>
+                        <td
+                            style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; min-width:100px;">
+                            <strong>QTY IN SET</strong></td>
+                        <td
+                            style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; min-width:100px;">
+                            <strong>QTY IN PCS</strong></td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                            <strong>COLORS</strong></td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                            <strong>SIZES</strong></td>
+                        <td
+                            style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; width:90px;">
+                            <strong>RATE</strong></td>
+                        <td
+                            style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; width:100px;">
+                            <strong>WIEGHT</strong></td>
+                    </tr>
+                    <tr style="text-align:center; font-size:14px;"
+                        *ngFor="let val of inwardlist[0];let i = index; last as islast">
+                        <td
+                            style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;">
+                            {{ i + 1}}</td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                            {{val.ArticleNumber}}
+                        </td>
+                        <td
+                            style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                            {{val.Title}}</td>
+                        <td
+                            style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                            <span *ngIf="val.StyleDescription!=''">{{val.StyleDescription}}</span><span
+                                *ngIf="val.StyleDescription==''">-</span></td>
+
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                            {{val.ArticleRatio}}</td>
+
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                            {{val.TotalSetQuantity}}</td>
+                        <td
+                            style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;">
+                            {{val.NoPacks}}</td>
+                        <td
+                            style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                            {{val.ArticleColor}}</td>
+                        <td
+                            style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                            {{val.ArticleSize}}</td>
+                        <td
+                            style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;">
+                            &#8377;{{val.ArticleRate}}</td>
+                        <td
+                            style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; text-align:right;">
+                            {{val.Weight}}</td>
+                    </tr>
+                    <tr style="text-align:center; font-size:14px;">
+                        <td
+                            style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;">
+                            &nbsp;
+                        </td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;"></td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;"></td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;"></td>
+                        <td
+                            style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                        </td>
+                        <td
+                            style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;">
+                        </td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;"></td>
+                        <td
+                            style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                        </td>
+                        <td
+                            style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                        </td>
+                        <td
+                            style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;">
+                        </td>
+                        <td
+                            style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; text-align:right;">
+                        </td>
+                    </tr>
+                    <tr style="text-align:center; font-size:14px;">
+                        <td colspan="5"
+                            style="padding:12px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:center;">
+                            <strong>TOTAL</strong></td>
+                        <td
+                            style="padding:12px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                            <strong>{{countTotalSetQuantity}}</strong></td>
+                        <td
+                            style="padding:12px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;">
+                            <strong>{{countNoPacks}}</strong>
+                        </td>
+                        <td colspan="2"
+                            style="padding:12px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                        </td>
+                        <td
+                            style="padding:12px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;">
+                        </td>
+                        <td
+                            style="padding:12px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; text-align:right;">
+                            <strong>{{countWight}}</strong></td>
+                    </tr>
+                </tbody> -->
+
+
+                <tfoot id="divFooter" style='position: fixed; bottom: 0; left: 0; right: 0; width: 100%;'>
+                    <tr style="width: 100%; display: grid;">
+                        <td colspan="3" style="padding:5px; font-size:14px; text-align: left;">
+                            <div style="float: left;"><strong>Prepared by: </strong>{{preparedby}}</div>
+                            <div style="position: absolute; left: 0; right: 0; margin: 0 auto; width: 240px;">
+                                <strong>Verified by: </strong>{{verifiedby}}</div>
+                            <div style="float: right;">
+                                <strong>Authorized by: </strong>
+                                <span style="border-bottom: #000 solid 1px;">______________________</span>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <div class="challan-btn">
+        <div *ngIf="poBack; then backsolist else backsostatuslist"></div>
+        <ng-template #backsolist>
+            <button type="button" (click)="goBack()" class="btn btn-primary px-4">Back</button>
+        </ng-template>
+        <ng-template #backsostatuslist>
+            <button type="button" (click)="goBack()" class="btn btn-primary px-4">Back</button>
+        </ng-template>
+        <button type="button" printSectionId="print-section" class="btn btn-primary mb-3 pull-right" ngxPrint> <i
+                class="fa fa-print" aria-hidden="true"></i> </button>
+    </div>
+</ng-template>
+<ng-template #other_content>
+    <div class="col-sm-12 col-md-12">
+        <div class="card text-white bg-info text-center">
+            <div class="card-body">
+                <blockquote class="card-bodyquote">
+                    <h3>Rights that are not assignable</h3>
+                    <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+

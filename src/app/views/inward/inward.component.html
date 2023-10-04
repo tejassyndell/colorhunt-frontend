@@ -1,0 +1,384 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+    <div class="clear">
+        <div class="card">
+            <div class="card-header"> <strong>Inward</strong> <span class="text-right pull-right"><strong
+                        *ngIf="InwardOrderLabel">GRN: {{GRN_Number_FinancialYear}}</strong></span></div>
+            <div class="card-body">
+                <form [formGroup]="inwardForm" (ngSubmit)="doInward()">
+                    <input class="form-control" value="{{GRN_Number}}" readonly type="hidden"
+                        formControlName="GRN_Number">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row inwardmark">
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="street">InwardDate<span class="red">*</span></label>
+                                        <input [attr.disabled]="dateDisabled ? '' : null" class="form-control" type="date"
+                                            [ngModel]="InwardCurrentDate | date:'yyyy-MM-dd'"
+                                            formControlName="InwardDate">
+                                        <div class="w3-panel w3-red"
+                                            *ngIf="inwardForm.controls.InwardDate.invalid && (inwardForm.controls.InwardDate.dirty || inwardForm.controls.InwardDate.touched)">
+                                            This filed is required</div>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="city">Remark</label>
+                                        <input class="form-control" type="text"
+                                            oninput="this.value = this.value.toUpperCase()" formControlName="Remark">
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="company">Supplier <span class="red">*</span></label>
+                                       
+                                        <div>
+                                          
+                                            <ng-select [clearable]="false" class="custom" [(ngModel)]="VendorId"
+                                                formControlName="VendorId" (ngModelChange)="vndChange($event)" bindLabel="Name" [items]="vendordropdown"
+                                                placeholder="Select">
+                                                <!-- <option value="">Select</option> -->
+                                                <ng-option *ngFor="let val of vendordropdown" [value]="val.Id">
+                                                    {{val.Name}}</ng-option>
+                                            </ng-select>
+                                            <!-- <select class="form-control" formControlName="VendorId">
+                                                <option value="">Select</option>
+                                                <option *ngFor="let val of vendordropdown" value="{{val.Id}}">{{val.Name}}
+                                                </option>
+                                            </select>  -->
+                                            <div class="w3-panel w3-red"
+                                                *ngIf="inwardForm.controls.VendorId.invalid && (inwardForm.controls.VendorId.dirty || inwardForm.controls.VendorId.touched)">
+                                                This filed is required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="col1">
+                                    <div class="form-group">
+                                        <label for="company">Brand</label>
+                                        <select class="form-control" formControlName="BrandId">
+                                            <option value="">Select</option>
+                                            <option *ngFor="let val of brandropdown" value="{{val.Id}}">{{val.Name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="row">
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="company">{{Article_Label}}<span class="red">*</span></label>
+                                        <div class="form-group" *ngIf="DropdownPO; else PONumber">
+                                            <ng-select class="custom" (change)="onChangartical($event)"
+                                                [clearable]="false" [(ngModel)]="PoId" formControlName="PoId"
+                                                [items]="poropdown" bindLabel="ArticleNumber"
+                                                placeholder="Select Article">
+                                            </ng-select>
+                                        </div>
+                                        <ng-template #PONumber>
+                                            <input class="form-control resetquantity" value="{{articlenumber}}" readonly
+                                                type="text">
+
+                                            <!-- <input class="form-control" value="{{PurchaseNumber_FinancialYear}}" readonly type="text"> -->
+                                        </ng-template>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="street">{{PO_Label}}</label>
+                                        <div *ngIf="editInward; then showarticle else showpurchaseno"></div>
+                                        <ng-template #showarticle>
+                                            <!-- <input class="form-control resetquantity" value="{{articlenumber}}" readonly type="text"> -->
+                                            <input readonly type="hidden" class="form-control" formControlName="PoId">
+                                            <input class="form-control" value="{{PurchaseNumber_FinancialYear}}"
+                                                readonly type="text">
+                                        </ng-template>
+
+                                        <ng-template #showpurchaseno>
+                                            <input class="form-control resetquantity"
+                                                value="{{PurchaseNumber_FinancialYear}}" readonly type="text">
+                                        </ng-template>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="street">Quantity</label>
+                                        <input class="form-control resetquantity" value="{{numpack}}" readonly
+                                            type="text">
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="street">Color Flag</label>
+                                        <span *ngIf="colorflag==1; else elsepart">
+                                            <input class="form-control" value="Yes" readonly type="text">
+                                        </span>
+                                        <ng-template #elsepart>
+                                            <input class="form-control" value="No" readonly type="text">
+                                        </ng-template>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="street">Vendor</label>
+                                        <input class="form-control resetquantity" value="{{vendername}}" readonly
+                                            type="text">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div *ngIf="rejectionShow==false" class="col1">
+                                    <div class="form-group">
+                                        <label for="vat">Color <span class="red">*</span></label>
+                                        <ng-multiselect-dropdown  [disabled]="ColorDisabled" formControlName="ColorId"
+                                            [placeholder]="'Article Color Select'" [data]="colordropdown"
+                                            [settings]="dropdownSettings" [(ngModel)]="ArticleSelectedColor"
+                                            (onSelect)="onItemcolorSelect($event)"
+                                            (onDeSelect)="OnItemDeSelect($event)">
+                                        </ng-multiselect-dropdown>
+                                    </div>
+                                </div>
+                                <div  *ngIf="rejectionShow==true" class="col1">
+                                    <div class="form-group">
+                                        <label for="vat">Rejection <span class="red">*</span></label>
+                                        <ng-multiselect-dropdown [disabled]="ColorDisabled" formControlName="RejectionId"
+                                            [placeholder]="'Select Rejection'" [data]="rejectiondropdown"
+                                            (onSelect)="onRejectionSelect($event)"
+                                            [(ngModel)]="RejectionSelected"
+                                            (onDeSelect)="OnRejDeSelect($event)"
+                                            [settings]="rejectdropdownSettings"
+                                          >
+                                        </ng-multiselect-dropdown>
+                                    </div>
+                                </div>
+                                <div *ngIf="rejectionShow==false"  class="col1">
+                                    <div class="form-group">
+                                        <label for="vat">Size <span class="red">*</span></label>
+                                        <ng-multiselect-dropdown [disabled]="ColorDisabled" formControlName="SizeId"
+                                            [placeholder]="'Article Size Select'" [data]="sizedropdown"
+                                            [settings]="dropdownSettings" (click)="onItemsizeSelect($event)"
+                                            [(ngModel)]="ArticleSelectedSize" (onSelectAll)="onSizeSelectAll($event)">
+                                        </ng-multiselect-dropdown>
+                                    </div>
+                                </div>
+                                <div *ngIf="rejectionShow==false" class="col1">
+                                    <div class="form-group">
+                                        <label for="vat">Ratio <span class="red">*</span> <i
+                                                class="fa fa-info-circle fa-lg"
+                                                tooltip="<p>Add comma separated values for ratio(Ex: 1,2,1)</p>"></i></label>
+                                        <input class="form-control" [disabled]="ColorDisabled" type="text"
+                                            (keypress)="CheckNumeric($event);" formControlName="RatioId">
+                                        <div class="w3-panel w3-red"
+                                            *ngIf="inwardForm.controls.RatioId.invalid && (inwardForm.controls.RatioId.dirty || inwardForm.controls.RatioId.touched)">
+                                            This filed is required</div>
+                                        <div class="w3-panel w3-red"> {{error}}</div>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="city">Rate<span class="red">*</span></label>
+                                        <input class="form-control" min="0" type="number"
+                                            (keypress)="restrictNumeric($event)" formControlName="Rate">
+                                        <div class="w3-panel w3-red"
+                                            *ngIf="inwardForm.controls.Rate.invalid && (inwardForm.controls.Rate.dirty || inwardForm.controls.Rate.touched)">
+                                            This filed is required</div>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="city">Weight<span class="red">*</span></label>
+                                        <input class="form-control" min="0" type="number"
+                                            (keypress)="WeightNumeric($event)" formControlName="Weight">
+                                        <div class="w3-panel w3-red"
+                                            *ngIf="inwardForm.controls.Weight.invalid && (inwardForm.controls.Weight.dirty || inwardForm.controls.Weight.touched)">
+                                            This filed is required</div>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="city">Style Description</label>
+                                        <input class="form-control" type="text" value="{{StyleDescription}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="city">Brand Name</label>
+                                        <input class="form-control" type="text" value="{{BrandName}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="city">Category</label>
+                                        <input class="form-control" type="text" value="{{CategoryTitle}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="city">Series</label>
+                                        <input class="form-control" type="text" value="{{Series}}" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="city">Sub Category</label>
+                                        <input class="form-control" type="text" value="{{SubCategory}}" readonly>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="col1" *ngIf="ArticleStatusView">
+                                    <div class="form-group">
+                                        <label for="street" style="width: 100%;">Status</label>
+                                        <div class="ml-1 pretty p-svg p-curve">
+                                            <input type="checkbox" [checked]="ArticleStatus == 1" formControlName="ArticleStatus" />
+                                            <div class="state p-success">
+                                                <svg class="svg svg-icon" viewBox="0 0 20 20">
+                                                    <path
+                                                        d="M7.629,14.566c0.125,0.125,0.291,0.188,0.456,0.188c0.164,0,0.329-0.062,0.456-0.188l8.219-8.221c0.252-0.252,0.252-0.659,0-0.911c-0.252-0.252-0.659-0.252-0.911,0l-7.764,7.763L4.152,9.267c-0.252-0.251-0.66-0.251-0.911,0c-0.252,0.252-0.252,0.66,0,0.911L7.629,14.566z"
+                                                        style="stroke: white;fill:white;"></path>
+                                                </svg>
+                                                <label></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div *ngIf="qty" class="col-md-12">
+                            <div *ngIf="noofpackcount; else elseBlock" class="row">
+                                <div class="col1" *ngFor="let val of colorcountdown">
+                                    <div class="form-group">
+                                        <label for="vat">Color - {{val.Name}}<span class="red">*</span></label>
+                                        <input class="form-control numset" min="1" (keypress)="restrictNumeric($event)"
+                                            type="number" formControlName="NoPacks_{{val.Id}}">
+                                        <div class="w3-panel w3-red"
+                                            *ngIf="inwardForm.controls.NoPacks.invalid && (inwardForm.controls.NoPacks.dirty || inwardForm.controls.NoPacks.touched)">
+                                            This filed is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="norejectioncount" class="row">
+                                <div class="col1" *ngFor="let val of rejcountdown">
+                                    <div class="form-group">
+                                        <label for="vat">{{val.RejectionType}}<span class="red">*</span></label>
+                                        <input class="form-control numset" min="1" (keypress)="restrictNumeric($event)"
+                                            type="number" formControlName="Rej_{{val.Id}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <ng-template #elseBlock >
+                                <div class="row" *ngIf="rejectionShow==false">
+                                    <div class="col1">
+                                        <div class="form-group">
+                                            <label for="vat">Number of Pieces<span class="red">*</span></label>
+                                            <input class="form-control numset" min="1"
+                                                (keypress)="restrictNumeric($event)" type="number"
+                                                formControlName="NoPacks">
+                                            <div class="w3-panel w3-red"
+                                                *ngIf="inwardForm.controls.NoPacks.invalid && (inwardForm.controls.NoPacks.dirty || inwardForm.controls.NoPacks.touched)">
+                                                This filed is required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+
+                            <div class="row" *ngIf="totalqualityLength">
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="vat">Total Pieces: </label>
+                                        <div class="w3-panel w3-red totalquality">0</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 text-left">
+                            <button type="submit" id="submit-button" [disabled]="!inwardForm.valid"
+                                class="btn btn-primary px-4">Submit</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="text-right backcancel_button">
+                    <button type="button" (click)="goBack()" class="btn btn-primary px-4 mgr5">Back</button>
+                    <button (click)="cancelform()" class="btn btn-primary px-4">Cancel</button>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+    <table datatable [dtOptions]="dtOptions" width="100%" class="row-border hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>No</th>
+                <th>Article No</th>
+                <th>Vender</th>
+                <th>Title</th>
+                <th>Pieces</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let val of inwardlist;let i = index">
+                <td>{{ i + 1}}</td>
+                <td>{{val.ArticleNumber}}</td>
+                <td>{{val.Name}}</td>
+                <td>{{val.Title}}</td>
+                <td>{{val.NoPacks}}</td>
+
+
+                <td class="flex">
+
+                    <button type="button" [routerLink]="['/inward',{GRN:val.GRN, id:val.Id}]"
+                        *ngIf="isEdit==1 && (val.SOID==0 && val.ArticleOpenFlag==0)" class="btn btn-primary mr-1"
+                        (click)="edit(val.GRN, val.Id)"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </button>
+                    <button type="button"
+                        *ngIf="isDelete==1 && (val.SOID==0 || (val.ArticleOpenFlag==1 && val.MixDeleteStatus == 'true'))"
+                        class="btn btn-danger mr-1" (click)="delete(val.Id, val.ArticleId, val.GRN)"> <i
+                            class="fa fa-trash-o" aria-hidden="true"></i> </button>
+                    <button class="btn btn-primary mr-1" (click)="downloadprnfile(val.Id)">Generate Sticker</button>
+                    <a [href]="fileUrl" id="downloadfile_{{val.Id}}" style="display: none;"
+                        download="colorhunt.prn">DownloadFile</a>
+
+                    <button class="btn btn-primary mr-1" (click)="downloadprnsinglefile(val.Id)">Generate Article
+                        Sticker</button>
+                    <a [href]="fileUrl" id="downloadfile_barcode_{{val.Id}}" style="display: none;"
+                        download="colorhuntarticle.prn">DownloadFile</a>
+
+                    <div *ngIf="val.ColorCount > 1 && val.Colorflag ==1 && val.ArticleOpenFlag == 0" class="col-md-6">
+
+                        <select class="form-control colordropdown_{{val.Id}}"
+                            (change)="onChangeColorVal(val.Id, $event.target.value)">
+                            <option value="">Select Color</option>
+                            <option *ngFor="let data of val.ArticleColor" value="{{data.Id}}">{{data.Name}}</option>
+                        </select>
+                    </div>
+
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</ng-template>
+<ng-template #other_content>
+    <div class="col-sm-12 col-md-12">
+        <div class="card text-white bg-info text-center">
+            <div class="card-body">
+                <blockquote class="card-bodyquote">
+                    <h3>Rights that are not assignable</h3>
+                    <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</ng-template>
+

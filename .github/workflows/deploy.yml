@@ -22,7 +22,7 @@ jobs:
         npm install -g @angular/cli --save-dev --force
         npm install --force
         ng build
-        mv dist/* public_html/webportalstaging/ 
+        mv dist/* ./public_html/webportalstaging/ 
       env:
           CI: false
     

@@ -17,8 +17,8 @@ jobs:
         node-version: '16'
       
    
-    - name: Move dist folder
-      run: ls
+    - name: get dir
+      run: pwd
     
 
    

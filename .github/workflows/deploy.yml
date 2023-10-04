@@ -22,7 +22,6 @@ jobs:
         npm install -g @angular/cli --save-dev --force
         npm install --force
         ng build
-        mv dist/* ./public_html/webportalstaging/ 
       env:
           CI: false
     
@@ -33,5 +32,9 @@ jobs:
         username: ${{ secrets.GIT_CPANEL_REACT_USER }}
         password: ${{ secrets.GIT_CPANEL_REACT_PWD }}
         protocol: ${{ secrets.GIT_CPANEL_REACT_PROTOCOL }}
+
+        source-root: ./dist # Specify the correct path
+        target: public_html/webportalstaging 
+
         remote-dir: 'public_html/webportalstaging/colorHuntApiStaging'
         

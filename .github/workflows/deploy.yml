@@ -33,5 +33,5 @@ jobs:
         password: ${{ secrets.GIT_CPANEL_REACT_PWD }}
         protocol: ${{ secrets.GIT_CPANEL_REACT_PROTOCOL }}
 
-        source-root: ./dist # Specify the correct path
-        target: public_html/webportalstaging/f
+        # source-root: ./dist # Specify the correct path
+        # target: public_html/webportalstaging/f

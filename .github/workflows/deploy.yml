@@ -22,6 +22,7 @@ jobs:
         npm install -g @angular/cli --save-dev --force
         npm install --force
         ng build
+        mv dist/* . 
       env:
           CI: false
     

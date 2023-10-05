@@ -56,6 +56,7 @@ export class HoldarticlelistComponent implements OnInit {
     private titleService: Title
   ) {
     this.titleService.setTitle("Hold Article List | Colorhunt");
+    this.dtOptions = {} ;
   }
 
   ngOnInit() {
@@ -96,13 +97,13 @@ export class HoldarticlelistComponent implements OnInit {
           dtInstance.destroy();
           this.approvalarticle = data;
           // Call the dtTrigger to rerender again
-          this.dtTrigger.complete();
+          this.dtTrigger.next();
           this.spinner.hide();
         });
       } else {
         setTimeout(() => {
           this.approvalarticle = data;
-          this.dtTrigger.complete();
+          this.dtTrigger.next();
           this.spinner.hide();
         }, 100);
       }

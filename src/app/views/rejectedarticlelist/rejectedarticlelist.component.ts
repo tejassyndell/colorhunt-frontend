@@ -49,6 +49,7 @@ export class RejectedarticlelistComponent implements OnInit {
   accessdenied: boolean = true;
   constructor(private userService: UserService, public router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService,private http: HttpClient,private titleService: Title) {
     this.titleService.setTitle("Rejected Article List | Colorhunt");
+    this.dtOptions = {} ;
   }
 
   ngOnInit() {
@@ -90,13 +91,13 @@ export class RejectedarticlelistComponent implements OnInit {
             dtInstance.destroy();
             this.rejectedarticle = data;
             // Call the dtTrigger to rerender again
-            this.dtTrigger.complete();
+            this.dtTrigger.next();
             this.spinner.hide();
           });
       } else {
         setTimeout(() => {
           this.rejectedarticle = data;
-          this.dtTrigger.complete();
+          this.dtTrigger.next();
           this.spinner.hide();
         }, 100);
 

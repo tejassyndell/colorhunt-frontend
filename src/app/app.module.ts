@@ -16,7 +16,6 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
-
 // Modules
 // import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -62,7 +61,7 @@ import {
 import { AppRoutingModule } from './app.routing';
 
 // Import ngx-barcode module
-import { NgxBarcodeModule } from 'ngx-barcode';
+import { NgxBarcode6Module } from 'ngx-barcode6';
 
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 

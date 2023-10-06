@@ -19,6 +19,9 @@ import { PoComponent } from './views/po/po.component';
 import { VendorComponent } from './views/vendor/vendor.component';
 import { CategoryComponent } from './views/category/category.component';
 import { BrandComponent } from './views/brand/brand.component';
+//adding aditional code
+import { TransportationComponent } from './views/transportation/transportation.component';
+import { TransportationlistComponent } from './views/transportationlist/transportationlist.component';
 import { CategorylistComponent } from './views/categorylist/categorylist.component';
 import { SubcategorylistComponent } from './views/subcategorylist/subcategorylist.component';
 import { SubcategoryComponent } from './views/subcategory/subcategory.component';
@@ -229,6 +232,13 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { role: '5' }
       },
+       //adding aditional code
+       {
+        path: 'transportation',
+        component: TransportationComponent,
+        canActivate: [AuthGuard],
+        data: { role: '5' }
+      },
       {
         path: 'categorylist',
         component: CategorylistComponent,
@@ -360,6 +370,15 @@ export const routes: Routes = [
       {
         path: "brandlist",
         component: BrandlistComponent,
+        canActivate: [AuthGuard],
+        data: { role: '5' }
+      },
+
+      //adding aditional code
+
+      {
+        path: "transportationlist",
+        component: TransportationlistComponent,
         canActivate: [AuthGuard],
         data: { role: '5' }
       },

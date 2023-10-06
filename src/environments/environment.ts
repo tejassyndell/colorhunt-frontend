@@ -15,16 +15,16 @@ export const environment = {
   // corsEnabled: true,
 
 
-  apiURL: 'https://webportalstaging.colorhunt.in/colorHuntApiStaging/public/api',
-  UploadBaseURL: 'https://webportalstaging.colorhunt.in/colorHuntApiStaging/public/',
-  getuploadURL: 'https://webportalstaging.colorhunt.in/colorHuntApiStaging/public/uploads/',
-  debugMode: false,
+  // apiURL: 'https://webportalstaging.colorhunt.in/colorHuntApiStaging/public/api',
+  // UploadBaseURL: 'https://webportalstaging.colorhunt.in/colorHuntApiStaging/public/',
+  // getuploadURL: 'https://webportalstaging.colorhunt.in/colorHuntApiStaging/public/uploads/',
+  // debugMode: false,
 
   
-  // apiURL: 'https://webportal.colorhunt.in/colorHuntApi/public/api',
-  // UploadBaseURL : 'https://webportal.colorhunt.in/colorHuntApi/public/',
-  // getuploadURL: 'https://webportal.colorhunt.in/colorHuntApi/public/uploads/',
-  // debugMode: false,
+  apiURL: 'https://webportal.colorhunt.in/colorHuntApi/public/api',
+  UploadBaseURL : 'https://webportal.colorhunt.in/colorHuntApi/public/',
+  getuploadURL: 'https://webportal.colorhunt.in/colorHuntApi/public/uploads/',
+  debugMode: false,
 
 
   production: true

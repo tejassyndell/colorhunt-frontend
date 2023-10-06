@@ -304,6 +304,25 @@ export class UserService {
     return this.http.delete(`${this.apiURL}/deletebrand/${id}`);
   }
 
+  //transportation api
+   //Transportation API
+   public dobrandadd1(data) {
+    return this.http.post(`${this.apiURL}/addtransportation`, data);
+  }
+  public updateTransportation(transportationlist) {
+    return this.http.put(`${this.apiURL}/updatetransportation/${transportationlist.id}`, transportationlist, httpOptions);
+  }
+  public transportationlist() {
+
+    return this.http.get(`${this.apiURL}/transportationlist`);
+  }
+  public gettransportationidwise(id) {
+    return this.http.get(`${this.apiURL}/gettransportationidwise/${id}`);
+  }
+  public deletetransportation(id) {
+    return this.http.delete(`${this.apiURL}/deletetransportation/${id}`);
+  }
+
   //Rack API
   public dorackadd(data) {
     return this.http.post(`${this.apiURL}/addrack`, data);

@@ -4,15 +4,16 @@
   <!-- console.log(123123); -->
 </script>
 <ng-template #content>
+  
   <div class="row">
-    <div class="col-sm-6">
-      <form [formGroup]="articleimgForm" (ngSubmit)="ArticlePhotos()">
+    <div class="col-sm-12">
+      <form [formGroup]="articleimgForm" (ngSubmit)="articlephotos()">
         <div class="card">
           <div class="card-header">
-            <strong>Article Images - Add</strong>
+            <strong>Article Images - {{articlePhotopage}}</strong>
           </div>
           <div class="card-body">
-            <div class="form-group">
+            <div class="form-group col-md-6">
               <label for="vat">Article <span class="red">*</span></label>
               <ng-select [clearable]="false" class="custom" [(ngModel)]="ArticleId" formControlName="ArticleId"
                 [items]="articdropdown" bindLabel="ArticleNumber" placeholder="Select Article">
@@ -21,12 +22,49 @@
                 *ngIf="articleimgForm.controls.ArticleId.invalid && (articleimgForm.controls.ArticleId.dirty || articleimgForm.controls.ArticleId.touched)">
                 This filed is required</div>
             </div>
-            <div class="form-group">
-              <input type="file" formControlName="Image" id="file" multiple (change)="uploadFile($event)">
+            <div class="form-group" >
+              <div class="row-align">
+               <div class="first-align">
+              <label for="text"> <b>Add Image</b></label>
+            </div>           
+            <div class="align">
+              <input type="file" formControlName="Image" id="file" multiple (change)="uploadFile($event)" >
               <div class="w3-panel w3-red"
                 *ngIf="articleimgForm.controls.Image.invalid && (articleimgForm.controls.Image.dirty || articleimgForm.controls.Image.touched)">
-                This filed is required</div>
+                This filed is required</div> 
+                </div>
+                
+               
+              </div>         
             </div>
+
+            <div *ngFor="let imageObj of editarray.Images; let isFirst = first" >
+              <div class="row div-align">
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-6 ">
+                <img [src]="getImageUrl(imageObj.photo)" alt="Image" width="100px" height="100px" margin="5px 5px">
+                <span *ngIf="isFirst" style="color: green; font-weight: bold; margin-left: 10px;">Primary Image</span>
+                </div>
+              
+                
+                <!-- Display the input field only for the primary image -->
+                <div class="col-md-6">
+                <ng-container *ngIf="isFirst">
+                 
+                  <input type="file" (change)="updatePrimaryImage(imageObj, $event.target.files[0])">
+                </ng-container>
+              </div>
+              </div>
+              </div>
+              <div class="col-md-6">
+                
+                <button class="btn btn-danger" (click)="removeImage(imageObj.photo)">Remove Image</button>
+              </div>
+              </div>
+            </div>
+                          
+                                                                                                                                                                                                                                                        
             <div class="row">
               <div class="col-6">
                 <button type="button" (click)="goBack()" class="btn btn-primary px-4">Back</button>
@@ -54,3 +92,6 @@
     </div>
   </div>
 </ng-template>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

@@ -9,9 +9,9 @@
 
 export const environment = {
 
-  apiURL: 'http://localhost/colorHuntApi/public/api',
-  UploadBaseURL : 'http://localhost/colorHuntApi/public/',
-  getuploadURL: 'http://localhost/colorHuntApi/public/uploads/', 
+  apiURL: 'http://localhost/colorhunt-backend/public/api',
+  UploadBaseURL : 'http://localhost/colorhunt-backend/public/',
+  getuploadURL: 'http://localhost/colorhunt-backend/public/uploads/', 
   corsEnabled: true,
 
 

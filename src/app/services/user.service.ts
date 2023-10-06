@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RequestOptions, ResponseContentType } from '@angular/http';
 import { environment } from '../../environments/environment';
+//added aditional code
+import { Observable } from 'rxjs';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json'
@@ -907,6 +909,17 @@ export class UserService {
   public articlephotos(formData: any) {
     return this.http.post(`${this.apiURL}/articlephotos`, formData);
   }
+  //added aditional code
+  deleteImage(imageUrl: string): Observable<any> {
+    const apiUrl = `${this.apiURL}/images/${encodeURIComponent(imageUrl)}`;
+    return this.http.delete<any>(apiUrl);
+  }
+
+
+  updatePrimaryImage(formData: FormData): Observable<any> {
+    const url = `${this.apiURL}/update-primary-image`; // Construct the API URL
+    return this.http.post(url, formData);
+  }
 
   public GetArticlePhotosList() {
     return this.http.get(`${this.apiURL}/getarticlephotoslist`);
@@ -932,10 +945,13 @@ export class UserService {
     return this.http.get(`${this.apiURL}/withoutopenflagarticallist`);
   }
 
-  public approvedarticallist() {
-    return this.http.get(`${this.apiURL}/approvedarticallist`);
-  }
-
+  // public approvedarticallist() {
+  //   return this.http.get(`${this.apiURL}/approvedarticallist`);
+  // }
+//added aditional code
+public approvedarticallist(id) {
+  return this.http.get(`${this.apiURL}/approvedarticallist/${id}`);
+}
 
 
   //Reports

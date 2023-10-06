@@ -261,7 +261,7 @@ export class ArticlephotosComponent implements OnInit {
 
   // Inside your component class
   getImageUrl(photoName: string): string {
-    const baseUrl = 'http://localhost/colorhunt-backend/public/uploads/'; // Replace with your actual base URL
+    const baseUrl = 'http://localhost/colorHuntApi/public/uploads/'; // Replace with your actual base URL
     return baseUrl + photoName;
   }
 

@@ -50,6 +50,7 @@ export class ApprovearticlelistComponent implements OnInit {
   ApproveArticleLogsData: any;
   constructor(private userService: UserService, public router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService,private http: HttpClient  ,private titleService: Title) {
     this.titleService.setTitle("Approved Article List | Colorhunt");
+    this.dtOptions = {} ;
   }
 
   ngOnInit() {
@@ -90,13 +91,13 @@ export class ApprovearticlelistComponent implements OnInit {
             dtInstance.destroy();
             this.approvalarticle = data;
             // Call the dtTrigger to rerender again
-            this.dtTrigger.complete();
+            this.dtTrigger.next();
             this.spinner.hide();
           });
       } else {
         setTimeout(() => {
           this.approvalarticle = data;
-          this.dtTrigger.complete();
+          this.dtTrigger.next();
           this.spinner.hide();
         }, 100);
 

@@ -6,6 +6,7 @@ import { ValidationService } from '../../services/config.service';
 import { UserService } from '../../services/user.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Title } from '@angular/platform-browser';
+import { environment } from '../../../environments/environment';
 
 
 @Component({
@@ -261,7 +262,7 @@ export class ArticlephotosComponent implements OnInit {
 
   // Inside your component class
   getImageUrl(photoName: string): string {
-    const baseUrl = 'http://localhost/colorHuntApi/public/uploads/'; // Replace with your actual base URL
+    const baseUrl = environment.getuploadURL; 
     return baseUrl + photoName;
   }
 

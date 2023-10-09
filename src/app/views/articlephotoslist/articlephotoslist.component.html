@@ -27,14 +27,18 @@
                   <td>{{val.ArticleNumber}}</td>
                   <td>
                     <ng-container *ngIf="val.Name != null; else defaultImage">
-                      <div *ngFor="let imageUrl of val.Name">
-                        <img width="100" height="100" [src]="imageUrl" alt="Article Photo">
+                      <div class="horizontal-images">
+                        <div *ngFor="let imageUrl of val.Name">
+                          <img width="100" height="100" [src]="imageUrl" alt="Article Photo">
+                        </div>
                       </div>
                     </ng-container>
                     <ng-template #defaultImage>
                       <img width="100" height="100" [src]="BaseURL + '/uploads/default-art-photo.png'" alt="Default Image">
                     </ng-template>
                   </td>
+                  
+                  
                   
                   <td>
                     <button type="button" *ngIf="UserRole==2" class="pull-left mr-1 btn btn-secondary"

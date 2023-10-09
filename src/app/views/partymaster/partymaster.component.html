@@ -26,16 +26,46 @@
                                     This filed is required</div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                         <!--adding aditional Code-->
+
+                         <div class="col-md-3">
+                            <!-- The main phone number field -->
                             <div class="form-group">
-                                <label for="city">Phone Number <span class="red">*</span></label>
-                                <input class="form-control" type="number" maxlength="10"
-                                     formControlName="PhoneNumber">
-                                <div class="w3-panel w3-red"
-                                    *ngIf="partyForm.controls.PhoneNumber.invalid && (partyForm.controls.PhoneNumber.dirty || partyForm.controls.PhoneNumber.touched)">
-                                    This filed is required</div>
+                              <label for="PhoneNumber">Phone Number <span class="red">*</span></label>
+                              <input class="form-control" type="text" pattern="^[0-9]{10}$"
+                                     (keydown)="onPhoneNumberKeyDown($event)"
+                                     formControlName="PhoneNumber" name="PhoneNumber">
+                              <div class="w3-panel w3-red"
+                                   *ngIf="partyForm.get('PhoneNumber').invalid && (partyForm.get('PhoneNumber').dirty || partyForm.get('PhoneNumber').touched)">
+                                Phone number should be exactly 10 digits long.
+                              </div>
                             </div>
-                        </div>
+                          
+                            <!-- The dynamic phone number fields -->
+                            <div formArrayName="phoneNumberControls">
+                              <div *ngFor="let control of phoneNumberControls.controls; let i = index" class="form-group">
+                                <label for="additionalPhoneNumber{{ i }}">Additional Phone Number <span class="red">*</span></label>
+                                <div class="input-group">
+                                  <input class="form-control" type="text" pattern="^[0-9]{10}$"
+                                         (keydown)="onPhoneNumberKeyDown($event)"
+                                         [formControl]="control" [attr.name]="'PhoneNumber' + i">
+                                  <div class="input-group-append">
+                                    <button class="btn btn-danger" type="button" (click)="removePhoneNumber(i)">
+                                      <i class="fa fa-trash"></i> Remove
+                                    </button>
+                                  </div>
+                                </div>
+                                <div class="w3-panel w3-red"
+                                     *ngIf="control.invalid && (control.dirty || control.touched)">
+                                  Phone number should be exactly 10 digits long.
+                                </div>
+                              </div>
+                            </div>
+                            <button class="btn btn-success" type="button" (click)="addPhoneNumberControl()">
+                              <i class="fa fa-plus"></i> Add Phone Number
+                            </button>
+                          </div>
+                          
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="city">Contact Person</label>

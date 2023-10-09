@@ -23,6 +23,7 @@ export class ArticlephotosComponent implements OnInit {
   size: any;
   width: number;
   height: number;
+  ss: any;
   selectedFile: any;
   editArticleId: any;
  // uploadedImages: { url: string, file: File }[] = [];
@@ -30,6 +31,8 @@ export class ArticlephotosComponent implements OnInit {
   //Images: []; // Initialize an empty array for holding image names
   Images: { photo: string }[] = [];
   errorexit: string = "";
+  selectedFileName: string;
+
   
 
   
@@ -179,6 +182,8 @@ export class ArticlephotosComponent implements OnInit {
 
         this.FileuploadformData.append("myfile[" + i + "]", event.target.files[i]);
       }
+      // Display the selected file name
+    this.selectedFileName = elem.files[0].name; 
     }
     elem.value = "";
   }
@@ -191,6 +196,7 @@ export class ArticlephotosComponent implements OnInit {
 
       //console.log('sdfsdf::::l',this.editArticleId, '"sdfsdfsdf:', this.route.snapshot.paramMap.get('id'))
       let item = JSON.parse(localStorage.getItem('userdata'));
+      //console.log('item',item)
       document.getElementById('submit-button').setAttribute('disabled' ,'true');
       this.FileuploadformData.append("ArticleId", this.route.snapshot.paramMap.get('id'));
       this.FileuploadformData.append("UserId", item[0].Id);
@@ -203,11 +209,13 @@ export class ArticlephotosComponent implements OnInit {
           this.spinner.hide();
           this.success(response);
           document.getElementById('submit-button').removeAttribute('disabled');
+          window.location.reload();
         });
     
     }else {
       
       let item = JSON.parse(localStorage.getItem('userdata'));
+      console.log('item',item)
       document.getElementById('submit-button').setAttribute('disabled' ,'true');
       this.FileuploadformData.append("ArticleId", this.articleimgForm.value.ArticleId.Id);
       this.FileuploadformData.append("UserId", item[0].Id);
@@ -216,23 +224,30 @@ export class ArticlephotosComponent implements OnInit {
       
       this.userService.articlephotos(this.FileuploadformData).subscribe( //line8
         (response) => {
+        
           //response code
           this.spinner.hide();
           this.success(response);
           document.getElementById('submit-button').removeAttribute('disabled');
+          var id = this.ss
+          this.router.navigate(['articlephotos', { id: id }]);
+          //window.location.reload();
         });
     
     }
   }
 
   
-
+  onChangeArticle(event){
+    console.log('event',event)
+    this.ss = event.Id
+  }
   // User Add success function
   success(data) {
     if (data && data.NoMatch === "true") {
       this.toastr.error('Image width and height not matched', 'Failed');
     } else if (data && data.result === "true") {
-      this.router.navigate(['/articlephotoslist']);
+     
       this.toastr.success('Article Photos Add Successfully', 'Success');
     } else if (data && data.imageRemoved === "true") {
       this.toastr.success('Image removed successfully', 'Success');

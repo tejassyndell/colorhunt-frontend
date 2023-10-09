@@ -15,7 +15,7 @@
           <div class="card-body">
             <div class="form-group col-md-6">
               <label for="vat">Article <span class="red">*</span></label>
-              <ng-select [clearable]="false" class="custom" [(ngModel)]="ArticleId" formControlName="ArticleId"
+              <ng-select [clearable]="false" class="custom" (ngModelChange)="onChangeArticle($event)" [(ngModel)]="ArticleId" formControlName="ArticleId"
                 [items]="articdropdown" bindLabel="ArticleNumber" placeholder="Select Article">
               </ng-select>
               <div class="w3-panel w3-red"
@@ -33,6 +33,11 @@
                 *ngIf="articleimgForm.controls.Image.invalid && (articleimgForm.controls.Image.dirty || articleimgForm.controls.Image.touched)">
                 This filed is required</div> 
                 </div>
+
+                <div *ngIf="selectedFileName">
+                  Selected File: {{ selectedFileName }}
+                </div>
+                
                 
                
               </div>         

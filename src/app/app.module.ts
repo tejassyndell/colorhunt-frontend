@@ -93,6 +93,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { ArticlecolorlistComponent } from './views/articlecolorlist/articlecolorlist.component';
 import { SizelistComponent } from './views/sizelist/sizelist.component';
 import { BrandlistComponent } from './views/brandlist/brandlist.component';
+//adding aditional code
+import { TransportationComponent } from './views/transportation/transportation.component';
+import { TransportationlistComponent } from './views/transportationlist/transportationlist.component';
 import { RackComponent } from './views/rack/rack.component';
 import { VendorlistComponent } from './views/vendorlist/vendorlist.component';
 import { OutwardlistComponent } from './views/outwardlist/outwardlist.component';
@@ -256,6 +259,9 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     ArticlecolorlistComponent,
     SizelistComponent,
     BrandlistComponent,
+     //adding aditional code
+     TransportationComponent,
+     TransportationlistComponent,
     RacklistComponent,
     RackComponent,
     VendorlistComponent,

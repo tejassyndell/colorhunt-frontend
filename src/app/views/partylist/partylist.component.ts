@@ -82,6 +82,19 @@ export class PartylistComponent implements OnInit {
 
   }
 
+  //adding aditional code
+
+  mergePhoneNumbers(val: any): string {
+    const phoneNumbers = [val.PhoneNumber]; // Add the main phone number
+
+    if (val.Aditional_phone_numbers) {
+      phoneNumbers.push(val.Aditional_phone_numbers); // Add the additional phone number if available
+    }
+
+    return phoneNumbers.join(', '); // Combine phone numbers with a comma
+  }
+
+
 
   public getParty() {
     const that = this;
@@ -108,7 +121,7 @@ export class PartylistComponent implements OnInit {
           });
         });
       },
-      columns: [{ data: 'No' }, { data: 'Name' }, { data: 'PhoneNumber' }, { data: 'ContactPerson' }, { data: 'State' }, { data: 'City' }, { data: 'PinCode' }, { data: 'Country' }, { data: 'GSTNumber' }, { data: 'UserName' }, { data: 'Source' }, { data: 'Action' }]
+      columns: [{ data: 'No' }, { data: 'Name' }, { data: 'PhoneNumber', render: (data, type, row) => this.mergePhoneNumbers(row)  }, { data: 'ContactPerson' }, { data: 'State' }, { data: 'City' }, { data: 'PinCode' }, { data: 'Country' }, { data: 'GSTNumber' }, { data: 'UserName' }, { data: 'Source' }, { data: 'Action' }]
     };
   }
 

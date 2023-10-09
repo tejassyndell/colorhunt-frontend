@@ -37,7 +37,9 @@
                                 <tr *ngFor="let val of partylist;let i = index">
                                     <td class="no-sort">{{startnumber + i + 1}}</td>
                                     <td>{{val.Name}}</td>
-                                    <td>{{val.PhoneNumber}}</td>
+                                     <!-- adding aditional code -->
+                                    <!-- Display merged phone numbers here -->
+                                    <td>{{ mergePhoneNumbers(val) }}</td> 
                                     <td>{{val.ContactPerson}}</td>
                                     <td>{{val.State}}</td>
                                     <td>{{val.City}}</td>

@@ -19,7 +19,7 @@ export class ArticlephotoslistComponent implements OnInit {
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtOptions: any;
-    dtTrigger: Subject<any> = new Subject<any>();
+  dtTrigger: Subject<any> = new Subject();
   BaseURL: any;
   isAdd: any;
   isDelete: any;
@@ -59,14 +59,14 @@ export class ArticlephotoslistComponent implements OnInit {
         pageLength: 25,
       };
       this.isList = 1;
-      this.getArticlePhotoList();
+      this. getarticlephotoslist();
     } else {
       this.spinner.hide();
     }
   }
 
-  public getArticlePhotoList() {
-    this.userService.GetArticlePhotosList().subscribe((res) => {
+  public  getarticlephotoslist() {
+    this.userService. GetArticlePhotosList().subscribe((res) => {
       const data = res;
       this.BaseURL = environment.UploadBaseURL;
       if (
@@ -78,18 +78,18 @@ export class ArticlephotoslistComponent implements OnInit {
           dtInstance.destroy();
           this.articlephotolist = data;
           // Call the dtTrigger to rerender again
-          this.dtTrigger.complete();
+          this.dtTrigger.next();
           this.spinner.hide();
         });
       } else {
         setTimeout(() => {
           this.articlephotolist = data;
-          this.dtTrigger.complete();
+          this.dtTrigger.next();
           this.spinner.hide();
         }, 100);
       }
 
-      // this.dtTrigger.complete();
+      // this.dtTrigger.next();
     });
   }
   rightscheck(data, no) {
@@ -136,9 +136,12 @@ export class ArticlephotoslistComponent implements OnInit {
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
   }
+  public edit(id) {
+    this.router.navigate(['articlephotos', { id: id }])
+  }
 
   public delete(id) {
-    // console.log("id", id);
+     console.log("id", id);
     let item = JSON.parse(localStorage.getItem("userdata"));
     Swal.fire({
       title: "Are you sure?",
@@ -150,7 +153,8 @@ export class ArticlephotoslistComponent implements OnInit {
     }).then((result) => {
       if (result.value == true) {
         this.userService.DeleteArticlePhoto(id, item[0].Id).subscribe((res) => {
-          this.getArticlePhotoList();
+          console.log('test11',res);
+          this. getarticlephotoslist();
           this.success(res);
         });
       } else {

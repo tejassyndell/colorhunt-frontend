@@ -87,8 +87,8 @@ export class PartylistComponent implements OnInit {
   mergePhoneNumbers(val: any): string {
     const phoneNumbers = [val.PhoneNumber]; // Add the main phone number
 
-    if (val.Aditional_phone_numbers) {
-      phoneNumbers.push(val.Aditional_phone_numbers); // Add the additional phone number if available
+    if (val.Additional_phone_numbers) {
+      phoneNumbers.push(val.Additional_phone_numbers); // Add the additional phone number if available
     }
 
     return phoneNumbers.join(', '); // Combine phone numbers with a comma

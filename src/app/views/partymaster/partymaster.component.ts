@@ -104,13 +104,13 @@ export class PartymasterComponent implements OnInit {
               SalesPerson: res[0].UserId,
               Source: res[0].Source,
               //added aditional code
-              Aditional_phone_numbers: res[0].Aditional_phone_numbers
+              Additional_phone_numbers: res[0].Additional_phone_numbers
             }
             this.partyForm.patchValue(this.editarray);
             //added aditional code
 
             // Fetch the additional phone numbers from the editarray object and add them to the form
-            const additionalPhoneNumbersString = this.editarray['Aditional_phone_numbers'];
+            const additionalPhoneNumbersString = this.editarray['Additional_phone_numbers'];
             this.additionalPhoneNumbers = this.parseAdditionalPhoneNumbers(additionalPhoneNumbersString);
 
             // Add the additional phone number controls to the form
@@ -198,7 +198,7 @@ export class PartymasterComponent implements OnInit {
         SalesPerson: this.partyForm.value.SalesPerson,
         Source: this.partyForm.value.Source,
         //added aditional code
-        Aditional_phone_numbers: additionalPhoneNumbersString,
+        Additional_phone_numbers: additionalPhoneNumbersString,
         
       };
 
@@ -227,7 +227,7 @@ export class PartymasterComponent implements OnInit {
         SalesPerson: this.partyForm.value.SalesPerson,
         Source: this.partyForm.value.Source,
         //added aditional code
-        Aditional_phone_numbers: additionalPhoneNumbersString,
+        Additional_phone_numbers: additionalPhoneNumbersString,
 
 
       };

@@ -13,7 +13,6 @@ import { Title } from '@angular/platform-browser';
 import { start } from 'repl';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { Console } from 'console';
 
 class Person {
   Id: number;
@@ -42,10 +41,8 @@ class DataTablesResponse {
   styleUrls: ['./stocktransfer.component.scss']
 })
 export class StocktransferComponent implements OnInit {
-
   ApiURL: string = environment.apiURL;
   public startnumber: any;
-
   @ViewChild("myInputBox") myInputBox: ElementRef;
   public colordropdown: any = [];
   public sizedropdown: any = [];
@@ -307,7 +304,6 @@ export class StocktransferComponent implements OnInit {
   }
 
   onChangeTranferType(event) {
-    console.log('Exat value:',event.target.value)
     this.resetdataall()
     if (event.target.value == 2) {
       this.stocktransferflag = false;
@@ -414,11 +410,13 @@ export class StocktransferComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.dtTrigger.complete();
+    this.dtTrigger.next();
+    //  this.dtTrigger.complete();  
   }
     ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
+    // this.dtTrigger2.unsubscribe();
     }
 
 
@@ -888,6 +886,7 @@ export class StocktransferComponent implements OnInit {
 
   getOWList(STNO) {
 
+  
     if (this.accessdenied == false) {
       setTimeout(() => this.spinner.show(), 25);
       //add new call
@@ -942,98 +941,34 @@ export class StocktransferComponent implements OnInit {
 
 
   
-
-    // this.userService.stocktransferlistfromstno(STNO).subscribe((res) => {
-    //   const data = res;
-
-    //   if (typeof this.dtElement !== 'undefined' && typeof this.dtElement.dtInstance !== 'undefined') {
-    //     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-    //       // Destroy the table first
-    //       dtInstance.destroy();
-    //       this.stocktransferlist = data;
-    //       // Call the dtTrigger to rerender again
-    //       this.dtTrigger.complete();
-    //       this.spinner.hide();
-    //     });
-    //   } else {
-    //     setTimeout(() => {
-    //       this.stocktransferlist = data;
-    //       this.dtTrigger.complete();
-    //       this.spinner.hide();
-    //     }, 100);
-
-    //   }
-
-    // }, (errror => {
-    //   this.spinner.hide();
-    //   console.log(errror);
-    // }));
   }
 
   getshortage() {
-    console.log('DDDDSHORTGE')
     let STNO = this.route.snapshot.paramMap.get('STNO');
-    if (this.accessdenied == false) {
-      setTimeout(() => this.spinner.show(), 25);
-      //add new call
-      const that = this;
-      this.dtOptions = {
-        serverSide: true,
-        processing: true,
-        columnDefs: [{
-          "targets": 'no-sort',
-          "orderable": false,
-        }], "order": [[1,"desc"]],
+    this.userService.stockshortagelistfromstno(STNO).subscribe((res) => {
+      const data = res;
+      if (typeof this.dtElement2 !== 'undefined' && typeof this.dtElement2.dtInstance !== 'undefined') {
+        this.dtElement2.dtInstance.then((dtInstance2: DataTables.Api) => {
+          // Destroy the table first
+          dtInstance2.destroy();
+          this.shortagetransferlist = data;
+          // Call the dtTrigger to rerender again
+          this.dtTrigger.next();         
+           this.spinner.hide();
+        });
+      } else {
+        setTimeout(() => {
+          this.shortagetransferlist = data;
+          this.dtTrigger.next();
+          this.spinner.hide();
+        }, 100);
 
-        ajax: (dataTablesParameters: any, callback) => {
-          that.http.post<DataTablesResponse>(
-              this.ApiURL+`/stockshortagelistfromstno/${STNO}`,
-              dataTablesParameters, {}
-            ).subscribe(resp => {
-              that.shortagetransferlist = resp.data;
-              console.log('sadsad', resp.data)
-              that.startnumber = resp.startnumber;
-              this.spinner.hide();
-              callback({
-                recordsTotal: resp.recordsTotal,
-                recordsFiltered: resp.recordsFiltered,
-                data: []
-              });
-            });
-        },
-        columns: [{ data: 'No' }, { data: 'Name' },{ data: 'ArticleNumber' }, { data: 'ReturnNoPacks' },{data:'CreatedDate' },{ data: 'Action' }]
+      }
 
-        // columns: [{ data: 'No' }, { data: 'GRN' },{ data: 'VendorName' }, { data: 'ArticleNumber' },{data:'Category' },{data:'Pieces' },{data:'CreatedDate' },{ data: 'Action' }]
-      };
-      //end
-
-    } else {
+    }, (errror => {
       this.spinner.hide();
-    }
-    // this.userService.stockshortagelistfromstno(STNO).subscribe((res) => {
-    //   const data = res;
-    //   if (typeof this.dtElement2 !== 'undefined' && typeof this.dtElement2.dtInstance !== 'undefined') {
-    //     this.dtElement2.dtInstance.then((dtInstance2: DataTables.Api) => {
-    //       // Destroy the table first
-    //       dtInstance2.destroy();
-    //       this.shortagetransferlist = data;
-    //       // Call the dtTrigger to rerender again
-    //       this.dtTrigger.complete();         
-    //        this.spinner.hide();
-    //     });
-    //   } else {
-    //     setTimeout(() => {
-    //       this.shortagetransferlist = data;
-    //       this.dtTrigger.complete();
-    //       this.spinner.hide();
-    //     }, 100);
-
-    //   }
-
-    // }, (errror => {
-    //   this.spinner.hide();
-    //   console.log(errror);
-    // }));
+      console.log(errror);
+    }));
   }
 
   TotalQualityPeace() {
@@ -1051,7 +986,7 @@ export class StocktransferComponent implements OnInit {
         }
 
         this.noofpackcount = true;
-        console.log('yashvi',this.totalQuantity);
+        // alert(this.totalQuantity);
 
         $(".totalquality").text(this.totalQuantity);
 

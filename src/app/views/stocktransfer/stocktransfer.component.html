@@ -522,12 +522,12 @@
   </div>
 
   <div [ngClass]="(stocktransferflag==true)?'show':'hide'">
-    <table datatable [dtOptions]="dtOptions" class="row-border hover" width="100%">
+    <table datatable [dtOptions]="dtOptions" #myTable class="row-border hover" width="100%">
       <thead class="thead-dark">
         <tr>
           <th>No</th>
           <th>Consumed Article No</th>
-          <td>Concumed Article Category</td>
+          <td>Consumed Article Category</td>
           <th>Consumed No Packs</th>
           <th>Transfer Article No</th>
           <th>Transfer Category</th>

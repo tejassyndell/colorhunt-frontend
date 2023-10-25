@@ -9,17 +9,10 @@
 
 export const environment = {
 
-<<<<<<< Updated upstream
     apiURL: 'http://localhost/colorHuntApi/public/api',
     UploadBaseURL : 'http://localhost/colorHuntApi/public/',
     getuploadURL: 'http://localhost/colorHuntApi/public/uploads/', 
     corsEnabled: true,
-=======
-  apiURL: 'http://localhost/colorHuntApi/public/api',
-  UploadBaseURL : 'http://localhost/colorHuntApi/public/',
-  getuploadURL: 'http://localhost/colorHuntApi/public/uploads/', 
-  corsEnabled: true,
->>>>>>> Stashed changes
 
 
   // apiURL: 'https://webportalstaging.colorhunt.in/colorHuntApiStaging/public/api',

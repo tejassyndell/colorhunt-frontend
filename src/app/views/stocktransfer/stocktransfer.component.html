@@ -183,7 +183,7 @@
                                 <div class="row">
                                   <div class="col-md-6 pr-1">
                                     <input class="form-control" id="qtd_{{val.Id}}" min="0" type="number"
-                                      (keypress)="restrictNumeric($event)" disabled="Disabled"
+                                      (keypress)="restrictNumeric($event)" readonly
                                       formControlName="NoPacks_{{val.Id}}">
                                   </div>
                                   <div class="col-md-6 pl-1">
@@ -202,7 +202,7 @@
                                   <div class="row">
                                     <div class="col-md-6 pr-1">
                                       <input class="form-control" min="0" type="number"
-                                        (keypress)="restrictNumeric($event)" disabled="Disabled" [(ngModel)]="NoPacks"
+                                        (keypress)="restrictNumeric($event)" readonly [(ngModel)]="NoPacks"
                                         formControlName="NoPacks">
                                     </div>
                                     <div class="col-md-6 pl-1">
@@ -318,7 +318,7 @@
                                 <div class="row">
                                   <div class="col-md-6 pr-1">
                                     <input class="form-control" id="qtd_{{val.Id}}" min="0" type="number"
-                                      (keypress)="restrictNumeric($event)" disabled="Disabled"
+                                      (keypress)="restrictNumeric($event)" readonly
                                       formControlName="ProductionNoPacks_{{val.Id}}">
                                   </div>
                                   <div class="col-md-6 pl-1">
@@ -337,7 +337,7 @@
                                   <div class="row">
                                     <div class="col-md-6 pr-1">
                                       <input class="form-control" min="0" type="number"
-                                        (keypress)="restrictNumeric($event)" disabled="Disabled"
+                                        (keypress)="restrictNumeric($event)" readonly
                                         [(ngModel)]="ProductionNoPacks" formControlName="ProductionNoPacks">
                                     </div>
                                     <div class="col-md-6 pl-1">
@@ -450,7 +450,7 @@
                                 <div class="row">
                                   <div class="col-md-6 pr-1">
                                     <input class="form-control" id="qtd_{{val.Id}}" min="0" type="number"
-                                      (keypress)="restrictNumeric($event)" disabled="Disabled"
+                                      (keypress)="restrictNumeric($event)" readonly
                                       formControlName="NoPacks_{{val.Id}}">
                                   </div>
                                   <div class="col-md-6 pl-1">
@@ -469,7 +469,7 @@
                                   <div class="row">
                                     <div class="col-md-6 pr-1">
                                       <input class="form-control" min="0" type="number"
-                                        (keypress)="restrictNumeric($event)" disabled="Disabled" [(ngModel)]="NoPacks"
+                                        (keypress)="restrictNumeric($event)" readonly [(ngModel)]="NoPacks"
                                         formControlName="NoPacks">
                                     </div>
                                     <div class="col-md-6 pl-1">
@@ -522,12 +522,12 @@
   </div>
 
   <div [ngClass]="(stocktransferflag==true)?'show':'hide'">
-    <table datatable [dtOptions]="dtOptions" class="row-border hover" width="100%">
+    <table datatable [dtOptions]="dtOptions" #myTable class="row-border hover" width="100%">
       <thead class="thead-dark">
         <tr>
           <th>No</th>
           <th>Consumed Article No</th>
-          <td>Concumed Article Category</td>
+          <td>Consumed Article Category</td>
           <th>Consumed No Packs</th>
           <th>Transfer Article No</th>
           <th>Transfer Category</th>

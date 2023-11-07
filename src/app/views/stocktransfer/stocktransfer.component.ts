@@ -12,6 +12,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Title } from '@angular/platform-browser';
 import { start } from 'repl';
 import { HttpClient } from '@angular/common/http';
+import { Location } from '@angular/common';
 import { environment } from '../../../environments/environment';
 
 class Person {
@@ -43,7 +44,8 @@ class DataTablesResponse {
 export class StocktransferComponent implements OnInit {
   ApiURL: string = environment.apiURL;
   public startnumber: any;
-  @ViewChild("myInputBox") myInputBox: ElementRef;
+  @ViewChild(DataTableDirective, { static: false }) datatableElement: DataTableDirective;
+
   public colordropdown: any = [];
   public sizedropdown: any = [];
   public ratiodropdown: any = [];
@@ -53,7 +55,6 @@ export class StocktransferComponent implements OnInit {
   public stocktransferlist: any = [];
   accessdenied: boolean = true;
   //Table1
-  @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtOptions: any;
     dtTrigger: Subject<any> = new Subject<any>();
@@ -152,7 +153,7 @@ export class StocktransferComponent implements OnInit {
 
   ProArticleNumber: any;
   //statusdispaly:boolean=false;
-  constructor( private http: HttpClient, private el: ElementRef, private formBuilder: FormBuilder, private router: Router, private userService: UserService, private toastr: ToastrService, private route: ActivatedRoute, private spinner: NgxSpinnerService, private titleService: Title) {
+  constructor( private http: HttpClient, private el: ElementRef, private formBuilder: FormBuilder, private router: Router, private userService: UserService, private toastr: ToastrService, private route: ActivatedRoute, private spinner: NgxSpinnerService,private location: Location, private titleService: Title) {
     this.titleService.setTitle("Add Stock Transfer | Colorhunt");
     this.stocktransfer = this.formBuilder.group({
       StocktransferNumberId: [''],
@@ -337,6 +338,13 @@ export class StocktransferComponent implements OnInit {
 //end
 
 
+refreshTable() {
+  console.log('REFRESHING...')
+  
+  this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
+    dtInstance.draw();
+  });
+}
 
   resetdataall() {
     if (this.ArticleSelectedColor.length > 0) {
@@ -877,11 +885,14 @@ export class StocktransferComponent implements OnInit {
             this.formrestvalue();
 
           }
+          console.log('Delete!')
+          this.refreshTable();
         });
       } else {
 
       }
     });
+
   }
 
   getOWList(STNO) {
@@ -1044,6 +1055,7 @@ export class StocktransferComponent implements OnInit {
 
   // Initicate user add
   doStocktransfer() {
+   
     {
       document.getElementById('submit-button').setAttribute('disabled', 'true');
       this.spinner.show();
@@ -1139,12 +1151,20 @@ export class StocktransferComponent implements OnInit {
                     this.spinner.hide();
                     this.success(userdata, 1);
 
+                    // this.router.navigate(['/stocktransfer', { STNO: this.route.snapshot.paramMap.get('STNO') }]);
+                    console.log('ADDED@!!', this.route.snapshot.paramMap.get('STNO'))
+                    // window.location.reload();
+               
+          
+                    
                     document.getElementById('submit-button').removeAttribute('disabled');
                   }
                 );
                 this.spinner.hide();
                 document.getElementById('submit-button').removeAttribute('disabled');
                 // this.toastr.error('Sucess', 'OK');
+
+              
               } else {
                 this.spinner.hide();
                 document.getElementById('submit-button').removeAttribute('disabled');
@@ -1169,6 +1189,13 @@ export class StocktransferComponent implements OnInit {
               userdata => {
                 this.spinner.hide();
                 this.success(userdata, 1);
+
+              // this.router.navigate(['/stocktransfer', { STNO: this.route.snapshot.paramMap.get('STNO') }]);
+              console.log('ADDED@!!', this.route.snapshot.paramMap.get('STNO'))
+
+                // window.location.reload();
+      
+                
                 document.getElementById('submit-button').removeAttribute('disabled');
               }
             );
@@ -1179,13 +1206,12 @@ export class StocktransferComponent implements OnInit {
             this.toastr.error('Failed', 'No of piecesis is zero,Please add the No of pieces');
             document.getElementById('submit-button').removeAttribute('disabled');
           }
-
+       
         }
         // this.spinner.hide();
       }
-
     }
-
+    
   }
   // User Add success function
   success(data, flag) {
@@ -1202,7 +1228,16 @@ export class StocktransferComponent implements OnInit {
         this.DropdownSO = false;
       }
       this.StocktransferOrderLabel = true;
-      this.router.navigate(['/stocktransfer', { STNO: stnumberId }]);
+
+      this.router.navigate(['/stocktransfer', { STNO: stnumberId }], {
+        queryParamsHandling: 'preserve'
+      }).then(() => {
+        window.location.reload();
+      });
+      
+      console.log('fff', stnumberId)
+      // window.location.reload();
+
       if (this.stocktransferflag == true) {
         this.getOWList(stnumberId);
       } else {
@@ -1220,6 +1255,8 @@ export class StocktransferComponent implements OnInit {
     } else {
       this.toastr.error('Failed', 'Please try agin later');
     }
+    this.refreshTable();
+
   }
 
   error() {
@@ -1379,6 +1416,7 @@ export class StocktransferComponent implements OnInit {
       this.productionarticalData = false;
       this.formrestvalue();
     }
+    this.refreshTable();
   }
 }
 

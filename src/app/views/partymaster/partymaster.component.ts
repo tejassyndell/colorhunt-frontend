@@ -6,6 +6,16 @@ import { ValidationService } from '../../services/config.service';
 import { UserService } from '../../services/user.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Title } from '@angular/platform-browser';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+
+export const atLeastOneFieldValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  const gstNumber = control.get('GSTNumber').value;
+  const panNumber = control.get('PanNumber').value;
+
+  return gstNumber || panNumber ? null : { atLeastOneFieldRequired: true };
+};
+
+
 
 @Component({
   selector: 'app-partymaster',
@@ -44,7 +54,8 @@ export class PartymasterComponent implements OnInit {
       City: ['', [Validators.required]],
       PinCode: ['', [Validators.required]],
       Country: ['', [Validators.required]],
-      GSTNumber: ['', [Validators.required]],
+      GSTNumber: ['', ],
+      PanNumber: ['', ],
       GSTType: ['GST'],
       Discount: ['0', [Validators.min(0), Validators.max(100)]],
       OutletArticleRate: [''],
@@ -53,7 +64,10 @@ export class PartymasterComponent implements OnInit {
       Source: ['', [Validators.required]],
       // added aditional code
       phoneNumberControls: this.formBuilder.array([]),
-    });
+      
+      
+    },
+    { validator: atLeastOneFieldValidator });
   }
 
   ngOnInit() {
@@ -97,6 +111,7 @@ export class PartymasterComponent implements OnInit {
               PinCode: res[0].PinCode,
               Country: res[0].Country,
               GSTNumber: res[0].GSTNumber,
+              PanNumber: res[0].PanNumber,
               GSTType: res[0].GSTType,
               Discount: res[0].Discount,
               OutletAssign: res[0].OutletAssign,
@@ -192,6 +207,7 @@ export class PartymasterComponent implements OnInit {
         PinCode: this.partyForm.value.PinCode,
         Country: this.partyForm.value.Country,
         GSTNumber: this.partyForm.value.GSTNumber,
+        PanNumber: this.partyForm.value.PanNumber,
         GSTType: this.partyForm.value.GSTType,
         Discount: this.partyForm.value.Discount,
         OutletArticleRate: this.partyForm.value.OutletArticleRate,
@@ -221,6 +237,7 @@ export class PartymasterComponent implements OnInit {
         PinCode: this.partyForm.value.PinCode,
         Country: this.partyForm.value.Country,
         GSTNumber: this.partyForm.value.GSTNumber,
+        PanNumber: this.partyForm.value.PanNumber,
         GSTType: this.partyForm.value.GSTType,
         Discount: this.partyForm.value.Discount,
         OutletArticleRate: this.partyForm.value.OutletArticleRate,

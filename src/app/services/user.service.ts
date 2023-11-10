@@ -145,6 +145,10 @@ export class UserService {
   public deletecategory(id) {
     return this.http.delete(`${this.apiURL}/deletecategory/${id}`);
   }
+  public updatecategorystatus(catid) {
+    return this.http.get(`${this.apiURL}/updatecategorystatus/${catid}`);
+  }
+
 
 
   //SubCategory API

@@ -149,6 +149,24 @@ export class UserService {
     return this.http.get(`${this.apiURL}/updatecategorystatus/${catid}`);
   }
 
+  //Beaner API
+  public doBeaner(data) {
+    return this.http.post(`${this.apiURL}/addbeaner`, data);
+  }
+  public updateBeaner(catlist: any) {
+    return this.http.post(`${this.apiURL}/updatebeaner`, catlist);
+  }
+  public Beanerlist() {
+    return this.http.get(`${this.apiURL}/beanarlist`);
+  }
+  public getBeaneridwise(id) {
+    return this.http.get(`${this.apiURL}/getbeaneridwise/${id}`);
+  }
+  public deleteBeaner(id) {
+    return this.http.delete(`${this.apiURL}/deletebeaner/${id}`);
+  }
+  
+
 
 
   //SubCategory API

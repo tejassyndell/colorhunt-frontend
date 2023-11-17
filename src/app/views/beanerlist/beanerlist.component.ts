@@ -44,6 +44,7 @@ export class  BeanerlistComponent  implements OnInit {
   isAdd: any;
   isEdit: any;
   isDelete: any;
+  BaseURL: any;
   isList: any;
   accessdenied: boolean = true;
   constructor(private userService: UserService, public router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService, private http: HttpClient,private titleService: Title) {
@@ -51,7 +52,7 @@ export class  BeanerlistComponent  implements OnInit {
   }
 
   ngOnInit() {
-
+    this.BaseURL = environment.UploadBaseURL;
     let item = JSON.parse(localStorage.getItem('userdata'));
     let rolerights = JSON.parse(localStorage.getItem('roleright'));
     if (rolerights != "" && rolerights != null && rolerights != undefined) {
@@ -109,6 +110,7 @@ export class  BeanerlistComponent  implements OnInit {
           dataTablesParameters, {}
         ).subscribe(resp => {
           that.beanerlist = resp.data;
+          console.log(' that.beanerlist', resp.data);
           that.startnumber = resp.startnumber;
           this.spinner.hide();
           callback({
@@ -195,7 +197,7 @@ export class  BeanerlistComponent  implements OnInit {
       cancelButtonText: 'No, keep it'
     }).then((result) => {
       if (result.value == true) {
-        this.userService.deletetransportation(id).subscribe((res) => {
+        this.userService.deleteBeaner(id).subscribe((res) => {
          this.dtElement.dtInstance.then
           ((dtInstance: DataTables.Api) => dtInstance.ajax.reload()
          );
@@ -209,7 +211,7 @@ export class  BeanerlistComponent  implements OnInit {
   }
 
   public edit(id) {
-    this.router.navigate(['transportation', { id: id }])
+    this.router.navigate(['beaner', { id: id }])
   }
 
   success(data) {

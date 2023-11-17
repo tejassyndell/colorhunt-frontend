@@ -473,6 +473,10 @@ export class UserService {
   public updatepartystatus(partyid) {
     return this.http.get(`${this.apiURL}/updatepartystatus/${partyid}`);
   }
+  public Gstnumber(gstNumber) {
+    return this.http.get(`${this.apiURL}/gstin-verification/${gstNumber}`);
+  }
+
 
   // Code Added By Kts
   public getgeoofparties() {

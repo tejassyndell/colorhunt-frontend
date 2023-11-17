@@ -23,7 +23,7 @@
                                     <th>Article Autogenerate</th>
                                     <th>Category wise Individual Series</th>
                                     <th class="no-sort">Image</th>
-                                    <th>Status</th>
+                                    <th>Mobile App Status</th>
 
                                     <th class="no-sort">Action</th>
                                 </tr>
@@ -41,10 +41,10 @@
                                     <td *ngIf="val.ArticleAutoGenerate==0">No</td>
                                     <td *ngIf="val.ArticleSeriesAuto==1">Yes</td>
                                     <td *ngIf="val.ArticleSeriesAuto==0">No</td>
-                                    <td><img width="100" height="100" onError="this.src='assets/img/noimage.png';" src="{{BaseURL}}uploads/{{val.Image}}"></td>
+                                    <td><img width="100" height="100" onError="this.src='assets/img/noimage.png';" src="{{BaseURL}}uploads/{{val.image}}"></td>
                                     <td>
                                         <label class="switch">
-                                          <input (change)="changecatStatus(val.Id)" value="{{ val.Status }}" [checked]="val.Status==1" type="checkbox">
+                                          <input (change)="changecatStatus(val.Id)" value="{{ val.Mobileapp_status }}" [checked]="val.Mobileapp_status==1" type="checkbox">
                                           <span class="slider round"> </span>
                                         </label>
                                       </td>

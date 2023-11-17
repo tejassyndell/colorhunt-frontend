@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { RouterModule, Routes, Router, ActivatedRoute } from '@angular/router';
@@ -42,7 +43,7 @@ export class PartymasterComponent implements OnInit {
   outletDisable: boolean = false;
   //added aditional code
   additionalPhoneNumbers: string[] = [];
-  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService, private toastr: ToastrService, private route: ActivatedRoute, private spinner: NgxSpinnerService, private titleService: Title) {
+  constructor(private formBuilder: FormBuilder,private http: HttpClient, private router: Router, private userService: UserService, private toastr: ToastrService, private route: ActivatedRoute, private spinner: NgxSpinnerService, private titleService: Title) {
     this.titleService.setTitle("Add Party | Colorhunt");
 
     this.partyForm = this.formBuilder.group({
@@ -351,5 +352,61 @@ export class PartymasterComponent implements OnInit {
   goBack() {
     window.history.back();
   }
+
+  onTab(event: KeyboardEvent) {
+    if (event.key === 'Tab') {
+      const gstNumberControl = this.partyForm.get('GSTNumber');
+  
+      if (gstNumberControl && gstNumberControl.valid) {
+        const editObject = { GSTNumber: gstNumberControl.value };
+  
+        this.userService.Gstnumber(editObject.GSTNumber).subscribe(
+          (userData: any) => {
+            console.log('userData', userData);
+  
+            if (
+              userData &&
+              userData.trade_name &&
+              userData.legal_business_name &&
+              userData.principal_place_of_business
+            ) {
+              this.partyForm.patchValue({
+                Name: userData.trade_name,
+                ContactPerson: userData.legal_business_name,
+                Address: userData.principal_place_of_business
+              });
+  
+              // Extract pincode from 'principal_place_of_business' and fill 'Pincode' input field
+              const principalPlaceOfBusiness = userData.principal_place_of_business;
+              const pincodeRegex = /\b\d{6}\b/g; // Assuming pincode is a 6-digit number
+              const pincodeMatches = principalPlaceOfBusiness.match(pincodeRegex);
+             
+              if (pincodeMatches && pincodeMatches.length > 0) {
+                const extractedPincode = pincodeMatches[0]; // Extracted pincode
+                console.log(' extractedPincode', extractedPincode);
+                this.partyForm.patchValue({
+                  PinCode: extractedPincode
+                  
+                });
+              }
+            }
+          },
+          (error) => {
+            console.error('API Error:', error);
+           
+            // Handle error scenario
+            this.partyForm.get('Name').reset();
+            this.partyForm.get('ContactPerson').reset();
+            this.partyForm.get('Address').reset();
+            this.partyForm.get('PinCode').reset();
+  
+            // Display an error message in the form for an invalid GST number
+            this.partyForm.get('GSTNumber')?.setErrors({ invalidGST: true });
+          }
+        );
+      } 
+    }
+  }
+  
 
 }

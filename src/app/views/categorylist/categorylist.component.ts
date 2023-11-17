@@ -214,9 +214,9 @@ export class CategorylistComponent implements OnInit {
       console.log('hello mama',res);
 
       if (res['status'] === 'Active') {
-        this.toastr.success('Activated', `${res['category'].Name} is active now`);
+        this.toastr.success('Activated', `${res['Party'].Title} is active now`);
       } else {
-        this.toastr.error('Deactivated', `${res['category'].Name} is deactive now`);
+        this.toastr.error('Deactivated', `${res['Party'].Title} is deactive now`);
       }
     });
   }

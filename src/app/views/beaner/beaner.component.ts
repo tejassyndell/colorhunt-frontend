@@ -15,7 +15,7 @@ export class BeanerComponent implements OnInit {
   public colorflag: boolean = false;
   public articleopenFlag : boolean = false;
   public editarray = {};
-  beanerForm: FormGroup;
+  BeanerForm: FormGroup;
   errorexit: string = "";
   POIDCheck: any;
   BANERPAGE: any;
@@ -25,17 +25,21 @@ export class BeanerComponent implements OnInit {
   isEdit: any;
   isDelete: any;
   FileuploadformData: any;
-  hdnImg: any;
+  hdnImg: string = '';
   ArticleAutoGenerate: number = 0;
   ArticleSeriesAuto: number = 0;
   ArticleSeriesAutoFlag: boolean = false;
   constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService, private toastr: ToastrService, private route: ActivatedRoute, private spinner: NgxSpinnerService  ,private titleService: Title) {
     this.titleService.setTitle("Add Beaner | Colorhunt");
-    this.beanerForm = this.formBuilder.group({
-      
-      Image: ['']
-     
+    this.BeanerForm = this.formBuilder.group({
+      image: this.route.snapshot.paramMap.has('id') 
+        ? [null] // For edit mode
+        : [null, [Validators.required]] // For add mode with required validation
     });
+    
+    
+   // Set a default value for hdnImg
+   this.hdnImg = '';
   }
 
   ngOnInit() {
@@ -54,46 +58,32 @@ export class BeanerComponent implements OnInit {
       let data = this.route.snapshot.paramMap.get('id');
       if (this.route.snapshot.paramMap.get('id')) {
         this.BANERPAGE = "Edit";
-        this.beanerForm.controls["ArticleOpenFlag"].disable();
+       
         this.userService.getBeaneridwise(data).subscribe((res) => {
+          console.log('res',res);
            if (res != "") {
 
-            if (res[0].Image) {
-              this.hdnImg = res[0].Image
+            if (res[0].image) {
+              this.hdnImg = res[0].image
             }
+            console.log('this.hdnImg',this.hdnImg);  
+            console.log('Existing Image Name:', res[0].image);
 
-            if (Number(res[0].Colorflag) == 1) {
-              this.colorflag = true
-            } else {
-              this.colorflag = false
-            }
 
-            if (Number(res[0].ArticleOpenFlag) == 1) {
-              this.articleopenFlag = true
-            } else {
-              this.articleopenFlag = false
-            }
-
-            if (Number(res[0].ArticleAutoGenerate) == 1) {
-              this.ArticleSeriesAutoFlag = true;
-            } else {
-              this.ArticleSeriesAutoFlag = false;
-            }
-
-            this.ArticleSeriesAuto = res[0].ArticleSeriesAuto;
+            
             this.editarray = {
               
-              hdnImg: res[0].Image
+              hdnImg: res[0].image
              
             }
+            this.BeanerForm.patchValue({
+              image: res[0].image
+              // Add other fields here and update the form controls accordingly
+            });
+            console.log(' Image :', res[0].image);
 
-
-            if (res[0].POID == "1") {
-              this.beanerForm.controls["Colorflag"].disable();
-            } else {
-              this.beanerForm.controls["Colorflag"].enable();
-            }
-            this.beanerForm.patchValue(this.editarray);
+            this.BeanerForm.patchValue(this.editarray);
+            
           }
         });
       }
@@ -109,26 +99,41 @@ export class BeanerComponent implements OnInit {
       for (var i = 0; i < event.target.files.length; i++) {
         this.FileuploadformData.append("myfile[" + i + "]", event.target.files[i]);
       }
+      // Update hdnImg based on the first file (you might need to adjust this based on your requirements)
+      this.hdnImg = event.target.files[0].name;
+      
+      console.log('this.hdnImg', this.hdnImg);
+      console.log('Selected files:', event.target.files);
+      console.log('Updated this.hdnImg:', this.hdnImg);
     }
     elem.value = "";
   }
   // Initicate user add
-  docategory() {
+  doBeaner() {
     this.spinner.show();
+    //console.log('FileuploadformData:', this.FileuploadformData);
+
     document.getElementById('submit-button').setAttribute('disabled' ,'true');
     if (this.route.snapshot.paramMap.get('id')) {
 
       this.FileuploadformData.append("id", this.route.snapshot.paramMap.get('id'));
       
-      this.FileuploadformData.append("hdnImg", this.hdnImg);
+     // Check if this.hdnImg is defined before appending it to FormData
+    if (this.hdnImg !== undefined) {
+      this.FileuploadformData.append("image", this.hdnImg);
+    }
       
       this.spinner.hide();
       this.userService.updateBeaner(this.FileuploadformData).subscribe(
+        
         userdata => {
+
           document.getElementById('submit-button').removeAttribute('disabled');
+          console.log('FileuploadformData:', this.FileuploadformData);
+
           this.spinner.hide();
           if (userdata == "allreadyexits") {
-            this.errorexit = "Category already exists";
+            this.errorexit = "beaner already exists";
           } else {
             this.errorexit = "";
             this.success(userdata);
@@ -137,15 +142,20 @@ export class BeanerComponent implements OnInit {
       );
     } else {
 
-      this.FileuploadformData.append("hdnImg", "");
+     // Check if this.hdnImg is defined before appending it to FormData
+    if (this.hdnImg !== undefined) {
+      this.FileuploadformData.append("image", this.hdnImg);
+    }
  
       this.spinner.hide();
+      console.log('this.hdnImg',this.hdnImg); 
       this.userService.doBeaner(this.FileuploadformData).subscribe(
         userdata => {
+           
           document.getElementById('submit-button').removeAttribute('disabled');
           this.spinner.hide();
           if (userdata == "allreadyexits") {
-            this.errorexit = "Category already exists";
+            this.errorexit = "beaner already exists";
           } else {
             this.errorexit = "";
             this.success(userdata);
@@ -160,8 +170,8 @@ export class BeanerComponent implements OnInit {
   // User Add success function
   success(data) {
     if (data.id != "") {
-      this.router.navigate(['/categorylist']);
-      this.toastr.success('Success', 'Category Add Successfully');
+      this.router.navigate(['/beanerlist']);
+      this.toastr.success('Success', 'beaner Add Successfully');
     } else {
       this.toastr.error('Failed', 'Please try agin later');
     }

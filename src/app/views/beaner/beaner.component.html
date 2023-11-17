@@ -10,11 +10,23 @@
                     <div class="card-body">
                         
                         <div class="form-group">
-                            <input type="file" formControlName="Image" id="file" multiple (change)="uploadFile($event)">
-
-                            <div class="w3-panel w3-red" *ngIf="BeanerForm.controls.Image.invalid && (BeanerForm.controls.Image.dirty || BeanerForm.controls.Image.touched)">
-                                This filed is required</div>
-                        </div>
+                            <input type="file" formControlName="image" id="file" multiple (change)="uploadFile($event)">
+                            
+                            <!-- Display selected image name in add view -->
+                            <div *ngIf="BeanerForm.controls.image.value && BANERPAGE === 'Add'">
+                              Selected Image Name: {{ BeanerForm.controls.image.value }}
+                            </div>
+                          
+                            <!-- Display existing image name in edit view -->
+                            <div *ngIf="BeanerForm.controls.image.value && BANERPAGE === 'Edit'">
+                              Existing Image Name: {{ BeanerForm.controls.image.value }}
+                            </div>
+                            
+                            <div class="w3-panel w3-red" *ngIf="BeanerForm.controls.image.invalid && (BeanerForm.controls.image.dirty || BeanerForm.controls.image.touched)">
+                              This field is required
+                            </div>
+                          </div>
+                          
                         <!-- <div class="form-group">
               <label for="street">Status <span class="red">*</span></label>
               <select class="form-control" formControlName="Status">
@@ -32,7 +44,7 @@
 
                             </div>
                             <div class="col-6 text-right">
-                                <button type="submit" id="submit-button" [disabled]="!categoryForm.valid" class="btn btn-primary px-4">Submit</button>
+                                <button type="submit" id="submit-button" [disabled]="!BeanerForm.valid" class="btn btn-primary px-4">Submit</button>
                             </div>
                         </div>
                     </div>

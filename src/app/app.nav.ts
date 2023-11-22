@@ -124,6 +124,13 @@ export const navItems: NavData[] = [
         url: '/categorylist',
         icon: 'icon-puzzle'
       },
+
+      {
+        name: 'Beaner',
+        url: '/beanerlist',
+        icon: 'icon-puzzle'
+      },
+      
       {
         name: 'Article',
         url: '/articlelist',

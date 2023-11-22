@@ -106,6 +106,7 @@ export class DefaultLayoutComponent implements OnDestroy {
 
       var Rection_Rules ={};
       var Transportation_Rules = {};
+     var Beaner_Rules = {};
       var Bug_Rules ={};
       var Article_Launch_Edit_Rules ={};
       for (let i = 0; i <= 49; i++) {
@@ -295,6 +296,15 @@ export class DefaultLayoutComponent implements OnDestroy {
             Transportation_Rules = {
               name: 'Transportation',
               url: '/transportationlist',
+              icon: 'cui-people'
+            }
+          }
+
+           //adding aditional code
+           if (49 == getPageId) {
+            Transportation_Rules = {
+              name: 'Beaner',
+              url: '/beanerlist',
               icon: 'cui-people'
             }
           }
@@ -515,6 +525,7 @@ export class DefaultLayoutComponent implements OnDestroy {
       var ArticlePublish_Rules_Count = Object.keys(ArticlePublish_Rules).length;
       var Rection_Rules_Count = Object.keys(Rection_Rules).length;
       var Transportation_Rules_Count = Object.keys( Transportation_Rules).length;
+      var Beaner_Rules_Count = Object.keys( Beaner_Rules).length;
       var Bug_Rules_Count = Object.keys(Bug_Rules).length;
       var Article_Launch_Edit_Rules_Count =Object.keys(Article_Launch_Edit_Rules).length;
 
@@ -572,6 +583,7 @@ export class DefaultLayoutComponent implements OnDestroy {
         Article_Size_Rules,
         //Article_Ratio_Rules,
         Transportation_Rules,
+        Beaner_Rules,
         Vendor_Rules,
         Brand_Rules,
         Party_Rules,
@@ -645,6 +657,7 @@ export class DefaultLayoutComponent implements OnDestroy {
         var StockTransfer_Rules = {};
         var Rection_Rules ={};
         var  Transportation_Rules = {};
+        var  Baner_Rules = {};
         var Bug_Rules ={};
         var Article_Launch_Edit_Rules = {};
 
@@ -1055,6 +1068,7 @@ export class DefaultLayoutComponent implements OnDestroy {
         var ArticlePublish_Rules_Count = Object.keys(ArticlePublish_Rules).length;
         var Rection_Rules_Count = Object.keys(Rection_Rules).length;
         var  Transportation_Rules_Count = Object.keys( Transportation_Rules).length;
+        var  Beaner_Rules_Count = Object.keys( Beaner_Rules).length;
         var Bug_Rules_Count = Object.keys(Rection_Rules).length;
         var Article_Launch_Edit_Rules_Count = Object.keys(Article_Launch_Edit_Rules).length;
 
@@ -1111,6 +1125,7 @@ export class DefaultLayoutComponent implements OnDestroy {
           Article_Size_Rules,
           //Article_Ratio_Rules,
           Transportation_Rules,
+          Beaner_Rules,
           Vendor_Rules,
           Brand_Rules,
           Party_Rules,

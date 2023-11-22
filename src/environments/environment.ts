@@ -9,15 +9,15 @@
 
 export const environment = {
 
-  apiURL: 'http://localhost/colorHuntApi/public/api',
-  UploadBaseURL : 'http://localhost/colorHuntApi/public/',
-  getuploadURL: 'http://localhost/colorHuntApi/public/uploads/', 
-  corsEnabled: true,
+  // apiURL: 'http://localhost/colorHuntApi/public/api',
+  // UploadBaseURL : 'http://localhost/colorHuntApi/public/',
+  // getuploadURL: 'http://localhost/colorHuntApi/public/uploads/', 
+  // corsEnabled: true,
 
 
-  // apiURL: 'https://webportalstaging.colorhunt.in/colorHuntApiStaging/public/api',
-  // UploadBaseURL: 'https://webportalstaging.colorhunt.in/colorHuntApiStaging/public/',
-  // getuploadURL: 'https://webportalstaging.colorhunt.in/colorHuntApiStaging/public/uploads/',
+  apiURL: 'https://webportalstaging.colorhunt.in/colorHuntApiStaging/public/api',
+  UploadBaseURL: 'https://webportalstaging.colorhunt.in/colorHuntApiStaging/public/',
+  getuploadURL: 'https://webportalstaging.colorhunt.in/colorHuntApiStaging/public/uploads/',
   debugMode: false,
 
   

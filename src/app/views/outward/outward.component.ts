@@ -77,7 +77,7 @@ export class OutwardComponent implements OnInit {
   Status = 0;
   OutwardNumberId: any;
   DropdownSO: boolean = true;
-
+  notAdmin : boolean = true;
   hideElement: boolean = true;
   articalData: boolean = false;
   OutwardWeightOpenFlag: boolean = false;
@@ -193,8 +193,10 @@ export class OutwardComponent implements OnInit {
     let item = JSON.parse(localStorage.getItem('userdata'));
     let rolerights = JSON.parse(localStorage.getItem('roleright'));
     if (item[0].Role == 2) {
+      this.notAdmin = false ;
       this.dateDisabled = false;
     } else {
+      this.notAdmin = true ;
       this.dateDisabled = true;
     }
     if (rolerights != "" && rolerights != null && rolerights != undefined) {

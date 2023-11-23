@@ -216,7 +216,7 @@ export class  BeanerlistComponent  implements OnInit {
 
   success(data) {
     if (data.id != "") {
-      this.toastr.success('Success', 'Transportation Deleted Successfully');
+      this.toastr.success('Success', 'Beaner Deleted Successfully');
     } else {
       this.toastr.error('Failed', 'Please try agin later');
     }

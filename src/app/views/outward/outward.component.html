@@ -203,7 +203,13 @@
                                 <div class="col1">
                                     <div class="form-group">
                                         <label for="street">Rate <span class="red">*</span></label>
-                                        <input class="form-control"  min="0" (keypress)="restrictNumeric($event)" type="number" [(ngModel)]="ArticleRate" formControlName="OutwardRate">
+                                        <input class="form-control" 
+                                        min="0" 
+                                        (keypress)="restrictNumeric($event)" 
+                                        type="number" 
+                                        [(ngModel)]="ArticleRate" 
+                                        formControlName="OutwardRate"
+                                        [readonly]="notAdmin">    
                                     </div>
                                 </div>
                                 <div class="col1">

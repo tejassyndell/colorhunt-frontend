@@ -19,9 +19,7 @@ jobs:
     - name: 🔨 Build Project
       run: |
         npm install -g @angular/cli --save-dev --force
-        npm install --force
-        ng build
-        mv dist/* . 
+      
       env:
           CI: false
     - name: 📂 Sync files

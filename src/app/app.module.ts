@@ -84,6 +84,8 @@ import { VendorComponent } from './views/vendor/vendor.component';
 import { BrandComponent } from './views/brand/brand.component';
 import { CategoryComponent } from './views/category/category.component';
 import { CategorylistComponent } from './views/categorylist/categorylist.component';
+import { BeanerComponent } from './views/beaner/beaner.component';
+import { BeanerlistComponent } from './views/beanerlist/beanerlist.component';
 import { ArticlesizeComponent } from './views/articlesize/articlesize.component';
 import { ArticlecolorComponent } from './views/articlecolor/articlecolor.component';
 import { AccessrightsComponent } from './views/accessrights/accessrights.component';
@@ -252,6 +254,8 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     BrandComponent,
     CategoryComponent,
     CategorylistComponent,
+    BeanerComponent,
+    BeanerlistComponent,
     ArticlecolorComponent,
     ArticlesizeComponent,
     AccessrightsComponent,

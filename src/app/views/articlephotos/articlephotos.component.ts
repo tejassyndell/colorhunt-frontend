@@ -39,7 +39,6 @@ export class ArticlephotosComponent implements OnInit {
   
 
   articleimgForm: FormGroup;
-  primaryImageIndex:any;
   Orderset: number = 1;
   articlePhotopage: any;
   FileuploadformData: any;
@@ -62,12 +61,6 @@ export class ArticlephotosComponent implements OnInit {
   
 
   ngOnInit() {
-
-    const storedPrimaryImageIndex = localStorage.getItem('primaryImageIndex');
-    if (storedPrimaryImageIndex !== null) {
-      this.primaryImageIndex = +storedPrimaryImageIndex;
-    }
-
     this.userService.articallist().subscribe((res) => {
       this.articdropdown = res;
     });
@@ -314,33 +307,35 @@ export class ArticlephotosComponent implements OnInit {
 
 
 
-updatePrimaryImage(imageObj: any) {
+//primary image edit and update functionality 
+updatePrimaryImage(imageObj: any, newImage: File) {
+  console.log('imageObj:', imageObj);
+  console.log('newImage:', newImage);
   const confirmed = confirm("Are you sure you want to update this primary image?");
   if (confirmed) {
     const formData = new FormData();
+    formData.append('newImage', newImage);
+    
 
-    formData.append('articleId', imageObj.ArticleId.toString());
+
+    // Append articleId and oldImage parameters
+    formData.append('articleId', imageObj.ArticleId); // Use the correct property name
     formData.append('oldImage', imageObj.photo);
+   
 
-    this.primaryImageIndex = this.editarray.Images.findIndex(img => img.photo === imageObj.photo);
-
-    localStorage.setItem('primaryImageIndex', this.primaryImageIndex.toString());
-
-    // Now you can call your backend API to update the image position
     this.userService.updatePrimaryImage(formData).subscribe(
       (response) => {
-        // Handle successful response from the backend
-        console.log('Image position updated successfully:', response);
-        // You can also update your local data here if needed
+       
+        imageObj.photo = response.newImageUrl;
+        this.toastr.success('Primary image updated successfully', 'Success');
       },
       (error) => {
-        // Handle error from the backend
-        console.error('Error updating image position:', error);
+        console.error("Error updating primary image:", error);
+        this.toastr.error('Failed to update primary image. Please try again later', 'Error');
       }
     );
   }
 }
-
 
 }
 

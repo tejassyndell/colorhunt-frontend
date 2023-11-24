@@ -140,25 +140,11 @@
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="city">GST Number<span class="red">*</span> </label>
-                                <input class="form-control" type="text" 
-                                       (keydown.tab)="onTab($event)"
-                                       oninput="this.value = this.value.toUpperCase()"
-                                       formControlName="GSTNumber">
-                                <div class="w3-panel w3-red"
-                                     *ngIf="partyForm.controls.GSTNumber.invalid && (partyForm.controls.GSTNumber.dirty || partyForm.controls.GSTNumber.touched)">
-                                     Invalid GST Number
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="city">PAN Number<span class="red">*</span> </label>
+                                <label for="city">GST Number/ PAN Number<span class="red">*</span> </label>
                                 <input class="form-control" type="text" oninput="this.value = this.value.toUpperCase()"
-                                    formControlName="PanNumber">
+                                    formControlName="GSTNumber">
                                 <div class="w3-panel w3-red"
-                                    *ngIf="partyForm.controls.PanNumber.invalid && (partyForm.controls.PanNumber.dirty || partyForm.controls.PanNumber.touched)">
+                                    *ngIf="partyForm.controls.GSTNumber.invalid && (partyForm.controls.GSTNumber.dirty || partyForm.controls.GSTNumber.touched)">
                                     This filed is required</div>
                             </div>
                         </div>

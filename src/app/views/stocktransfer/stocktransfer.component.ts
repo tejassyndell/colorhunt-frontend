@@ -1232,7 +1232,7 @@ refreshTable() {
       this.router.navigate(['/stocktransfer', { STNO: stnumberId }], {
         queryParamsHandling: 'preserve'
       }).then(() => {
-        // window.location.reload();
+        window.location.reload();
       });
       
       console.log('fff', stnumberId)

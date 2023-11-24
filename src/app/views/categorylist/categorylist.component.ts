@@ -208,18 +208,6 @@ export class CategorylistComponent implements OnInit {
       this.toastr.error('Failed', 'Please try agin later');
     }
   }
-  public changecatStatus(catid) {
-    this.userService.updatecategorystatus(catid).subscribe((res) => {
-      console.log('hello mama');
-      console.log('hello mama',res);
-
-      if (res['status'] === 'Active') {
-        this.toastr.success('Activated', `${res['Party'].Title} is active now`);
-      } else {
-        this.toastr.error('Deactivated', `${res['Party'].Title} is deactive now`);
-      }
-    });
-  }
 
 
 }

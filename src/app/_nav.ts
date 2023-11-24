@@ -140,11 +140,6 @@ export const navItems: NavData[] = [
     icon: 'icon-book-open'
   },
   {
-    name: 'Beaner',
-    url: '/beanerlist',
-    icon: 'icon-book-open'
-  },
-  {
     name: 'Article Color',
     url: '/articlecolorlist',
     icon: 'fa fa-paint-brush'

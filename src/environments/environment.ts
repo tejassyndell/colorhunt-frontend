@@ -21,6 +21,7 @@ export const environment = {
   debugMode: false,
 
   
+  
   // apiURL: 'https://webportal.colorhunt.in/colorHuntApi/public/api',
   // UploadBaseURL : 'https://webportal.colorhunt.in/colorHuntApi/public/',
   // getuploadURL: 'https://webportal.colorhunt.in/colorHuntApi/public/uploads/',
@@ -28,6 +29,7 @@ export const environment = {
 
 
   production: true
+  
 
   // apiURL: 'http://172.20.10.6/colorHuntApi/public  /api',
   // UploadBaseURL : 'http://172.20.10.6/colorHuntApi/public/',

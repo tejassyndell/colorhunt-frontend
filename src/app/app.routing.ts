@@ -18,11 +18,13 @@ import { SoComponent } from './views/so/so.component';
 import { PoComponent } from './views/po/po.component';
 import { VendorComponent } from './views/vendor/vendor.component';
 import { CategoryComponent } from './views/category/category.component';
+import { BeanerComponent } from './views/beaner/beaner.component';
 import { BrandComponent } from './views/brand/brand.component';
 //adding aditional code
 import { TransportationComponent } from './views/transportation/transportation.component';
 import { TransportationlistComponent } from './views/transportationlist/transportationlist.component';
 import { CategorylistComponent } from './views/categorylist/categorylist.component';
+import { BeanerlistComponent } from './views/beanerlist/beanerlist.component';
 import { SubcategorylistComponent } from './views/subcategorylist/subcategorylist.component';
 import { SubcategoryComponent } from './views/subcategory/subcategory.component';
 import { ArticlecolorComponent } from './views/articlecolor/articlecolor.component';
@@ -220,6 +222,13 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { role: '5' }
       },
+
+      {
+        path: 'beaner',
+        component: BeanerComponent,
+        canActivate: [AuthGuard],
+        data: { role: '5' }
+      },
       {
         path: 'vendor',
         component: VendorComponent,
@@ -242,6 +251,12 @@ export const routes: Routes = [
       {
         path: 'categorylist',
         component: CategorylistComponent,
+        canActivate: [AuthGuard],
+        data: { role: '5' }
+      },
+      {
+        path: 'beanerlist',
+        component: BeanerlistComponent,
         canActivate: [AuthGuard],
         data: { role: '5' }
       },

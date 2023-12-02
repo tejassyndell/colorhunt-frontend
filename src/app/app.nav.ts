@@ -126,7 +126,7 @@ export const navItems: NavData[] = [
       },
 
       {
-        name: 'Beaner',
+        name: 'Banner',
         url: '/beanerlist',
         icon: 'icon-puzzle'
       },

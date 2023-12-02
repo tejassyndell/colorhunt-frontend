@@ -303,7 +303,7 @@ export class DefaultLayoutComponent implements OnDestroy {
            //adding aditional code
            if (49 == getPageId) {
             Transportation_Rules = {
-              name: 'Beaner',
+              name: 'Banner',
               url: '/beanerlist',
               icon: 'cui-people'
             }

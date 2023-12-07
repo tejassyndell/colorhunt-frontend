@@ -1,0 +1,139 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+    <div class="clear">
+
+        <div class="card">
+            <div class="card-header"> <strong>Article Rate Change</strong> <span class="text-right pull-right"></span>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="ArticleRateForm" (ngSubmit)="doarticlerate()">
+                    <div class="row">
+                       
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="city">Article <span class="red">*</span></label>
+                                        <div class="form-group">
+                                            <ng-select class="custom" (ngModelChange)="onChangeArticle($event)" [clearable]="false" [(ngModel)]="ArticleId" formControlName="ArticleId" [items]="articlelist" bindLabel="ArticleNumber" placeholder="Select Article">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                        
+                        <div class="col-md-12" *ngIf="statuscheck">
+                            <div class="row " >
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="street">Category <span class="red">*</span></label>
+                                        <input class="form-control"  readonly type="text" [(ngModel)]="ArticleCat" formControlName="ArticleCat">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" *ngIf="statuscheck">
+                            <div class="row">
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="street">Rate <span class="red">*</span></label>
+                                        <input id="Rate" class="form-control" (keypress)="restrictNumeric($event)" type="number" [(ngModel)]="ArticleRate" formControlName="ArticleRate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" *ngIf="statuscheck">
+                            <div class="row">
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="street">Inward Date <span class="red">*</span></label>
+                                        <input class="form-control" readonly  type="text" [(ngModel)]="ArticleInDate" formControlName="ArticleInDate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 pt-3 pb-3">
+                            <div class="row">
+                              <div class="col1">
+                                <div class="form-group outlet-filed">
+                                  <label for="vat">Outlet Selection </label>
+                                  <select class="form-control" (change)="onChangePartyId($event)" name="PartyId" Id="PartyId">
+                                    <option value="">Select</option>
+                                    <option *ngFor="let val of partypdown" value="{{val.Id}}">{{val.Name}}</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        <!-- <div class="col-md-12" *ngIf="statuscheck">
+                            <div class="row">
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="street">Outlet Rate <span class="red">*</span></label>
+                                        <input class="form-control" (keypress)="restrictNumeric($event)" type="number" [(ngModel)]="OutletArticleRate" formControlName="OutletArticleRate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+
+                    <!-- <table >
+                        <thead >
+                            <tr >
+                                <th>Article Id</th>
+                                <th>Article Rate</th>
+                                <th>Category</th>
+                                <th>Inward Date</th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                        <tbody >
+                            <tr >
+                                <td>{{val.ArticleId}}</td>
+                                <td>{{val.ArticleRate}}</td>
+                                <td>{{val.ArticleCat}}</td>
+                                <td>{{val.ArticleInDate}}</td>
+                            </tr>
+                        </tbody>
+                    </table> -->
+
+                    <!-- <ng-select class="custom" (ngModelChange)="onChangeArticle($event)" [clearable]="false" [(ngModel)]="ArticleId" formControlName="ArticleId" [items]="articlelist" bindLabel="ArticleNumber" placeholder="Select Article">
+                    </ng-select> -->
+                    
+                        <div class="d-inline text-center  Export-btn">
+                            <!-- <button type="Export" id="Export" (click)="articalRatechange()" class="btn btn-primary px-4">Export</button> -->
+                            <button type="button"  (click)=" onExportArticle($event)"   class="btn btn-primary px-4">Export</button>
+                        </div>
+
+                        <div class="d-inline text-center">
+                            <button type="submit" id="submit-button" [disabled]="!ArticleRateForm.valid" class="btn btn-primary px-4">Submit</button>
+                        </div>
+                        <div class="d-inline text-center ">
+                            <button (click)="cancelform()"  class="btn btn-primary px-4">Cancel</button>
+                        </div>
+
+                    
+                </form>
+                <!-- <div class="text-right backcancel_button">
+                    <button (click)="cancelform()" class="btn btn-primary px-4">Cancel</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #other_content>
+    <div class="col-sm-12 col-md-12">
+        <div class="card text-white bg-info text-center">
+            <div class="card-body">
+                <blockquote class="card-bodyquote">
+                    <h3>Rights that are not assignable</h3>
+                    <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</ng-template>

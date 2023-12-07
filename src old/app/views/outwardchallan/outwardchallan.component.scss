@@ -1,0 +1,27 @@
+td.challantitle {
+    border-left: 1px solid #c8ced3;
+    border-top: 1px solid #c8ced3;
+    border-right: 1px solid #c8ced3;
+    text-align: center;
+}
+
+.header,
+.footer {
+    position: fixed;
+    height: 100px;
+    top: 0;
+}
+
+.footer {
+    bottom: 0
+}
+
+@media print {
+    tfoot {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+    }
+}

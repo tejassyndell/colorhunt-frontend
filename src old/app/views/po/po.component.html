@@ -1,0 +1,275 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+    <div class="clear">
+        <div class="card">
+            <div class="card-header"> <strong>PO</strong> <span class="text-right pull-right"><strong
+                        *ngIf="PoOrderLabel">Purchase No: {{PO_Number_FinancialYear}}</strong></span></div>
+
+            <div class="card-body">
+                <form [formGroup]="poForm" (ngSubmit)="doPoform()">
+                    <input class="form-control" value="{{PO_Number}}" readonly type="hidden" formControlName="PO_Number">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row pomark">
+                                <!-- <div class="col1">
+                                     <div class="form-group">
+                                        <label for="street">Purchase Number</label>
+                                        <input class="form-control" value="{{PO_Number_Financial}}" readonly type="text">
+                                        <input class="form-control" value="{{PO_Number}}" readonly type="hidden"
+                                            formControlName="PO_Number">
+                                    </div>
+                                </div> -->
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="city">PO Date <span class="red">*</span></label>
+                                        <input [attr.disabled]="dateDisabled ? '' : null" class="form-control" type="date" [ngModel]="PoCurrentDate | date:'yyyy-MM-dd'" formControlName="PoDate">
+                                        <div class="w3-panel w3-red" *ngIf="poForm.controls.PoDate.invalid && (poForm.controls.PoDate.dirty || poForm.controls.PoDate.touched)">
+                                            This filed is required</div>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="company">Vendor <span class="red">*</span></label>
+                                        <!-- <select class="form-control" [attr.disabled]="isDisabled ? '' : null" formControlName="VendorId">
+                                            <option value="">Select</option>
+                                            <option *ngFor="let val of vendordropdown" value="{{val.Id}}">{{val.Name}}</option>
+                                        </select> -->
+                                        <ng-select
+                                         [attr.disabled]="isDisabled ? '' : null"
+                                        [clearable]="false" class="custom"
+                                           formControlName="VendorId"
+                                          [(ngModel)]="VendorId"
+                                          [items]="vendordropdown"
+                                            placeholder="Select" bindLabel="Name">
+                                           <ng-option *ngFor="let val of vendordropdown" [value]="val.Id">{{val.Name}}</ng-option>
+                                       </ng-select>
+                                        <div class="w3-panel w3-red" *ngIf="poForm.controls.VendorId.invalid && (poForm.controls.VendorId.dirty || poForm.controls.VendorId.touched)">
+                                            This filed is required</div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="street">Remarks <span class="red">*</span></label>
+                                        <input class="form-control" type="text" oninput="this.value = this.value.toUpperCase()" formControlName="Remarks">
+                                        <div class="w3-panel w3-red" *ngIf="poForm.controls.Remarks.invalid && (poForm.controls.Remarks.dirty || poForm.controls.Remarks.touched)">
+                                            This filed is required</div>
+                                    </div>
+                                </div>
+
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="street" style="width: 100%;">Multiple Image</label>
+                                        <div class="ml-1 pretty p-svg p-curve">
+                                            <input type="checkbox" (change)="onChekboxChecked($event)" [checked]="MultipleImage == 1" formControlName="MultipleImage" />
+                                            <div class="state p-success">
+                                                <svg class="svg svg-icon" viewBox="0 0 20 20">
+                                                    <path
+                                                        d="M7.629,14.566c0.125,0.125,0.291,0.188,0.456,0.188c0.164,0,0.329-0.062,0.456-0.188l8.219-8.221c0.252-0.252,0.252-0.659,0-0.911c-0.252-0.252-0.659-0.252-0.911,0l-7.764,7.763L4.152,9.267c-0.252-0.251-0.66-0.251-0.911,0c-0.252,0.252-0.252,0.66,0,0.911L7.629,14.566z"
+                                                        style="stroke: white;fill:white;"></path>
+                                                </svg>
+                                                <label></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col1" *ngIf="imageflag==false">
+                                    <div class="form-group">
+                                        <label for="street">PO Image</label>
+                                        <input type="file" class="form-control" formControlName="PO_Image" id="file" (change)="uploadFile($event)">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+
+                                <div class="col1">
+                                    <div class="form-group" *ngIf="DropdownArticle; else getArticleNumber">
+                                        <label for="street">Article No.<span class="red">*</span></label>
+                                        <!-- <select class="form-control" (change)="onChangeArticle($event)" formControlName="ArticleId">
+                                            <option value="">Select</option>
+                                            <option *ngFor="let val of articledropdown" value="{{val.Id}}">{{val.ArticleNumber}}</option>
+                                        </select> -->
+                                        <ng-select [clearable]="false" class="custom" (ngModelChange)="onChangeArticle($event)" [(ngModel)]="ArticleId" formControlName="ArticleId" [items]="articledropdown" bindLabel="ArticleNumber" placeholder="Select Article">
+                                        </ng-select>
+
+                                        <!-- <input class="form-control" type="text" oninput="this.value = this.value.toUpperCase()" formControlName="ArticleId"> -->
+                                        <div class="w3-panel w3-red" *ngIf="poForm.controls.ArticleId.invalid && (poForm.controls.ArticleId.dirty || poForm.controls.ArticleId.touched)">
+                                            This filed is required</div>
+                                        <div class="w3-panel w3-red">{{errorexit}}</div>
+                                    </div>
+                                    <ng-template #getArticleNumber>
+                                        <label for="street">Article No.<span class="red">*</span></label>
+                                        <input readonly type="hidden" class="form-control" formControlName="ArticleId">
+                                        <input class="form-control" value="{{ArticleNumber}}" readonly type="text">
+                                    </ng-template>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="street">Category</label>
+                                        <input class="form-control" type="text" oninput="this.value = this.value.toUpperCase()" value="{{CategoryName}}" readonly>
+
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="street">Sub-category</label>
+                                        <input class="form-control" type="text" oninput="this.value = this.value.toUpperCase()" value="{{SubCategoryName}}" readonly>
+
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="street">Serial</label>
+                                        <input class="form-control" type="text" oninput="this.value = this.value.toUpperCase()" value="{{Series}}" readonly>
+
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="street">Style Description</label>
+                                        <input class="form-control" type="text" oninput="this.value = this.value.toUpperCase()" value="{{StyleDescription}}" readonly>
+
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="street">Number of Quantity <span class="red">*</span></label>
+                                        <input class="form-control" min="0" (keypress)="restrictNumeric($event)" type="number" formControlName="NumPacks">
+                                        <div class="w3-panel w3-red" *ngIf="poForm.controls.NumPacks.invalid && (poForm.controls.NumPacks.dirty || poForm.controls.NumPacks.touched)">
+                                            This filed is required</div>
+                                    </div>
+                                </div>
+                                <!-- <div class="col1">
+                                    <div class="form-group">
+                                        <label for="vat">Category <span class="red">*</span></label>
+                                        <input class="form-control resetquantity" value="{{numpack}}" readonly type="text">
+                                        <div class="w3-panel w3-red" *ngIf="poForm.controls.CategoryId.invalid && (poForm.controls.CategoryId.dirty || poForm.controls.CategoryId.touched)">
+                                            This filed is required</div>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="vat">Sub Category</label>
+                                        <select class="form-control" [disabled]="SubCategoryDisabled" formControlName="SubCategoryId">
+                                            <option value="">Select</option>
+                                            <option *ngFor="let val of subcatedropdown" value="{{val.Id}}">{{val.Name}}</option>
+                                        </select>
+                                        <div class="w3-panel w3-red" *ngIf="poForm.controls.SubCategoryId.invalid && (poForm.controls.SubCategoryId.dirty || poForm.controls.SubCategoryId.touched)">
+                                            This filed is required</div>
+                                    </div>
+                                </div> -->
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label for="company">Brand</label>
+                                            <input class="form-control" type="text" oninput="this.value = this.value.toUpperCase()" value="{{BrandName}}" readonly>
+                                            <!-- <input class="form-control" type="hidden" formControlName="BrandId"> -->
+                                            <!-- <select class="form-control" formControlName="BrandId">
+                                                <option value="" selected="selected">Select</option>
+                                                <option *ngFor="let val of brandropdown" value="{{val.Id}}">{{val.Name}}
+                                                </option>
+                                            </select> -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col1" *ngIf="POPAGE=='Edit';">
+                                    <div class="form-group">
+                                        <label for="vat">Work Order Status 5</label>
+                                        <select class="form-control" formControlName="WorkOrderStatusId">
+                                                <option value="">Select</option>
+                                                <option *ngFor="let val of workorderdropdown" value="{{val.Id}}">{{val.Name}}
+                                                </option>
+                                            </select>
+                                    </div>
+                                </div>
+                                <div class="col1" *ngIf="POPAGE=='Edit';">
+                                    <div class="form-group">
+                                        <label for="city">Work Order Date </label>
+                                        <input class="form-control" type="date" [ngModel]="WorkOrderCurrentDate | date:'yyyy-MM-dd'" formControlName="WorkOrderDate">
+                                    </div>
+                                </div>
+                                <div class="col1" *ngIf="imageflag">
+                                    <div class="form-group">
+                                        <label for="street">PO Image</label>
+                                        <input type="file" class="form-control" formControlName="PO_Image" id="file" (change)="uploadFile($event)">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 text-left">
+                            <button type="submit"  id="submit-button" [disabled]="!poForm.valid" class="btn btn-primary px-4">Submit</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="text-right backcancel_button">
+                    <button type="button" (click)="goBack()"  class="btn btn-primary px-4 mgr5">Back</button>
+                    <button (click)="cancelform()" class="btn btn-primary px-4">Cancel</button>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+    <table datatable [dtOptions]="dtOptions" class="row-border hover" width="100%">
+        <thead class="thead-dark">
+            <tr>
+                <th>No</th>
+                <th>Article No</th>
+                <th>Vender</th>
+                <th>Category</th>
+                <th>SubCategory</th>
+                <th>Serial</th>
+                <th>Pieces</th>
+                <th>Brand Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let val of podatalist; let i = index; let po of podatalist">
+                <td>{{ i + 1}}</td>
+                <td>{{val.ArticleNumber}}</td>
+                <td>{{val.Name}}</td>
+                <td>{{val.CategoryName}}</td>
+                <td>{{val.SubcategoryName}}</td>
+                <td>{{val.SeriesNo}}</td>
+                <td>{{val.NoPacks}}</td>
+                <td>{{val.BrandName}}</td>
+                <td class="flex">
+                    <button type="button" [routerLink]="['/po',{PO:val.PO_Number, id:val.Id}]" *ngIf="isEdit==1" class="btn btn-primary mr-1" (click)="edit(val.PO_Number, val.Id)"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" *ngIf="isDelete==1" class="btn btn-danger mr-1" (click)="delete(val.Id, val.PO_Number, val.ArticleId)"> <i
+                            class="fa fa-trash-o" aria-hidden="true"></i> </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</ng-template>
+<ng-template #other_content>
+    <div class="col-sm-12 col-md-12">
+        <div class="card text-white bg-info text-center">
+            <div class="card-body">
+                <blockquote class="card-bodyquote">
+                    <h3>Rights that are not assignable</h3>
+                    <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</ng-template>

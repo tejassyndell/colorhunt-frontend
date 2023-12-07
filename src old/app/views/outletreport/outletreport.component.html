@@ -1,0 +1,43 @@
+<div *ngIf="accessdenied == false" class="animated fadeIn">
+  <div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="table-title"> <i class="fa fa-align-justify"></i> Stocks List </div>
+        </div>
+        <div class="col-md-12 pt-3 pb-3">
+          <div class="row">
+            <div class="col1">
+              <div class="form-group">
+                <label for="vat">Account <span class="red">*</span></label>
+                <select class="form-control" (change)="onChangePartyId($event)" name="PartyId" Id="PartyId">
+                  <option value="">Select</option>
+                  <option *ngFor="let val of partypdown" value="{{val.Id}}">{{val.Name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 pt-3 pb-3" *ngIf="outletreportgetdata">
+          <table datatable [dtOptions]="dtOptions" id="Clienttbl" class="row-border hover"></table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<div *ngIf="accessdenied != false" id="other_content" class="col-sm-12 col-md-12">
+  <div class="card text-white bg-info text-center">
+    <div class="card-body">
+      <blockquote class="card-bodyquote">
+        <h3>Rights that are not assignable</h3>
+        <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+      </blockquote>
+    </div>
+  </div>
+</div>
+
+  <

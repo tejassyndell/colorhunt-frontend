@@ -1,0 +1,335 @@
+<div *ngIf="colorflag; else elseBlock">
+    <div class="card">
+        <div class="card-header text-center">
+            <h3 class="m-0">Article Name - {{articlenumber}}</h3>
+        </div>
+        <div class="card-body" style="min-height: 350px;">
+            <div class="row">
+                <div class="col-4">&nbsp;</div>
+                <div class="col-4" style="padding: 100px 0;">
+                    <b class="mb-2">Select Color</b>
+                    <select class="form-control" #myarticlecolor (change)="colorselect(myarticlecolor.value)">
+                        <option value="">Select</option>
+                        <option *ngFor="let val of colordropdown" value="{{val.ArticleColorId}}">{{val.ArticleColorName}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-4">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #elseBlock>
+    <div *ngIf="articleexistcheck;then articleexist else articlenotexist"></div>
+</ng-template>
+
+<ng-template #articleexist>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="row" style="align-items: center;">
+                <strong class="col-4">Category: {{PurchaseOrder.Title}}</strong>
+                <span class="col-4 text-center"><h5>Artical No: {{articlenumber}}</h5></span>
+                <span class="col-4 text-right"><strong>Brand: {{PurchaseOrder.BrandName}}</strong></span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row order-list">
+                <div class="col-6">
+                    <table width="100%" class="table search-details table-bordered">
+                        <thead class="thead-dark align-center">
+                            <tr>
+                                <th>Purchase Order:</th>
+                                <th><a (click)="printpochallan(PurchaseOrder.PNID)">{{PurchaseOrder.PurchaseOrderNumber}}</a></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Date:</td>
+                                <td>{{PurchaseOrder.PoDate}}</td>
+                            </tr>
+                            <tr>
+                                <td>Vender Name:</td>
+                                <td>{{PurchaseOrder.VendorName}}</td>
+                            </tr>
+                            <tr>
+                                <td>Quantity Peace:</td>
+                                <td>{{PurchaseOrder.PO_Peace}}</td>
+                            </tr>
+                            <tr>
+                                <td>Color Flag:</td>
+                                <td>{{PurchaseOrder.Colorflag==1 ? 'Yes' : 'No'}}</td>
+                            </tr>
+                            <tr>
+                                <td>Article Open Flag:</td>
+                                <td>{{PurchaseOrder.ArticleOpenFlag==1 ? 'Yes' : 'No'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- <a href="javascript:void(0);" (click)="downloadImage(PurchaseOrder.PO_Image)">Download</a> -->
+                    <!-- <span>
+          <b>Purchase Order: 544/19-20</b>
+          <hr/>
+          <p>Date: 01/10/2019</p>
+          <p>Vender Name: VIHAN APPARELS</p>
+          <p>Quantity Peace: 50</p>
+        </span> -->
+                </div>
+                <div class="col-6">
+                    <table width="100%" class="table search-details table-bordered">
+                        <thead class="thead-dark align-center">
+                            <tr>
+                                <th>Inward GRN Order:</th>
+                                <th><a (click)="printinwardchallan(InwardData.InwardOrder[0].InwardgrnId, 1)">{{InwardData.InwardOrder[0].Grnorder}}</a></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Date:</td>
+                                <td>{{InwardData.InwardOrder[0].InwardDate}}</td>
+                            </tr>
+                            <tr *ngIf="InwardData.InwardOrder[0].VendorName!=null">
+                                <td>Party Name:</td>
+                                <td>{{InwardData.InwardOrder[0].VendorName}}</td>
+                            </tr>
+                            <tr *ngIf="InwardData.Colorflag==1">
+                                <td style="vertical-align: middle;">Color:</td>
+                                <td class="p-0"><select [(ngModel)]="colorid" class="form-control border-0" #myarticlecolor (change)="colorselect(myarticlecolor.value)">
+                                    <option *ngFor="let val of colordropdown" [value]="val.ArticleColorId">{{val.ArticleColorName}}
+                                    </option>
+                                </select></td>
+                            </tr>
+                            <tr *ngIf="InwardData.Colorflag==0">
+                                <td>Color:</td>
+                                <td>{{InwardData.ArticleColorSet}}</td>
+                            </tr>
+                            <tr>
+                                <td>Size:</td>
+                                <td>{{InwardData.ArticleSizeSet}}</td>
+                            </tr>
+                            <tr>
+                                <td>Ratio:</td>
+                                <td>{{InwardData.InwardOrder[0].ArticleRatio}}</td>
+                            </tr>
+                            <tr>
+                                <td>Quantity Peace:</td>
+                                <td>{{InwardData.NoPcks}}</td>
+                            </tr>
+                            <tr>
+                                <td>Rate:</td>
+                                <td>&#8377;{{InwardData.InwardOrder[0].ArticleRate}}</td>
+                            </tr>
+                            <tr>
+                                <td>Style Description:</td>
+                                <td>{{InwardData.InwardOrder[0].StyleDescription}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- <span>
+          <b>Inward GRN Order: 544/19-20</b>
+          <hr/>
+          <p>Date: 01/10/2019</p>
+          <p>Party Name: VIHAN APPARELS</p>
+          <p>Color: 1, 2, 3</p>
+          <p>Size: M, L, X</p>
+          <p>Ration: 1, 1</p>
+          <p>Quantity Peace: 50</p>
+          <p>Style Description: Full Sleave</p>
+        </span> -->
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <button class="w-100 btn btn-primary px-4" (click)="downloadprnfile(InwardData.InwardOrder[0].InwardId, InwardData.Colorflag)">Generate Sticker</button>
+                            <a [href]="fileUrl" id="downloadfile_{{InwardData.InwardOrder[0].InwardId}}" style="display: none;" download="colorhunt.prn">DownloadFile</a>
+
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-primary mr-1" (click)="downloadprnsinglefile(InwardData.InwardOrder[0].InwardId)">Generate Article Sticker</button>
+                            <a [href]="fileUrl" id="downloadfile_barcode_{{InwardData.InwardOrder[0].InwardId}}" style="display: none;" download="colorhuntarticle.prn">DownloadFile</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 pt-3 pb-3">
+            <table width="100%" class="table search-details table-bordered">
+                <thead class="thead-dark align-center">
+                    <tr>
+                        <th width="90">Date</th>
+                        <th>Particulars</th>
+                        <th width="90">Order Type</th>
+                        <th width="95">Order No</th>
+                        <th colspan="3" class="p-0" width="240">
+                            <table class="table">
+                                <tr>
+                                    <td colspan="3">Outwards</td>
+                                </tr>
+                                <tr>
+                                    <td width="85">Quantity</td>
+                                    <td width="70">Rate</td>
+                                    <td width="85">Value</td>
+                                </tr>
+                            </table>
+                        </th>
+                        <th class="p-0" width="90">
+                            <table class="table">
+                                <tr>
+                                    <td>Closing</td>
+                                </tr>
+                                <tr>
+                                    <td>Quantity</td>
+                                </tr>
+                            </table>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let val of SalesOrderHistory; let i = index; last as islast">
+                        <td>{{val.date}}</td>
+                        <td *ngIf="val.particulars['status']==1">
+                            (Sale Order Panding)
+                            <div class="row mt-2 m-0" *ngFor="let val1 of val.particulars['salespending']; let j = index;">
+                                <div class="col-1 p-0">{{j+1}}.</div>
+                                <div class="col-11 p-0">
+                                    <div class="row m-0">
+                                        <div class="col-12 p-0"><a class="orderpanding" (click)="orderno(val1.particulars.challanno, val1.particulars.challantype)">{{val1.orderno}}</a></div>
+                                        <div class="col-8 p-0">{{val1.particulars.salesdate}} {{val1.particulars.partyname}} ({{val1.particulars.type}})</div>
+                                        <div class="col-2 p-0">&#8377;{{val1.particulars.rate}}</div>
+                                        <div class="col-2 p-0 text-right">{{val1.particulars.quantity}} PCS</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <!-- <div class="col-8 text-right mt-1 p-0 pt-1" style="border-top: 1px solid #83c3f7;"></div> -->
+                                <div class="col-10 text-left mt-1 p-0 pt-1" style="border-top: 1px solid #c8ced3;">TOTAL</div>
+                                <div class="col-2 text-right mt-1 p-0 pt-1" style="border-top: 1px solid #c8ced3;"><b>{{val.quantity}} PCS</b></div>
+                            </div>
+                        </td>
+                        <td *ngIf="val.particulars['status']==2 || val.particulars['status']==3 || val.particulars['status']==4">
+                            {{val.particulars["partyname"]}} ({{val.particulars["type"]}})
+                        </td>
+                        <td *ngIf="val.particulars['status']==0">
+                            <div class="row m-0">
+                                <div class="col-8 p-0">{{val.particulars["partyname"]}} ({{val.particulars["type"]}})</div>
+                                <div class="col-2 p-0">&#8377;{{val.rate}}</div>
+                                <div class="col-2 p-0 text-right">{{val.quantity}} PCS</div>
+                            </div>
+                        </td>
+                        <td>{{val.ordertype}}</td>
+                        <td><a class="orderno" (click)="orderno(val.challanno, val.particulars['status'])">{{val.orderno}}</a></td>
+
+                        <td *ngIf="val.particulars['status']==2" width="85" class="text-center">{{val.quantity}} PCS</td>
+                        <td *ngIf="val.particulars['status']==2" width="70" class="text-center">&#8377;{{val.rate}}</td>
+                        <td *ngIf="val.particulars['status']==2" width="85" class="text-center">&#8377;{{val.amount}}.00</td>
+
+                        <td *ngIf="val.particulars['status']==3" width="85" class="text-center">(-){{val.quantity}} PCS</td>
+                        <td *ngIf="val.particulars['status']==3" width="70" class="text-center">-</td>
+                        <td *ngIf="val.particulars['status']==3" width="85" class="text-center">-</td>
+
+                        <td *ngIf="val.particulars['status']==4 || val.particulars['status']==1" width="85" class="text-center">{{val.quantity}} PCS</td>
+                        <td *ngIf="val.particulars['status']==4" width="70" class="text-center">-</td>
+                        <td *ngIf="val.particulars['status']==4" width="85" class="text-center">-</td>
+
+
+                        <td *ngIf="val.particulars['status']==0" width="85" class="text-center">-</td>
+                        <td *ngIf="val.particulars['status']==0 || val.particulars['status']==1" width="70" class="text-center">-</td>
+                        <td *ngIf="val.particulars['status']==0 || val.particulars['status']==1" width="85" class="text-center">-</td>
+
+
+                        <td class="p-0">
+                            <table class="table">
+                                <tr>
+                                    <td *ngIf="val.particulars['status']==0 || val.particulars['status']==2 || val.particulars['status']==3 || val.particulars['status']==4">{{val.closingquantity}} PCS</td>
+                                    <td *ngIf="val.particulars['status']==1">{{val.TotelSalesPending}} PCS</td>
+                                    <!-- <td *ngIf="val.particulars['status']==1">-</td> -->
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">TOTAL</td>
+                        <!-- <td width="85" class="text-center">252 PCS</td> -->
+                        <td width="85" class="text-center"></td>
+                        <td width="70" class="text-center"></td>
+                        <td width="85" class="text-center"></td>
+                        <td class="p-0">
+                            <table class="table">
+                                <tr>
+                                    <td><b>{{TotalStock}} PCS</b></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="articlecancelledflag" class="card-body" style="background: #fbe3e3;">
+            <h3 class="text-center mb-3">Article Cancelled</h3>
+            <div *ngFor="let val of ArticleCancelled;">
+                <ul class="row cancle-order titlebackground">
+                    <li class="col">Article Cancelled:</li>
+                    <li class="col"><a href="#">01/19-20</a></li>
+                </ul>
+                <ul class="row cancle-order order-list">
+                    <li class="col"><b>Date</b><span>{{val.CancelledDate}}</span></li>
+                    <li class="col"><b>Color</b><span>{{val.ArticleColor}}</span></li>
+                    <li class="col"><b>Size</b><span>{{val.ArticleSize}}</span></li>
+                    <li class="col"><b>Ratio</b><span>{{val.ArticleRatio}}</span></li>
+                    <li class="col"><b>Quntity Peace</b><span>{{val.CANoPacks}}</span></li>
+                    <li class="col"><b>Rate</b><span>&#8377;{{val.ArticleRate}}</span></li>
+                    <li class="col"><b>Reason</b><span>{{val.Notes}}</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div *ngIf="articlerejectedflag" class="card-body" style="background: #f15d5d;">
+            <h3 class="text-center mb-3">Article Rejected</h3>
+            <div *ngFor="let val of ArticleRejected;">
+                <ul class="row cancle-order titlebackground">
+                    <!-- <li class="col">Inward Order:</li> -->
+                    <!-- <li class="col"><a href="#">01/19-20</a></li> -->
+                    <li class="col">Reason:</li>
+                    <li class="col">{{val.Reason}}</li>
+                </ul>
+                <ul class="row cancle-order order-list">
+                    <li class="col"><b>Date</b><span>{{val.RejectDate}}</span></li>
+                    <li class="col"><b>Color</b><span>{{val.ArticleColor}}</span></li>
+                    <li class="col"><b>Size</b><span>{{val.ArticleSize}}</span></li>
+                    <li class="col"><b>Ratio</b><span>{{val.ArticleRatio}}</span></li>
+                    <!-- <li class="col"><b>Quntity Peace</b><span>{{val.Quntity}}</span></li> -->
+                    <li class="col"><b>Rate</b><span>&#8377;{{val.ArticleRate}}</span></li>
+                    <li class="col"><b>Style Description</b><span>{{val.StyleDescription}}</span></li>
+                    <li class="col"><b>Reason</b><span>{{val.Reason}}</span></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</ng-template>
+<ng-template #articlenotexist>
+
+    <div *ngIf="articlefindprocess;then articleprocess else articlenotfound"></div>
+    <ng-template #articleprocess>
+        <div class="card  text-center">
+            <div class="card-header">
+                <h3 class="m-0">Article Name - {{articlenumber}}</h3>
+            </div>
+            <div class="card-body" style="min-height: 350px;">
+                <img style="padding: 100px 0;" src="../assets/img/search.png">
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #articlenotfound>
+        <div class="card  text-center">
+            <div class="card-header">
+                <h3 class="m-0">Article Name - {{articlenumber}}</h3>
+            </div>
+            <div class="card-body" style="min-height: 350px;">
+                <img style="padding: 20px 0;" src="../assets/img/article-not-found.png">
+            </div>
+        </div>
+    </ng-template>
+
+
+
+</ng-template>

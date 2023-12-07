@@ -1,0 +1,205 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+    <div class="Bg-area">
+        <div class="addcart">
+            <a [routerLink]="'/socart'">
+                <div class="cart-icon-bottom"><span class="totalcartitem">{{totalcartitem}}</span></div>
+            </a>
+        </div>
+        <div class="wrapper" *ngFor="let val of details;let i = index">
+            <main>
+                <form [formGroup]="soFrontForm" (ngSubmit)="doSoFrontform()">
+                    <div class="row">
+                    </div>
+                    <div id="shopify-section-product-template" class="shopify-section">
+                        <div class="single-product-area mt-40 mb-40 pb-40">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="swiper-container">
+                                            <swiper>
+                                                <div *ngFor="let image of _albums; let i=index">
+                                                    <img [src]="image.thumb"
+                                                        onerror="this.onerror=null;this.src='assets/img/no-image-available.png';"
+                                                        (click)="open(i)" />
+                                                </div>
+                                            </swiper>
+                                            <div class="swiper-pagination"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="single-product-content">
+                                            <input type="hidden" name="form_type" value="product" />
+                                            <input type="hidden" name="utf8" value="✓" />
+                                            <div class="product-details">
+                                                <h1 class="single-product-name">{{val.ArticleNumber}}</h1>
+                                                <div class="product-sku">{{val.Title}}</div>
+                                                <div class="single-product-price">
+                                                    <div class="product-discount"><span class="pdp-price"
+                                                            id="ProductPrice">Rs.
+                                                            {{val.ArticleRate}}</span></div>
+                                                </div>
+                                                <div *ngIf="val.ArticleOpenFlag==0"
+                                                    class="size-buttons-size-container colors">
+                                                    <div class="buttons-header">
+                                                        <h4 class="size-buttons-select-size">COLOR</h4>
+                                                    </div>
+                                                    <div class="clear">
+                                                        <div class="tipAndBtnContainer" *ngFor="let data of color">
+                                                            <span>&radic;</span>
+                                                            <div class="colorname">{{data.Name}}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div *ngIf="val.ArticleOpenFlag==0" class="size-buttons-size-container">
+                                                    <div class="buttons-header">
+                                                        <h4 class="size-buttons-select-size">SIZE</h4>
+                                                    </div>
+                                                    <div class="size-buttons-size-buttons">
+                                                        <div class="tipAndBtnContainer" *ngFor="let data of size">
+                                                            <div class="buttonContainer">
+                                                                <div class="size-button-default">
+                                                                    <span>{{data.ratiocount}}</span>
+                                                                    <p class="unified-size"> {{data.Name}}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="size-buttons-size-container">
+                                                    <div class="row" *ngIf="noofpackcount; else elseBlock">
+                                                        <div class="buttons-header">
+                                                            <h4 class="size-buttons-select-size">NUMBER OF PIECES</h4>
+                                                        </div>
+                                                        <div class="number-table">
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Color</th>
+                                                                        <th>Available Pieces</th>
+                                                                        <th>Required Pieces</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tr *ngFor="let val of colorcountdown">
+                                                                    <td>{{val.Name}}</td>
+                                                                    <td><input min="0" class="form-control"
+                                                                            id="qtd_{{val.Id}}"
+                                                                            (keypress)="restrictNumeric($event)"
+                                                                            type="number" disabled="Disabled"
+                                                                            formControlName="NoPacks_{{val.Id}}"></td>
+                                                                    <td> <input min="0"
+                                                                            formControlName="NoPacksNew_{{val.Id}}"
+                                                                            (keypress)="restrictNumeric($event)"
+                                                                            id="qtb_{{val.Id}}" class="form-control"
+                                                                            type="number"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td></td>
+                                                                    <td><b>Total Pieces: </b></td>
+                                                                    <td><div class="w3-panel w3-red totalquality">0</div></td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+
+                                                    </div>
+                                                    <ng-template #elseBlock>
+                                                        <div *ngIf="noofpacksets; then onepacksets else mixpieces">
+                                                        </div>
+                                                        <ng-template #onepacksets>
+                                                            <div class="buttons-header">
+                                                                <h4 class="size-buttons-select-size">NUMBER OF PIECES</h4>
+                                                            </div>
+                                                            <div class="number-table">
+                                                                <table class="table">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Color</th>
+                                                                            <th>Available Pieces</th>
+                                                                            <th>Required Pieces</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <span
+                                                                                *ngFor="let data of color; let i = index let last = last;">
+                                                                                <span
+                                                                                    *ngIf="last; else isnotLast">{{data.Name}}</span>
+                                                                                <ng-template #isnotLast>
+                                                                                    <span>{{data.Name}},</span>
+                                                                                </ng-template>
+                                                                            </span>
+                                                                            - Colors</td>
+                                                                        <td> <input min="0" class="form-control"
+                                                                                type="number"
+                                                                                (keypress)="restrictNumeric($event)"
+                                                                                disabled="Disabled"
+                                                                                [(ngModel)]="NoPacks"
+                                                                                formControlName="NoPacks"></td>
+                                                                        <td> <input min="0" formControlName="NoPacksNew"
+                                                                                (keypress)="restrictNumeric($event)"
+                                                                                class="form-control" type="number"></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </ng-template>
+                                                        <ng-template #mixpieces>
+                                                            <div class="buttons-header">
+                                                                <h4 class="size-buttons-select-size">NUMBER OF PIECES
+                                                                </h4>
+                                                            </div>
+                                                            <div class="number-table">
+                                                                <table class="table">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Color</th>
+                                                                            <th>Available Pieces</th>
+                                                                            <th>Required Pieces</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tr>
+                                                                        <td>Mix Colors</td>
+                                                                        <td> <input min="0" class="form-control"
+                                                                                type="number"
+                                                                                (keypress)="restrictNumeric($event)"
+                                                                                disabled="Disabled"
+                                                                                [(ngModel)]="NoPacks"
+                                                                                formControlName="NoPacks"></td>
+                                                                        <td> <input min="0" formControlName="NoPacksNew"
+                                                                                (keypress)="restrictNumeric($event)"
+                                                                                class="form-control" type="number"></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </ng-template>
+
+                                                    </ng-template>
+                                                </div>
+                                                <div class="mb-4 mt-4 cart-btn">
+                                                    <button type="submit" [disabled]="!soFrontForm.valid"
+                                                        class="btn btn-danger">Add to Cart</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </main>
+        </div>
+       
+    </div>
+</ng-template>
+<ng-template #other_content>
+    <div class="col-sm-12 col-md-12">
+        <div class="card text-white bg-info text-center">
+            <div class="card-body">
+                <blockquote class="card-bodyquote">
+                    <h3>Rights that are not assignable</h3>
+                    <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</ng-template>

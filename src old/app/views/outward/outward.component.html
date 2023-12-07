@@ -1,0 +1,396 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+    <div class="clear">
+
+        <div class="card">
+            <div class="card-header"> <strong>Outward</strong> <span class="text-right pull-right"><strong
+                        *ngIf="OutwardOrderLabel">Outward Number: {{OW_Number_FinancialYear}}</strong></span></div>
+            <div class="card-body">
+                <form [formGroup]="outwordForm" (ngSubmit)="doOutword()">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row inwardmark">
+                                <!-- <input type="file" accept="image/*" capture="camera"/> -->
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="street">Outword Date <span class="red">*</span></label>
+                                        <input class="form-control" value="{{OW_Number}}"  readonly type="hidden" formControlName="OutwardNumberId">
+                                        <input [attr.disabled]="dateDisabled ? '' : null" class="form-control" type="date" (ngModelChange)="selectdatewiseso()" [ngModel]="OutWordCurrentDate | date:'yyyy-MM-dd'" formControlName="OutwardDate">
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="city">SO Number <span class="red">*</span></label>
+                                        <div class="form-group" *ngIf="DropdownSO; else NoDropdownSo">
+                                            <select class="form-control" (change)="onChangeSONumber($event)" name="SoId" Id="SoId" formControlName="SoId">
+                                                <option value="">Select</option>
+                                                <option *ngFor="let val of remainingso" value="{{val.SoNumberId}}">
+                                                    {{val.SoNumber}}</option>
+                                            </select>
+                                        </div>
+                                        <ng-template #NoDropdownSo>
+
+                                            <input readonly type="text" class="form-control" value="{{SO_Number}}">
+                                            <input readonly type="hidden" class="form-control" Id="SoId" formControlName="SoId">
+                                        </ng-template>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="vat">Account</label>
+                                        <!-- <select class="form-control" disabled formControlName="PartyId">
+                                            <option value="">Select</option>
+                                            <option *ngFor="let val of partypdown" value="{{val.Id}}">{{val.Name}}
+                                            </option>
+                                        </select> -->
+
+
+                                        <input class="form-control" readonly type="text"
+                                        oninput="this.value = this.value.toUpperCase()"
+                                        formControlName="Name">
+
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="city">Destination</label>
+                                        <input class="form-control" disabled type="text" oninput="this.value = this.value.toUpperCase()" formControlName="Destination">
+                                        <div class="w3-panel w3-red" *ngIf="outwordForm.controls.Destination.invalid && (outwordForm.controls.Destination.dirty || outwordForm.controls.Destination.touched)">
+                                            This filed is required</div>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="city">Transporter</label>
+                                        <input class="form-control" type="text" disabled oninput="this.value = this.value.toUpperCase()" formControlName="Transporter">
+                                        <div class="w3-panel w3-red" *ngIf="outwordForm.controls.Transporter.invalid && (outwordForm.controls.Transporter.dirty || outwordForm.controls.Transporter.touched)">
+                                            This filed is required</div>
+                                    </div>
+                                </div>
+                                <!-- <input class="form-control" min="0" (keypress)="restrictNumeric($event)" type="hidden" formControlName="GST"> -->
+                                <input class="form-control" type="hidden" formControlName="GSTType">
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="street">GST Amount</label>
+                                        <input class="form-control" min="0" (keypress)="restrictNumeric($event)" type="number" formControlName="GST">
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="street">{{ GSTType }} Percentage </label>
+                                        <input class="form-control" min="0" type="number" max="50" formControlName="GST_Percentage">
+                                        <div class="w3-panel w3-red" *ngIf="outwordForm.controls.GST_Percentage.invalid && (outwordForm.controls.GST_Percentage.dirty || outwordForm.controls.GST_Percentage.touched)">
+                                            This filed is required</div>
+                                    </div>
+                                </div>
+
+                               
+
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="street">Remarks</label>
+                                        <input class="form-control" type="text" formControlName="Remarks">
+                                        <div class="w3-panel w3-red" *ngIf="outwordForm.controls.Remarks.invalid && (outwordForm.controls.Remarks.dirty || outwordForm.controls.Remarks.touched)">
+                                            This filed is required</div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col1 Discount">
+                                    <div class="form-group">
+                                        <!-- <label for="street"><strong>Discount in Percentage</strong><i
+                                            class="fa fa-info-circle fa-lg"
+                                            tooltip="<p>In Percentage</p>"></i></label>
+                                        <input class="form-control" min="0" max="10" (keypress)="restrictNumeric($event)" type="number" formControlName="Discount">
+                                        <div class="w3-panel w3-red" *ngIf="outwordForm.controls.Discount.invalid && (outwordForm.controls.Discount.dirty || outwordForm.controls.Discount.touched)">
+                                            This filed is required</div> -->
+                                    </div>
+                                </div>
+                                <div class="col1 Discount">
+                                    <div class="form-group">
+                                        <!-- <label for="street"><strong>Discount in Percentage</strong><i
+                                            class="fa fa-info-circle fa-lg"
+                                            tooltip="<p>In Percentage</p>"></i></label>
+                                        <input class="form-control" min="0" max="10" (keypress)="restrictNumeric($event)" type="number" formControlName="Discount">
+                                        <div class="w3-panel w3-red" *ngIf="outwordForm.controls.Discount.invalid && (outwordForm.controls.Discount.dirty || outwordForm.controls.Discount.touched)">
+                                            This filed is required</div> -->
+                                    </div>
+                                </div>
+                                
+                                <div class="col1 Discount">
+                                    <div class="form-group">
+                                      <label for="percentageDiscount"><strong>Extra Discount in Percentage</strong><i class="fa fa-info-circle fa-lg" tooltip="<p>In Percentage</p>"></i></label>
+                                      <input class="form-control" min="0" max="10" (keypress)="onPercentageDiscountChange($event)"  type="number" formControlName="Discount" id="percentageDiscount">
+                                      <div class="w3-panel w3-red" *ngIf="outwordForm.controls.Discount.invalid && (outwordForm.controls.Discount.dirty || outwordForm.controls.Discount.touched)">
+                                        This field is required
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col1">
+                                    <div class="form-group">
+                                      <label for="amountDiscount"><strong>Extra Discount in Amount</strong><i class="fa fa-info-circle fa-lg" tooltip="<p>In Amount</p>"></i></label>
+                                      <input class="form-control" min="0" max="5000" (keypress)="onAmountDiscountChange($event)"  type="number" formControlName="Discount_amount" id="amountDiscount">
+                                      <div class="w3-panel w3-red" *ngIf="outwordForm.controls.Discount_amount.invalid && (outwordForm.controls.Discount_amount.dirty || outwordForm.controls.Discount_amount.touched)">
+                                        This field is required
+                                      </div>
+                                    </div>
+                                  </div>
+                                  
+
+                                <div class="col1" *ngIf="scannerbutton || scannerclosebutton">
+                                    <div class="form-group">
+                                        <label for="street">Barcode Scanner</label>
+                                        <div class="w-100">
+                                            <button *ngIf="scannerbutton" (click)="barcodeclick()" class="btn btn-primary px-4">Scan</button>
+                                            <button *ngIf="scannerclosebutton" (click)="barcodescanclose()" class="btn btn-primary px-4">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="barcodediv" style="display:none">
+                            <barcode-scanner-livestream type="code_128" (valueChanges)="onValueChanges($event)" (started)="onStarted"></barcode-scanner-livestream>
+                            <!-- <div [hidden]="!barcodeValue">
+                                {{barcodeValue}}
+                            </div> -->
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="vat">Article No. <span class="red">*</span></label>
+                                        <ng-select  class="custom" [clearable]="false" *ngIf="AddArticle; else textarticle" (ngModelChange)="onChangartical($event)" [(ngModel)]="ArticleId" formControlName="ArticleId" [items]="articaldown" bindLabel="ArticleNumber" placeholder="Select Article">
+                                        </ng-select>
+                                        <ng-template #textarticle>
+                                            <input class="form-control" disabled="Disabled" type="text" value="{{ArticleNumber}}">
+                                        </ng-template>
+                                        <div class="w3-panel w3-red" *ngIf="outwordForm.controls.ArticleId.invalid && (outwordForm.controls.ArticleId.dirty || outwordForm.controls.ArticleId.touched)">
+                                            This filed is required</div>
+                                    </div>
+                                </div>
+                                <div *ngIf='articalData' class="col1">
+                                    <div class="form-group">
+                                        <label for="street">Category</label>
+                                        <input class="form-control" readonly type="text" [(ngModel)]="Category" tabindex="-1" formControlName="Category">
+                                    </div>
+                                </div>
+                                <div class="col1" *ngIf="ArticleOpenFlag">
+                                    <div class="form-group">
+                                        <label for="vat">Color</label>
+                                        <ng-multiselect-dropdown tabindex="-1" [placeholder]="'Article Color Select'" formControlName="ArticleSelectedColor" [disabled]="Disabled" [(ngModel)]="ArticleSelectedColor" [data]="colordropdown" [settings]="dropdownSettings"> </ng-multiselect-dropdown>
+                                    </div>
+                                </div>
+
+                                <div class="col1" *ngIf="ArticleOpenFlag">
+                                    <div class="form-group">
+                                        <label for="vat">Size</label>
+                                        <ng-multiselect-dropdown tabindex="-1" [placeholder]="'Article Size Select'" [disabled]="Disabled" formControlName="ArticleSelectedSize" [(ngModel)]="ArticleSelectedSize" [data]="sizedropdown" [settings]="dropdownSettings"> </ng-multiselect-dropdown>
+                                    </div>
+                                </div>
+
+                                <div class="col1" *ngIf="ArticleOpenFlag">
+                                    <div class="form-group">
+                                        <label for="street">Article Ratio</label>
+                                        <input class="form-control" tabindex="-1" readonly type="text" [(ngModel)]="ArticleRatio" formControlName="ArticleRatio">
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="street">Rate <span class="red">*</span></label>
+                                        <input class="form-control" 
+                                        min="0" 
+                                        (keypress)="restrictNumeric($event)" 
+                                        type="number" 
+                                        [(ngModel)]="ArticleRate" 
+                                        formControlName="OutwardRate"
+                                        [readonly]="notAdmin">
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="street">Discount <span class="red">*</span> <i
+                                            class="fa fa-info-circle fa-lg"
+                                            tooltip="<p>In Percentage</p>"></i></label>
+                                        <input class="form-control" min="0" max="10" (keypress)="restrictNumeric($event)" type="number" [(ngModel)]="PartyDiscount" formControlName="PartyDiscount">
+                                        <div class="w3-panel w3-red" *ngIf="outwordForm.controls.PartyDiscount.invalid && (outwordForm.controls.PartyDiscount.dirty || outwordForm.controls.PartyDiscount.touched)">
+                                            This filed is required</div>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="street">Box <span class="red">*</span></label>
+                                        <input class="form-control" #myInputBox min="0" (keypress)="restrictNumeric($event)" type="number" [(ngModel)]="OutwardBox" formControlName="OutwardBox">
+                                    </div>
+                                </div>
+                                <div class="col1" *ngIf="OutwardWeightOpenFlag">
+                                    <div class="form-group">
+                                        <label for="street">Weight <span class="red">*</span></label>
+                                        <input class="form-control" min="0" (keypress)="restrictNumeric($event)" type="number" [(ngModel)]="OutwardWeight" formControlName="OutwardWeight">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <div class="clear" *ngIf='articalData'>
+                                <div class="row" *ngIf="noofpackcount; else elseBlock">
+                                    <div class="col1" *ngFor="let val of colorcountdown">
+                                        <div class="form-group">
+                                            <label for="vat">Color - {{val.Name}}</label>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input class="form-control" id="qtd_{{val.Id}}" min="0" type="number" (keypress)="restrictNumeric($event)" disabled="Disabled" readonly tabindex="-1" formControlName="NoPacks_{{val.Id}}">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input (change)="onchangesets(val.Id)" min="0" formControlName="NoPacksNew_{{val.Id}}" id="qtb_{{val.Id}}" (keypress)="restrictNumeric($event)" class="form-control" type="number">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ng-template #elseBlock>
+                                    <div class="row">
+                                        <div class="col1">
+                                            <div class="form-group">
+                                                <label for="vat">Number of Pieces<span class="red">*</span></label>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <input class="form-control" min="0" type="number" (keypress)="restrictNumeric($event)" disabled="Disabled" [(ngModel)]="NoPacks" readonly tabindex="-1" formControlName="NoPacks">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input (change)="onchangesets(val.Id)" min="0" [(ngModel)]="GETNOPACKS" formControlName="NoPacksNew" class="form-control" (keypress)="restrictNumeric($event)" type="number">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+
+                                <ng-container *ngIf="noofpackcount">
+                                    <div class="row">
+                                        <div class="col1">
+                                            <div class="form-group">
+                                                <label for="vat">Total Pieces: </label>
+                                                <div class="w3-panel w3-red totalquality">0</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-6 text-left">
+                            <button type="submit" id="submit-button" [disabled]="!outwordForm.valid" class="btn btn-primary px-4">Submit</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="text-right backcancel_button">
+                    <!-- <button (click)="barcodeclick()" class="btn btn-primary px-4">Scan</button> -->
+                    <button type="button" class="btn btn-primary mr-1" data-toggle="modal" (click)="primaryModal.show()"> Add Party </button>
+                    <button type="button" (click)="goBack()" class="btn btn-primary px-4 mgr5">Back</button>
+                    <button (click)="cancelform()" class="btn btn-primary px-4">Cancel</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <table datatable [dtOptions]="dtOptions" class="row-border hover" width="100%">
+        <thead class="thead-dark">
+            <tr>
+                <th>No</th>
+                <th>Article No</th>
+                <th>Category</th>
+                <th>Pieces</th>
+                <th>Box</th>
+                <th>Rate</th>
+                <th>Discount</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let val of outwardlist;let i = index">
+                <td>{{ i + 1}}</td>
+                <td>{{val.ArticleNumber}}</td>
+                <td>{{val.Category}}</td>
+                <td>{{val.NoPacks}}</td>
+                <td>{{val.OutwardBox}}</td>
+                <td>&#8377;{{val.OutwardRate}}</td>
+                <td>{{val.PartyDiscount}}</td>
+                <td>{{val.OutwardDate | date:'dd/MM/y'}}</td>
+                <td class="flex">
+                    <div *ngIf="isDeleteandEdit;then other_content else content"></div>
+                    <ng-template #content>
+                        <button type="button" *ngIf='isDeleteandEdit==false' [routerLink]="['/outward',{OWNO:val.OutwardNumberId, id:val.Id}]" class="btn btn-primary mr-1" (click)="edit(val.Id)"> <i class="fa fa-pencil-square-o"
+                                aria-hidden="true"></i>
+                        </button>
+                        <button type="button" *ngIf='isDeleteandEdit==false' class="btn btn-danger mr-1" (click)="delete(val.Id, val.ArticleId)"> <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </button>
+                    </ng-template>
+                    <ng-template #other_content>
+                        <span style="text-align: center;">-</span>
+                    </ng-template>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</ng-template>
+<ng-template #other_content>
+    <div class="col-sm-12 col-md-12">
+        <div class="card text-white bg-info text-center">
+            <div class="card-body">
+                <blockquote class="card-bodyquote">
+                    <h3>Rights that are not assignable</h3>
+                    <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+<div bsModal #primaryModal class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-primary" role="document">
+        <form  (ngSubmit)="dopartyaddform()">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Party</h4>
+                    <button type="button" class="close" (click)="primaryModal.hide()" aria-label="Close"> <span
+                            aria-hidden="true">&times;</span> </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="city">Party Name <span class="red">*</span></label>
+                        <input class="form-control" type="text" oninput="this.value = this.value.toUpperCase()" formControlName="PartyName">
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Phone Number <span class="red">*</span></label>
+                        <input class="form-control" type="text" formControlName="PartyContact">
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Address <span class="red">*</span></label>
+                        <input class="form-control" type="text" formControlName="PartyAddress">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" [disabled]="!partyaddForm.valid" class="btn btn-primary px-4">Submit</button>
+                    <button type="button" class="btn btn-secondary" (click)="primaryModal.hide()">Close</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

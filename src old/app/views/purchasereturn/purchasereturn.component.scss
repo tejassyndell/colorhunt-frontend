@@ -1,0 +1,23 @@
+.no-sort::after {
+    display: none!important;
+}
+
+.no-sort {
+    pointer-events: none!important;
+    cursor: default!important;
+}
+table.dataTable tbody tr {
+    background-color: white;
+}
+
+.col1 {width:20%; float:left; padding:0 15px;}
+.inwardmark {background:#eee; margin:-20px -20px 10px; padding:10px 0 0; border-bottom:#dadada solid 1px;}
+.backcancel_button { position: absolute; right: 20px; bottom: 20px; }
+.mgr5 {margin-right:5px;}
+@media screen and (max-width:1024px) {
+.col1 {width:33%;}
+}
+
+@media screen and (max-width:855px) {
+.col1 {width:100%;}
+}

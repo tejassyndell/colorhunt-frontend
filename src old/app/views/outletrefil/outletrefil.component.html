@@ -1,0 +1,135 @@
+<div *ngIf="accessdenied == false" class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="table-title"> <i class="fa fa-align-justify"></i> Stocks List </div>
+        </div>
+        <div class="col-md-12 pt-3 pb-3">
+          <div class="row" style="justify-content: right;">
+            <div class="col1">
+              <div class="form-group">
+                <label for="vat">Account <span class="red">*</span></label>
+                <select class="form-control" (change)="onChangePartyId($event)" name="PartyId" Id="PartyId">
+                  <option value="">Select</option>
+                  <option *ngFor="let val of partypdown" value="{{val.Id}}">{{val.Name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="col-md-12 pt-3 pb-3  d-flex  justify-content-between">
+          <div (click)="fClosingCategoryw()" class="d-flex justify-content-center"
+            style="background-color: #6fcae16e; border-radius: 5px; margin-bottom:22px;">
+            <div class=""
+              style="border-right: 1px solid #c8ced3; padding: 10px 15px; display: flex; align-items: center;">
+              <b>Closing Stock</b>
+            </div>
+            <div class="d-flex align-items-center" style="padding: 10px 15px;"><b>{{ fClosing }}</b></div>
+          </div>
+
+          <div *ngIf="outletClosing || outletClosing == 0">
+            <div (click)="outletClosingCategoryw()" class="d-flex justify-content-center"
+              style="background-color: #6fcae16e; border-radius: 5px;margin-bottom:22px;">
+              <div class=""
+                style="border-right: 1px solid #c8ced3; padding: 10px 15px; display: flex; align-items: center;">
+                <b>Closing Stock</b>
+              </div>
+              <div class="d-flex align-items-center" style="padding: 10px 15px;"><b>{{ outletClosing }}</b></div>
+            </div>
+          </div>
+
+
+        </div>
+
+
+
+        <!-- outlet data start -->
+        <div *ngIf="fClosingCategory" class="col-12 d-flex p-0"
+          style="position: fixed;top: 0;width: 100%;background: #000000b5;left: 0;z-index: 9999;height: 100%;justify-content: center;">
+          <div style="width: 35%;margin-top: 3%; position:relative;">
+            <i (click)="hidefOpeningClosing()" class="fa fa-times"
+              style="font-size: 25px;position: absolute;top: -22px;right: -20px;color: black;cursor: pointer;height: 45px;justify-content: center;width: 45px;border-radius: 50%;box-shadow: 0px 4px 25px 16px rgb(0 0 0 / 7%);background: white;align-items: center;display: flex;box-shadow: beige;"></i>
+            <div class="module-heading bg-dark">Category Base {{ fop }} Closing Stock</div>
+            <div class="col-12 p-0 d-flex" style="display: table-header-group;">
+              <div class="col-4 inner-cat-data total-text-column"><b>Category</b></div>
+              <div class="col-4 inner-cat-data total-text-column text-center"><b>Style</b></div>
+              <div class="col-4 inner-cat-data total-column text-center"><b>Quantity</b></div>
+            </div>
+            <div class="p-0 col-12 d-flex" *ngFor="let item of fcategories;let i = index">
+              <div class="col-4 inner-cat-data">{{ item.Title }} </div>
+              <div class="col-4 inner-cat-data text-center">{{ fClosingCat[i]['style'] }}</div>
+              <div class="col-4 inner-cat-data text-center">{{ fClosingCat[i]['stock'] }}</div>
+            </div>
+            <div class="col-12 p-0 d-flex">
+              <div class="col-4 inner-cat-data total-text-column"><b>Total</b></div>
+              <div class="col-4 inner-cat-data total-text-column text-center"><b>{{ fTotalStyle }}</b></div>
+              <div class="col-4 inner-cat-data total-column text-center"><b>{{ fClosing }}</b></div>
+            </div>
+          </div>
+        </div>
+
+
+        <div *ngIf="outletClosingCategory" class="col-12 d-flex p-0"
+          style="position: fixed;top: 0;width: 100%;background: #000000b5;left: 0;z-index: 9999;height: 100%;justify-content: center;">
+          <div style="width: 35%;margin-top: 3%; position:relative;">
+            <i (click)="hideOutletOpeningClosing()" class="fa fa-times"
+              style="font-size: 25px;position: absolute;top: -22px;right: -20px;color: black;cursor: pointer;height: 45px;justify-content: center;width: 45px;border-radius: 50%;box-shadow: 0px 4px 25px 16px rgb(0 0 0 / 7%);background: white;align-items: center;display: flex;box-shadow: beige;"></i>
+
+
+            <div class="module-heading bg-dark">Category Base {{ op }} Closing Stock</div>
+
+
+
+            <div class="col-12 p-0 d-flex" style="display: table-header-group;">
+              <div class="col-4 inner-cat-data total-text-column"><b>Category</b></div>
+              <div class="col-4 inner-cat-data total-text-column text-center"><b>Style</b></div>
+              <div class="col-4 inner-cat-data total-column text-center"><b>Quantity</b></div>
+            </div>
+            <div class="p-0 col-12 d-flex" *ngFor="let item of categories;let i = index">
+              <div class="col-4 inner-cat-data">{{ item.Title }} </div>
+              <div class="col-4 inner-cat-data text-center">{{ outletClosingCat[i]['style'] }}</div>
+              <div class="col-4 inner-cat-data text-center">{{ outletClosingCat[i]['stock'] }}</div>
+            </div>
+            <div class="col-12 p-0 d-flex">
+              <div class="col-4 inner-cat-data total-text-column"><b>Total</b></div>
+              <div class="col-4 inner-cat-data total-text-column text-center"><b>{{ outletTotalStyle }}</b></div>
+              <div class="col-4 inner-cat-data total-column text-center"><b>{{ outletClosing }}</b></div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+        <div class="col-md-12 pt-3 pb-3" *ngIf="outletreportgetdata">
+
+
+          <table datatable [dtOptions]="dtOptions" id="Clienttbl" class="row-border hover"></table>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="accessdenied == true" id="other_content" class="col-sm-12 col-md-12">
+  <div class="card text-white bg-info text-center">
+    <div class="card-body">
+      <blockquote class="card-bodyquote">
+        <h3>Rights that are not assignable</h3>
+        <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+      </blockquote>
+    </div>
+  </div>
+</div>
+
+
+  <

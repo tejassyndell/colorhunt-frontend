@@ -1,0 +1,84 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+  <div class="animated fadeIn">
+    <div class="row">
+      <div class="col-12 d-flex">
+        <select *ngIf="showSelection" class="custom " id ="selection" (change)="onChange($event.target.value)" placeholder="Select">
+          <option value="">Select</option>
+          <option value="User">User Logs</option>
+          <option value="Article">Article Logs</option>
+          <option value="PO ">PO Logs</option>
+          <option value="Inward">Inward Logs</option>
+          <option value="Product Launch Status">Product Launch Status Logs</option>
+          <option value="SO">SO Logs</option>
+          <option value="Outward">Outward Logs</option>
+          <option value="Article Photos">Article Photos Logs</option>
+          <option value="Purchase Return">Purchase Return Logs</option>
+          <option value="Sales Return">Sales Return Logs</option>
+          <option value="Outlet Sales Return">Outlet Sales Return Logs</option>
+          <option value="Outlet">Outlet Logs</option>
+          <option value="Outlet Transport">Outlet Transport Logs</option>
+          <option value="Stock Transfer">Stock Transfer Logs</option>
+          <!-- <ng-option value="user">User Logs</ng-option> -->
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="table-title"><i class="fa fa-align-justify"></i> User Logs</div>
+            <div class="pull-right" *ngIf='isAdd==1'>
+              <a type="submit" [routerLink]="['/users/']" routerlinkactive="active" class="btn btn-primary">Add User</a>
+            </div>
+          </div>
+          <div class="col-md-12 pt-3 pb-3">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+              <thead class="thead-dark">
+                <tr>
+                  <th>No</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>User Name</th>
+                  <th>Status</th>
+                  <th>Module</th>
+                  <th>Log Type</th>
+                  <th>Log Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let val of userLogRecord;let i = index">
+                  <td>{{ i + 1}}</td>
+                  <td>{{val.Date}}</td>
+                  <td>{{val.Time}}</td>
+                  <td>{{val.Name}}</td>
+                  <td *ngIf="val.Status == 1">Active</td>
+                  <td *ngIf="val.Status == 0">Inactive</td>
+                  <td>{{ val.Module }}</td>
+                  <td>{{ val.LogType }}</td>
+                  <td>{{ val.LogDescription }}</td>
+                </tr>
+                <tr *ngIf="userLogRecord?.length == 0">
+                  <td colspan="8" class="no-data-available text-center">No data available in table!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #other_content>
+  <div class="col-sm-12 col-md-12">
+    <div class="card text-white bg-info text-center">
+      <div class="card-body">
+        <blockquote class="card-bodyquote">
+          <h3>Rights that are not assignable</h3>
+          <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</ng-template>

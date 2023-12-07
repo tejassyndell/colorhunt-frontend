@@ -1,0 +1,23 @@
+.col1 {width:20%; float:left; padding:0 15px;}
+.row {display: inherit;}
+.pl-4, .px-4 {
+    padding-left: 1.5rem !important;
+    margin: 0px 5px;
+}
+
+.form-group.outlet-filed { margin-top: -15px;}
+.inwardmark {background:#eee; margin:-20px -20px 10px; padding:10px 0 0; border-bottom:#dadada solid 1px;}
+.backcancel_button { position: absolute; right: 20px; bottom: 20px; }
+.mgr5 {margin-right:5px;}
+@media screen and (max-width:1024px) {
+.col1 {width:33%;}
+}
+
+@media screen and (max-width:855px) {
+.col1 {width:100%;}
+}
+
+.col-md-6.text-center.Export-btn {
+    text-align: initial !important;
+    top: 35px ;
+}

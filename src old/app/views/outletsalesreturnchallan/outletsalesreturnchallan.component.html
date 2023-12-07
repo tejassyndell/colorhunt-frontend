@@ -1,0 +1,251 @@
+<style>
+    .page-footer {
+        opacity: 0;
+    }
+    
+    .page {
+        page-break-after: always;
+    }
+    
+    @media print {
+        .page-footer {
+            opacity: 1;
+        }
+        thead {
+            display: table-header-group;
+        }
+        tfoot {
+            display: table-footer-group;
+        }
+    }
+</style>
+<div *ngIf="UserWiseData; then sodatashow else sodatahide"></div>
+<ng-template #sodatashow>
+    <div id="contentToConvert" class="card">
+        <div id="print-section" class="card-body" style="overflow:auto; margin:1.25rem; padding:0;">
+            <table width="100%" border="0" cellspacing="0" style="font-family:Arial; border:0;">
+                <tbody>
+                    <tr>
+                        <td style="border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; text-align:center;" colspan="9">
+                            <h4 style="margin:0; padding:12px; text-align:center;"><strong>SALES RETURN DELIVERY
+                                      CHALLAN</strong></h4>
+                        </td>
+                    </tr>
+                    <tr style="background:#000;">
+                        <td style="border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; text-align:center;" colspan="9">
+                            <h2 style="margin:0; padding:12px; color:#fff; text-align:center;">
+                                <strong>{{UserName}}</strong></h2>
+                        </td>
+                    </tr>
+
+                    <ng-template *ngIf="showOutletPartyId;then showOutletParty; else hideOutletParty"> </ng-template>
+                    <ng-template #showOutletParty>
+                        <tr>
+                            <td colspan="3" style="width:320px; padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;">
+                                <strong>PARTY: </strong>{{Name}}</td>
+                            <td colspan="4" style="width:320px; padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;">
+                                <strong>OUTLET PARTY: </strong>{{OutletPartyName}}</td>
+                            <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:120px">
+                                <strong>DATE:</strong></td>
+                            <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:170px">
+                                {{SRDate | date:'dd/MM/y'}}</td>
+                        </tr>
+                        <tr>
+                            <!-- <td colspan="3" style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;">
+                                {{Name}}</td>
+                            <td colspan="4" style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                {{OutletPartyName}}</td> -->
+                            <td colspan="3" style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;">
+                                {{Address}}</td>
+                            <td colspan="4" style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                {{OutletPartyAddress}}</td>
+                            <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                <strong>SR NO:</strong></td>
+                            <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                {{SRNO}}</td>
+                        </tr>
+                        <tr>
+                            <!-- <td colspan="3" style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;">
+                                -</td>
+                            <td colspan="4" style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                -</td> -->
+                            <td colspan="3" style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px;">
+                                <strong>GST:</strong> {{GSTNumber}}</td>
+                            <td colspan="4" style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px;">
+                                <strong>GST:</strong> {{OutletPartyGSTNumber}}</td>
+                            <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                <strong>OUTLET NO:</strong></td>
+                            <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px; text-align:left; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                {{OutletNumber}}</td>
+                        </tr>
+                        <!-- <tr>
+                            
+                            <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                <strong>-</strong></td>
+                            <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px; text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                            </td>
+                        </tr> -->
+                        <tr>
+
+
+                        </tr>
+                        <tr>
+                            <td colspan="9" style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px;">
+                                <strong>REMARK:</strong> {{Remark}}</td>
+                        </tr>
+                        <tr>
+                            <td style="border-top:1px solid #c8ced3; height:30px;" colspan="9"></td>
+                        </tr>
+                    </ng-template>
+                    <ng-template #hideOutletParty>
+                        <tr>
+                            <td colspan="7" style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;">
+                                <strong>PARTY:</strong></td>
+                            <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:120px">
+                                <strong>DATE:</strong></td>
+                            <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:170px">
+                                {{SRDate | date:'dd/MM/y'}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="7" style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;">
+                                {{Name}}</td>
+                            <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                <strong>SR NO:</strong></td>
+                            <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                {{SRNO}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="7" style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px;">
+                                {{Address}}</td>
+                            <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                <strong>-</strong></td>
+                            <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px; text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="9" style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px;">
+                                <strong>GST:</strong> {{GSTNumber}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="9" style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px;">
+                                <strong>REMARK:</strong> {{Remark}}</td>
+                        </tr>
+                        <tr>
+                            <td style="border-top:1px solid #c8ced3; height:30px;" colspan="9"></td>
+                        </tr>
+                    </ng-template>
+
+                </tbody>
+            </table>
+            <div class="page-footer" style="font-family:Arial; position: fixed; bottom: 0; width: 100%;">
+                <div style="float: left;"><strong>Prepared by: </strong>{{preparedby}}</div>
+                <div style="position: absolute; left: 0; right: 0; margin: 0 auto; width: 240px;">
+                    <strong>Verified by: </strong>{{verifiedby}}</div>
+                <div style="float: right;">
+                    <strong>Authorized by: </strong>
+                    <span style="border-bottom: #000 solid 1px;">______________________</span>
+                </div>
+            </div>
+            <table width="100%" border="0" cellspacing="0" style="font-family:Arial; border:0;">
+                <thead>
+                    <tr style="text-align:center; font-size:14px;">
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                            <strong>SN</strong></td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; min-width:100px;">
+                            <strong>ARTICLE</strong></td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                            <strong>CATEGORY</strong></td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; min-width:80px; background:#e2efd9;">
+                            <strong>QTY IN SET</strong></td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                            <strong>COLORS</strong></td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; min-width:110px;">
+                            <strong>SIZES</strong></td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; width:90px;">
+                            <strong>RATE</strong></td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; width:100px;">
+                            <strong>AMOUNT</strong></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="text-align:center; font-size:14px;" *ngFor="let val of solist[0]; let i = index;">
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;">
+                            {{ i + 1}}</td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                            {{val.ArticleNumber}}</td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                            {{val.Title}}</td>
+
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; background:#e2efd9;">
+                            {{val.QuantityInSet}}</td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                            {{val.ArticleColor}}</td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                            {{val.ArticleSize}}</td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right; background:#e2efd9;">
+                            &#8377;{{val.ArticleRate}}</td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; text-align:right;">
+                            &#8377;{{val.Amount}}</td>
+                    </tr>
+                    <tr style="text-align:center; font-size:14px;">
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;">
+                            &nbsp;</td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                        </td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                        </td>
+
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; background:#e2efd9;">
+                        </td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                        </td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                        </td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right; background:#e2efd9;">
+                        </td>
+                        <td style="padding:12px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; text-align:right;">
+                        </td>
+                    </tr>
+                    <tr style="text-align:center; font-size:14px;">
+                        <td colspan="3" style="padding:12px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;">
+                            <strong>Total</strong></td>
+
+                        <td style="padding:12px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                            <strong>{{TotalNoPacks}}</strong></td>
+                        <td style="padding:12px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                        </td>
+                        <td style="padding:12px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                        </td>
+                        <td style="padding:12px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;">
+                            <strong></strong></td>
+                        <td style="padding:12px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; text-align:right;">
+                            <strong>&#8377;{{TotalAmount}}</strong></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <div class="page-footer-space" style="height: 30px;"></div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <div class="challan-btn">
+        <button type="button" (click)="goBack()" class="btn btn-primary px-4">Back</button>
+        <button type="button" printSectionId="print-section" class="btn btn-primary mb-3 pull-right" ngxPrint> <i
+                  class="fa fa-print" aria-hidden="true"></i> </button>
+    </div>
+</ng-template>
+<ng-template #sodatahide>
+    <div class="col-sm-12 col-md-12">
+        <div class="card text-white text-center">
+            <div class="card-body">
+                <blockquote class="card-bodyquote">
+                    <img src="../assets/img/Access-denied.png">
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</ng-template>

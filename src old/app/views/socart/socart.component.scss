@@ -1,0 +1,73 @@
+.Bg-area {margin: 0 -30px; background: #fff;}
+h3.h3{text-align:center; margin:1em 0; text-transform:capitalize; font-size:1.7em; color:#f0672a;}
+.mobile {display:none;}
+.btn-fixed {display:none; padding: 10px; position: fixed; bottom: 0; right: 0; left: 0; background: #fff; border-top: 1px solid #d4d5d9; -ms-box-shadow: 0 -1px 12px 0 rgba(0,0,0,.15); -o-box-shadow: 0 -1px 12px 0 rgba(0,0,0,.15); -webkit-box-shadow: 0 -1px 12px 0 rgba(0,0,0,.15); -moz-box-shadow: 0 -1px 12px 0 rgba(0,0,0,.15); box-shadow: 0 -1px 12px 0 rgba(0,0,0,.15); z-index: 11;}
+.btn-fixed .btn.cart-btn {font-size:16px;}
+.btn-fixed .w-50 {padding: 0 15px;}
+.btn-fixed .pricetotal {border:none; padding-top:5px;}
+
+@media screen and (min-width:1650px) {
+.container {max-width: 1600px}
+}
+@media screen and (max-width:1200px) {
+.cartitem {height:auto !important;}
+}
+@media screen and (max-width:991px) {
+.itemLeft {width:100px !important; height: 130px !important; position: absolute; top: 0; left: 0;}
+.itemRight {margin-left:100px; padding:10px 15px !important; width: auto !important;}
+.itemRight .col-md-6 {max-width: 50% !important;}
+.desktop {display:none;}
+.mobile {display:block; padding:0 15px; position: relative;}
+}
+@media screen and (max-width:767px) {
+.btn-fixed {display: block;}
+.option {display: none;}
+.itemRight {padding:10px !important;}
+.list-select li {width:100% !important;}
+h3.h3 {font-size:20px;}
+.select .form-control {margin-bottom:15px;}
+.cartitem:last-child {margin-bottom:30px;}
+}
+@media screen and (max-width:450px) {
+.itemLeft {width:110px !important; height: 144px !important;}
+.itemRight {margin-left:110px;}
+.itemRight {padding:10px !important; font-size: 12px;}
+.itemRight .col-md-6 {max-width: 100% !important;}
+}
+/******************* End Shopping ********************/
+
+.mt-40 {margin-top:40px;}
+.mb-40 {margin-bottom:40px;}
+.PadTB50 {padding: 50px 0;}
+.wrapper {height:100%; width:100%; background:#fff;}
+#sidebar {float:left; background:#fff; width:275px; padding:13px 0 0 45px; height:100%; border-right:1px solid #e6e6e6;}
+#grid-selector {padding:30px 0 0 0;}
+.row.product-list {padding:0 15px; margin:0;}
+#sidebar h3 {color:#262626; text-transform:uppercase; font-size:14px; font-weight:700; padding:30px 0 10px 0; letter-spacing:1px; clear:both; position:relative;}
+
+.btn.cart-btn {width:250px; font-weight:bold !important; background:#f0672a; border-color:#f0672a; padding:12px; font-size:18px; text-transform:uppercase;}
+.btn.cart-btn:hover, .btn.cart-btn:active, .btn.cart-btn:focus {background-color:#e25719 !important; border-color:#e25719 !important;}
+.colors span {border:none; position:relative; border-radius:100%; width:13px; height:13px; display:block; float:left; margin:2px 5px 0 0;}
+.colorname {float:left;}
+.available {color:#848484; font-size:11px; margin-left:4px; float:right; line-height:20px;}
+
+.list-select {list-style:none; padding:0; margin:0; clear:both; width:100%; margin-bottom:15px;}
+.list-select li {width:20%; float:left; padding:0 15px;}
+.list-select li label {font-weight:600;}
+.list-select li .red {color:red;}
+.list-select li .form-control {background:#f1f1f1;}
+
+.cart-title {margin-bottom:20px; font-size:24px; padding-top: 20px;}
+.cartitem {background:#fff; font-size:14px; border:1px solid #eaeaec; border-radius:4px; margin-bottom:10px; position:relative; overflow:hidden; height:178px;}
+.itemLeft {float:left; width:20%; height:100%; overflow:hidden; background:#f7f7f7;}
+.itemLeft img {width:100%;}
+.itemRight {padding:15px 15px 0; position:relative; display:inline-block; width:80%;}
+.actions {border-top:1px solid #eaeaec; margin-top:10px;}
+.removeButton {text-transform:uppercase; font-weight:600; color:red; padding:5px; font-size:14px; text-decoration:none; border:none; background:none; cursor:pointer; margin:10px 0;}
+
+.option {padding:0;}
+.optionsHeader {font-size:12px; font-weight:600; color:#7e818c;}
+.price {margin-bottom:10px; border-top:1px dotted #eaeaec; margin-top:15px;}
+.priceHeader {font-size:12px; font-weight:600; color:#7e818c; margin:10px 0px 15px;}
+.orderSummary {font-size:14px; color:#535766;}
+.pricetotal {font-weight:bold; font-size:15px; padding-top:10px; border-top:1px solid #eaeaec;}

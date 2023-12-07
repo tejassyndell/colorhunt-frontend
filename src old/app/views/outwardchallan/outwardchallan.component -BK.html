@@ -1,0 +1,298 @@
+<div id="contentToConvert" #drawMe class="card">
+    <div id="print-section" class="card-body" style="overflow:auto; margin:1.25rem; padding:0;">
+        <table width="100%" border="0" cellspacing="0" style="font-family:Arial; border:0;">
+            <tbody>
+                <tr>
+                    <td style="border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; text-align:center;" colspan="11">
+                        <!-- <h4 style="margin:0; padding:6px; text-align:center;"><strong>DELIVERY CHALLAN</strong></h4> -->
+                        <h4 style="margin:0; padding:6px; text-align:center;"><strong>INVOICE</strong></h4>
+                    </td>
+                </tr>
+                <tr style="background:#000;">
+                    <td style="border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; text-align:center;" colspan="11">
+                        <h2 style="margin:0; padding:6px; color:#fff; text-align:center;"><strong>{{UserName}}</strong>
+                        </h2>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="9" style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:12px;">
+                        <strong>PARTY:</strong> {{Name}}</td>
+                    <td colspan="1" style="width:100px; padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                        <strong>DATE:</strong></td>
+                    <td colspan="1" style="width:100px; padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:12px; white-space:nowrap; text-align:right; overflow:hidden; text-overflow:ellipsis;">
+                        {{OutwardDate | date:'dd/MM/y'}}</td>
+                </tr>
+                <tr>
+                    <td colspan="9" style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:12px;">
+                        <strong>ADDRESS:</strong> {{Address}}</td>
+                    <td colspan="1" style="width:100px; padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                        <strong>CHALLAN NO:</strong></td>
+                    <td colspan="1" style="width:100px; padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:12px; text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                        {{OutwardNumber}}</td>
+                </tr>
+                <tr>
+                    <td colspan="9" style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:12px;">
+                        <strong>CONTACT:</strong> {{PhoneNumber}}
+                    </td>
+                    <td colspan="1" style="width:100px; padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                        <strong>SO NO:</strong></td>
+                    <td colspan="1" style="width:100px; padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:12px; text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                        {{SoNumber}}</td>
+                </tr>
+                <tr>
+                    <td colspan="9" style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:12px;">
+                        <strong>GST:</strong> {{GSTNumber}}</td>
+                    <td colspan="1" style="width:100px; padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                        <strong>TRANSPORT:</strong></td>
+                    <td colspan="1" style="width:100px; padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:12px; text-align:right;">
+                        {{Transporter}}</td>
+                </tr>
+                <tr>
+                    <td colspan="11" style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; font-size:12px; border-right:1px solid #c8ced3;">
+                        <strong>Remarks:</strong> {{Remarks}}</td>
+                </tr>
+                <tr>
+                    <td style="border-top:1px solid #c8ced3; height:30px;" colspan="11"></td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table width="100%" border="0" cellspacing="0" style="font-family:Arial; border:0;">
+            <tbody>
+                <tr style="text-align:center; font-size:12px;">
+                    <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                        <strong>SN</strong>
+                    </td>
+                    <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                        <strong>ARTICLE</strong></td>
+                    <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                        <strong>CATEGORY</strong></td>
+                    <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                        <strong>SIZES</strong></td>
+                    <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                        <strong>COLORS</strong></td>
+
+                    <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;"><strong>BOX
+                            NO</strong></td>
+                    <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; background:yellow;">
+                        <strong>WEIGHT</strong></td>
+
+                    <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; background:#e2efd9;">
+                        <strong>QTY IN PCS</strong></td>
+
+                    <td *ngIf="PartyTotalDiscount!=0" style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                        <strong>Discount</strong>
+                    </td>
+                    <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                        <strong>RATE</strong>
+                    </td>
+                    <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3;">
+                        <strong>AMOUNT</strong></td>
+                </tr>
+                <ng-container *ngFor="let data of dataList1; let i = index;">
+                    <tr style="text-align:center; font-size:12px;">
+                        <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;">
+                            {{data.Srno[0]}}</td>
+                        <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                            {{data.ArticleNumber[0]}}</td>
+                        <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                            {{data.Title[0]}}</td>
+                        <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                            {{data.ArticleSize[0]}}</td>
+                        <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left; white-space: nowrap;">
+                            {{data.ArticleColor[0]}}</td>
+
+                        <td [attr.rowspan]="data.ArticleNumber.length" style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                            {{data.OutwardBox}}
+                        </td>
+                        <td [attr.rowspan]="data.ArticleNumber.length" style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; background:yellow;">
+                            {{data.Weight}}</td>
+
+                        <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:center; background:#e2efd9;">
+                            {{data.QuantityInSet[0]}}</td>
+
+                        <td *ngIf="PartyTotalDiscount!=0" style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right; background:#e2efd9;">
+                            {{data.PartyDiscount[0]}}%</td>
+                        <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right; background:#e2efd9;">
+                            <span class="rupeesymbol">&#8377;</span>{{data.OutwardRate[0]}}</td>
+                        <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; text-align:right">
+                            <span class="rupeesymbol">&#8377;</span>{{data.Amount[0]}}</td>
+                    </tr>
+                    <ng-container *ngFor="let number of data.ArticleNumber; let i= index;">
+                        <tr style="text-align:center; font-size:12px;" *ngIf="i!=0">
+                            <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;">
+                                {{data.Srno[i]}}</td>
+                            <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                                {{number}}</td>
+                            <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                                {{data.Title[i]}}</td>
+
+                            <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                                {{data.ArticleSize[i]}}</td>
+                            <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                                {{data.ArticleColor[i]}}</td>
+
+                            <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:center; background:#e2efd9;">
+                                {{data.QuantityInSet[i]}}</td>
+                            <td *ngIf="PartyTotalDiscount!=0" style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;">
+                                {{data.PartyDiscount[i]}}%</td>
+                            <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right; background:#e2efd9;">
+                                <span class="rupeesymbol">&#8377;</span>{{data.OutwardRate[i]}}</td>
+                            <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; text-align:right;">
+                                <span class="rupeesymbol">&#8377;</span>{{data.Amount[i]}}</td>
+                        </tr>
+                    </ng-container>
+                </ng-container>
+                <tr style="text-align:center; font-size:12px;">
+                    <!-- <td colspan="3" -->
+                    <td [attr.colspan]="PartyTotalDiscount=='0' ? '3' : '3'" style="padding:6px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;">
+                    </td>
+                    <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-bottom:1px solid #c8ced3; text-align:right;">
+
+                    </td>
+                    <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-bottom:1px solid #c8ced3; text-align:left;">
+                    </td>
+                    <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-bottom:1px solid #c8ced3; text-align:left;">
+                    </td>
+                    <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-bottom:1px solid #c8ced3; text-align:right;">
+                        <strong>{{TotalWeight}} KG</strong></td>
+                    <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-bottom:1px solid #c8ced3; text-align:center;">
+                        <strong>{{TotalQuantityAllInSet}}</strong>
+                    </td>
+                    <td *ngIf="PartyTotalDiscount!=0" style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-bottom:1px solid #c8ced3; text-align:right;">
+                        <strong></strong></td>
+                    <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-bottom:1px solid #c8ced3; text-align:right; background-color: #f7f7f7;">
+                        <strong>Total</strong></td>
+                    <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-bottom:1px solid #c8ced3; border-right:1px solid #c8ced3; text-align:right; background-color: #f7f7f7;">
+                        <strong><span class="rupeesymbol">&#8377;</span>{{TotalAmount}}</strong></td>
+                </tr>
+                <tr *ngIf="Discount!=0" style="text-align:center; font-size:12px;">
+                    <td [attr.colspan]="PartyTotalDiscount=='0' ? '8' : '9'" style="padding:4px 6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;">
+                    </td>
+                    <td style="padding:4px 6px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;">
+                        Extra Discount {{ ExtraDiscountpercentage }}%</td>
+                    <td style="padding:4px 6px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; text-align:right;">
+                        <strong>- <span class="rupeesymbol">&#8377;</span>{{Discount}}</strong></td>
+                </tr>
+                <tr *ngIf="SubTotalAmount!=0" style="text-align:center; font-size:12px;">
+                    <td [attr.colspan]="PartyTotalDiscount=='0' ? '8' : '9'" style="padding:6px; border-left:1px solid #c8ced3; text-align:right;">
+                    </td>
+                    <td style="padding:6px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right; background-color: #f7f7f7;">
+                        <strong>Sub Total</strong></td>
+                    <td style="padding:6px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; text-align:right; background-color: #f7f7f7;">
+                        <strong><span class="rupeesymbol">&#8377;</span>{{SubTotalAmount}}</strong></td>
+                </tr>
+                <ng-template *ngIf="GSTLabel=='GST Amount';then showGSTAmount; else showGSTPercentage"> </ng-template>
+
+                <ng-template #showGSTAmount>
+                    <tr *ngIf="GSTLabel=='GST Amount'" style="text-align:center; font-size:12px;">
+                        <td [attr.colspan]="PartyTotalDiscount=='0' ? '8' : '9'" style="padding:6px; border-left:1px solid #c8ced3; text-align:right;"></td>
+
+                        <td style="padding:6px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;">
+                            <strong>{{GSTLabel}}</strong></td>
+                        <td style="padding:6px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; text-align:right;">
+                            <strong>+ <span class="rupeesymbol">&#8377;</span>{{GSTValue}}</strong></td>
+                    </tr>
+                </ng-template>
+                <ng-template #showGSTPercentage>
+                    <ng-template *ngIf="GSTType=='IGST';then showIGST; else showGST"> </ng-template>
+                    <!-- SUPPLIER -->
+                    <ng-template #showIGST>
+                        <tr *ngIf="GSTValue!=0" style="text-align:center; font-size:12px;">
+                            <td [attr.colspan]="PartyTotalDiscount=='0' ? '8' : '9'" style="padding:6px; border-left:1px solid #c8ced3; text-align:right;"></td>
+
+                            <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;">
+                                <strong>GST</strong></td>
+                            <td style="padding:6px; border-top:1px solid #c8ced3; border-left:1px solid #c8ced3;  border-right:1px solid #c8ced3; text-align:right;">
+                            </td>
+                        </tr>
+                        <tr *ngIf="GSTValue!=0" style="text-align:center; font-size:12px;">
+                            <td [attr.colspan]="PartyTotalDiscount=='0' ? '8' : '9'" style="padding:4px 6px; border-left:1px solid #c8ced3; text-align:right;"></td>
+
+                            <td style="padding:4px 6px; border-left:1px solid #c8ced3; text-align:right;">
+                                {{GSTType}} {{GSTPercentage}}%</td>
+                            <td style="padding:4px 6px; border-left:1px solid #c8ced3;  border-right:1px solid #c8ced3; text-align:right;">
+                                <strong>+ <span class="rupeesymbol">&#8377;</span>{{GSTValue}}</strong></td>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template #showGST>
+                        <tr *ngIf="GSTValue!=0" style="text-align:center; font-size:12px;">
+                            <td [attr.colspan]="PartyTotalDiscount=='0' ? '8' : '9'" style="padding:6px; border-left:1px solid #c8ced3; text-align:right;"></td>
+
+                            <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;">
+                                <strong>GST</strong></td>
+                            <td style="padding:6px; border-top:1px solid #c8ced3; border-left:1px solid #c8ced3;  border-right:1px solid #c8ced3; text-align:right;">
+                            </td>
+                        </tr>
+                        <tr *ngIf="GSTValue!=0" style="text-align:center; font-size:12px;">
+                            <td [attr.colspan]="PartyTotalDiscount=='0' ? '8' : '9'" style="padding:0px 6px; border-left:1px solid #c8ced3; text-align:right;"></td>
+
+                            <td style="padding:0px 6px; border-left:1px solid #c8ced3; text-align:right;">
+                                SGST {{GSTPercentage}}%</td>
+                            <td style="padding:0px 6px; border-left:1px solid #c8ced3;  border-right:1px solid #c8ced3; text-align:right;">
+                                <strong>+ <span class="rupeesymbol">&#8377;</span>{{SGSTValue}}</strong></td>
+                        </tr>
+
+                        <tr *ngIf="GSTValue!=0" style="text-align:center; font-size:12px;">
+                            <td [attr.colspan]="PartyTotalDiscount=='0' ? '8' : '9'" style="padding:4px 6px; border-left:1px solid #c8ced3; text-align:right;"></td>
+
+                            <td style="padding:4px 6px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3;  text-align:right;">
+                                CGST {{GSTPercentage}}%</td>
+                            <td style="padding:4px 6px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-right:1px solid #c8ced3; text-align:right;">
+                                <strong>+ <span class="rupeesymbol">&#8377;</span>{{CGSTValue}}</strong></td>
+                        </tr>
+
+                    </ng-template>
+                </ng-template>
+                <tr *ngIf="GSTValue!=0" style="text-align:center; font-size:12px;">
+                    <td [ngStyle]="{'border-bottom' : BorderBottomWithoutRoundOff === true ? '1px solid #c8ced3' : 'normal'}" [attr.colspan]="PartyTotalDiscount=='0' ? '8' : '9'" style="padding:6px; border-left:1px solid #c8ced3; text-align:right;"></td>
+                    <td style="padding:6px; border-bottom:1px solid #c8ced3; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right; background-color: #f7f7f7;">
+                        <strong>Total with GST</strong></td>
+                    <td style="padding:6px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; text-align:right; background-color: #f7f7f7;">
+                        <strong><span class="rupeesymbol">&#8377;</span>{{TotalFinalAmount}}</strong></td>
+                </tr>
+                <tr *ngIf="Roundoff" style="text-align:center; font-size:12px;">
+                    <td [attr.colspan]="PartyTotalDiscount=='0' ? '8' : '9'" style="padding:6px; border-left:1px solid #c8ced3; text-align:right;"></td>
+                    <td style="padding:4px 6px; border-bottom:1px solid #c8ced3; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;">
+                        Adjust Amount</td>
+                    <td style="padding:4px 6px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; text-align:right;">
+                        <strong><span *ngIf="RoundValueSign=='Up'">
+                                +
+                            </span> <span *ngIf="RoundValueSign=='Down'">
+                                -
+                            </span><span class="rupeesymbol">&#8377;</span>{{AdjustAmount}}</strong></td>
+                </tr>
+                <tr *ngIf="Roundoff" style="text-align:center; font-size:12px;">
+                    <td [attr.colspan]="PartyTotalDiscount=='0' ? '8' : '9'" style="padding:6px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; text-align:right;">
+                    </td>
+                    <td style="padding:6px; border-bottom:1px solid #c8ced3; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right; background-color: #e4e5e6;">
+                        <strong>Grand Total</strong></td>
+                    <td style="padding:6px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; text-align:right; background-color: #e4e5e6;">
+                        <strong><span class="rupeesymbol">&#8377;</span>{{TotalRoundAmount}}</strong></td>
+                </tr>
+            </tbody>
+            <tfoot id="divFooter" style='position: fixed; bottom: 0; left: 0; right: 0; width: 100%;'>
+                <tr style="width: 100%; display: grid;">
+                    <td colspan="11" style="padding:6px 0; font-size:12px; text-align: left;">
+                        <div style="float: left;"><strong>Prepared by: </strong>{{preparedby}}</div>
+                        <div style="position: absolute; left: 0; right: 0; margin: 0 auto; width: 240px;">
+                            <strong>Verified by: </strong>{{verifiedby}}</div>
+                        <div style="float: right;">
+                            <strong>Authorized by: </strong>
+                            <span style="border-bottom: #000 solid 1px;">______________________</span>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+<div class="challan-btn">
+    <button [routerLink]="'/outwardlist'" class="btn btn-primary px-4">Back</button>
+    <button type="button" printSectionId="print-section" class="btn btn-primary mb-3 pull-right" ngxPrint>
+        <i class="fa fa-print" aria-hidden="true"></i>
+    </button>
+    <button type="button" (click)="pdf(drawMe)" class="btn btn-primary mr-1 mb-3 pull-right"><i
+        class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
+</div>

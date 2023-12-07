@@ -1,0 +1,157 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+    <div class="clear">
+
+        <div class="card">
+            <div class="card-header"> <strong>Article Launch</strong> <span class="text-right pull-right"></span>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="ArticleRateForm" (ngSubmit)="doarticlelaunch()">
+                    <div class="row d-flex">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+
+                                        <label for="city"> Article <span class="red">*</span></label>
+                                        <div class="form-group">
+                                            <!-- <ng-select class="custom" (ngModelChange)="onChangeArticle($event)" [clearable]="false" [(ngModel)]="ArticleId" formControlName="ArticleId" [value]="val.Id" [items]="articlelist" bindLabel="ArticleNumber" placeholder="Select Article">
+                                            </ng-select> -->
+                                            <ng-select class="custom mw-300" (ngModelChange)="onChangeArticle($event)"
+                                                [clearable]="false" [(ngModel)]="ArticleId" formControlName="ArticleId"
+                                                [items]="articlelist" bindLabel="ArticleNumber"
+                                                placeholder="Select Article">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col" *ngIf="statuscheck">
+                            <div class="row ">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="street"> Category <span class="red">*</span></label>
+                                        <input class="form-control" readonly type="text" [(ngModel)]="ArticleCat"
+                                            formControlName="ArticleCat">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col" *ngIf="statuscheck">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="street">Rate <span class="red">*</span></label>
+                                        <input id="Rate" readonly class="form-control"
+                                            (keypress)="restrictNumeric($event)" type="number" [(ngModel)]="ArticleRate"
+                                            formControlName="ArticleRate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <!-- <div class="col1">
+                            <div class="form-group">
+                                <label for="street">InwardDate<span class="red">*</span></label>
+                                <input [attr.disabled]="null" class="form-control" type="date" [ngModel]="InwardCurrentDate | date:'yyyy-MM-dd'" formControlName="InwardDate">
+                            </div>
+                        </div> -->
+
+
+                        <div class="col" *ngIf="statuscheck">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="street">Launch Date <span class="red">*</span></label>
+                                        <input class="form-control" type="date" formControlName="ArticleInDate">
+                                        <div *ngIf="submitted && ArticleRateForm.controls.ArticleInDate.invalid"
+                                            class="error-message">
+                                            <div *ngIf="ArticleRateForm.controls.ArticleInDate.errors.required"
+                                                class="red">Launch Date is required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="col" *ngIf="statuscheckparty" >
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="vat">ONLY LAUNCH <span class="red">*</span></label>
+                                        <ng-multiselect-dropdown formControlName="PartyId"
+                                            [placeholder]="'Select Party'" [data]="partylist"
+                                            [settings]="dropdownSettings" [(ngModel)]="selectedItems"
+                                            (onSelect)="OnPartySelect($event)" (onSelectAll)="OnPartySelectAll($event)"
+                                            (onDeSelectAll)="OnPartyDeSelectAll($event)"
+                                            (onDeSelect)="OnPartyDeSelect($event)">
+                                        </ng-multiselect-dropdown>
+
+                                        <div *ngIf="submitted && ArticleRateForm.controls.PartyId.invalid"
+                                            class="error-message">
+                                            <div *ngIf="ArticleRateForm.controls.PartyId.errors.required" class="red">
+                                                Select party</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                           
+                        </div>
+
+
+                        <!-- <div class="col-md-12" *ngIf="statuscheck">
+                            <div class="row">
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="city">Only Launch</label>
+                                        <div class="form-group">
+                                            <ng-select class="custom" (ngModelChange)="onChangeParty($event)" [clearable]="false" [(ngModel)]="PartyId" formControlName="PartyId" [items]="partylist" bindLabel="Name" placeholder="Select Article">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+
+
+                    </div>
+
+
+                    <div class="d-inline text-center">
+                        <button type="submit" id="submit-button"
+                            class="btn btn-primary px-4 sub-btn mt-0" style="margin: 0px 3px;">Submit</button>
+                    </div>
+
+                    <div class="text-right d-inline">
+                        <button (click)="cancelform()" class="btn btn-primary px-4" style="margin: 0px 3px;">Cancel</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #other_content>
+    <div class="col-sm-12 col-md-12">
+        <div class="card text-white bg-info text-center">
+            <div class="card-body">
+                <blockquote class="card-bodyquote">
+                    <h3>Rights that are not assignable</h3>
+                    <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</ng-template>

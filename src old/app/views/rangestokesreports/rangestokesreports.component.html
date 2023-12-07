@@ -1,0 +1,72 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+    <div class="animated fadeIn">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="table-title"> <i class="fa fa-align-justify"></i> All Stocks List </div>
+                    </div>
+                    <form #rangeForm="ngForm" (ngSubmit)="onSubmit(rangeForm.value)">
+                        <div class="col-md-12 pt-3 pb-3">
+                            <div class="row">
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="start">Start Date <span class="red">*</span></label>
+                                        <input class="form-control" type="date" #rangestartdate="ngModel" [ngModel]="RangeStartDate | date:'yyyy-MM-dd'" name="rangestartdate">
+                                        <div *ngIf="rangestartdate.invalid && rangestartdate.touched" class="w3-panel w3-red error">
+                                            This filed is required</div>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group">
+                                        <label for="start">End Date <span class="red">*</span></label>
+                                        <input class="form-control" type="date" #rangeenddate="ngModel" [ngModel]="RangeEndDate | date:'yyyy-MM-dd'" name="rangeenddate">
+                                        <div *ngIf="rangeenddate.invalid && rangeenddate.touched" class="w3-panel w3-red error">
+                                            This filed is required</div>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                  <div class="form-group">
+                                    <label for="label-outlet-selection">Outlet Selection</label><br>
+                                    <select class="form-control" (change)="changeOutlet($event.target.value)"
+                                    name="OutletPartyId" [ngModel]="OutletPartyId">
+                                      <option value="0" [selected]="true">
+                                        Select outlet
+                                      </option>
+                                      <option value="{{ val.Id }}" *ngFor="let val of partydropdown">
+                                        {{val.Name}}
+                                      </option>
+                                    </select>
+                                  </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="form-group" style="margin-top: 30px;">
+                                        <button type="submit" class="btn btn-primary px-4">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                    <div *ngIf="flagstockdata" class="col-md-12 pt-3 pb-3">
+                        <table datatable width="100%" [dtOptions]="dtOptions" class="row-border hover"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #other_content>
+    <div class="col-sm-12 col-md-12">
+        <div class="card text-white bg-info text-center">
+            <div class="card-body">
+                <blockquote class="card-bodyquote">
+                    <h3>Rights that are not assignable</h3>
+                    <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</ng-template>
+

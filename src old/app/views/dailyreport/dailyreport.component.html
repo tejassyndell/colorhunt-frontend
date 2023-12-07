@@ -1,0 +1,787 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+  <div class="animated fadeIn">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="table-title"> <i class="fa fa-align-justify"></i> Daily Report </div>
+          </div>
+          <form [formGroup]="rangeForm" (ngSubmit)="doDailyReport()">
+            <div class="col-md-12 d-flex pt-3 pb-3">
+              <div class="col-8">
+                <div class="col1">
+                  <div class="form-group">
+                    <label for="start">Start Date <span class="red">*</span></label>
+                    <input formControlName="RangeDate" class="form-control" type="date"
+                      [ngModel]="RangeDate | date:'yyyy-MM-dd'">
+                    <div *ngIf="rangeForm.controls.RangeDate.invalid && rangeForm.controls.RangeDate.touched"
+                      class="w3-panel w3-red error">
+                      This filed is required</div>
+                  </div>
+                </div>
+                <div class="col1">
+                  <div class="form-group">
+                    <label for="label-outlet-selection">Outlet Selection</label><br>
+                    <select class="form-control" (change)="changeOutlet($event.target.value)"
+                      formControlName="OutletPartyId">
+                      <option value="0" [selected]="true">
+                        Select outlet
+                      </option>
+                      <option value="{{ val.Id }}" *ngFor="let val of partydropdown">
+                        {{val.Name}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col1">
+                  <div class="form-group" style="margin-top: 30px;">
+                    <button [disabled]="!rangeForm.valid" type="submit" id="submit-button"
+                      class="btn btn-primary px-4">Submit</button>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="OpeningCategory" class="col-12 d-flex p-0"
+                style="position: fixed;top: 0;width: 100%;background: #000000b5;left: 0;z-index: 9999;height: 100%;justify-content: center;">
+                <div style="width: 35%;margin-top: 3%; position:relative;">
+                  <i (click)="hideOpeningClosing()" class="fa fa-times"
+                    style="font-size: 25px;position: absolute;top: -22px;right: -20px;color: black;cursor: pointer;height: 45px;justify-content: center;width: 45px;border-radius: 50%;box-shadow: 0px 4px 25px 16px rgb(0 0 0 / 7%);background: white;align-items: center;display: flex;box-shadow: beige;"></i>
+                  <div class="module-heading bg-dark">Category Base Opening Stock</div>
+                  <div class="col-12 p-0 d-flex" style="display: table-header-group;">
+                    <div class="col-6 inner-cat-data total-text-column"><b>Category</b></div>
+                    <div class="col-6 inner-cat-data total-column text-center"><b>Quantity</b></div>
+                  </div>
+                  <div class="p-0 col-12 d-flex" *ngFor="let item of categories;let i = index">
+                    <div class="col-6 inner-cat-data">{{ item.Title }}</div>
+                    <div class="col-6 inner-cat-data text-center">{{ OpeningCat[i][item.Title] }}</div>
+                  </div>
+                  <div class="col-12 p-0 d-flex">
+                    <div class="col-6 inner-cat-data total-text-column"><b>Total</b></div>
+                    <div class="col-6 inner-cat-data total-column text-center"><b>{{ opening }}</b></div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="ClosingCategory" class="col-12 d-flex p-0"
+                style="position: fixed;top: 0;width: 100%;background: #000000b5;left: 0;z-index: 9999;height: 100%;justify-content: center;">
+                <div style="width: 35%;margin-top: 3%; position:relative;">
+                  <i (click)="hideOpeningClosing()" class="fa fa-times"
+                    style="font-size: 25px;position: absolute;top: -22px;right: -20px;color: black;cursor: pointer;height: 45px;justify-content: center;width: 45px;border-radius: 50%;box-shadow: 0px 4px 25px 16px rgb(0 0 0 / 7%);background: white;align-items: center;display: flex;box-shadow: beige;"></i>
+                  <div class="module-heading bg-dark">Category Base Closing Stock</div>
+                  <div class="col-12 p-0 d-flex" style="display: table-header-group;">
+                    <div class="col-6 inner-cat-data total-text-column"><b>Category</b></div>
+                    <div class="col-6 inner-cat-data total-column text-center"><b>Quantity</b></div>
+                  </div>
+                  <div class="p-0 col-12 d-flex" *ngFor="let item of categories;let i = index">
+                    <div class="col-6 inner-cat-data">{{ item.Title }}</div>
+                    <div class="col-6 inner-cat-data text-center">{{ ClosingCat[i][item.Title] }}</div>
+                  </div>
+                  <div class="col-12 p-0 d-flex">
+                    <div class="col-6 inner-cat-data total-text-column"><b>Total</b></div>
+                    <div class="col-6 inner-cat-data total-column text-center"><b>{{ closing }}</b></div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="showData" class="col-4 d-flex align-items-center justify-content-end">
+                <button type="button" (click)="pdf()" class="btn btn-primary mr-2"><i class="fa fa-file-pdf-o"
+                    aria-hidden="true"></i></button>
+                <button type="button" (click)="export()" class="btn btn-primary mr-2">Export</button>
+              </div>
+              <div *ngIf="outletShowData" class="col-4 d-flex align-items-center justify-content-end">
+                <button type="button" (click)="pdf()" class="btn btn-primary mr-2"><i class="fa fa-file-pdf-o"
+                    aria-hidden="true"></i></button>
+                <button type="button" (click)="outletExport()" class="btn btn-primary mr-2">Export</button>
+              </div>
+            </div>
+          </form>
+          <div *ngIf="flagstockdata" class="col-md-12 pt-3 pb-3">
+            <table datatable width="100%" [dtOptions]="dtOptions" class="row-border hover"></table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="showData" class="container-fluid" id="print-section" #drawMe>
+      <div class="col-12 d-flex text-center title-daily-report">
+        <div>Daily Report {{ latdate}} | Colorhunt</div>
+      </div>
+      <div class="col-12 d-flex p-0 justify-content-between">
+        <div class="d-flex justify-content-center" (click)="OpeningCategoryw()"
+          style="background-color: #6fcae16e; border-radius: 5px;margin-bottom:22px;">
+          <!-- <div class="d-flex justify-content-center" (click)="openingCategory()"
+          style="background-color: #6fcae16e; border-radius: 5px;margin-bottom:22px;"> -->
+          <div class=""
+            style="border-right: 1px solid #c8ced3; padding: 10px 15px; display: flex; align-items: center;">
+            <b>Opening Stock</b>
+          </div>
+          <div class="d-flex align-items-center" style="padding: 10px 15px;"><b>{{ opening }}</b></div>
+        </div>
+        <!-- <div class="d-flex justify-content-center"></div> -->
+        <div class="d-flex justify-content-center"
+          style="background-color: #6fcae16e; border-radius: 5px; margin-bottom:22px;" (click)="ClosingCategoryw()">
+          <div class=""
+            style="border-right: 1px solid #c8ced3; padding: 10px 15px; display: flex; align-items: center;">
+            <b>Closing Stock</b>
+          </div>
+          <div class="d-flex align-items-center" style="padding: 10px 15px;"><b>{{ closing }}</b></div>
+        </div>
+      </div>
+      <div style="border: 1px solid #c8ced3; margin-bottom: 35px;">
+        <div class="module-heading bg-dark">Inward</div>
+        <div style="display: flex;">
+          <div class="col-srno inner-heading first-col">Sr. No.</div>
+          <div class="col inner-heading">Date</div>
+          <div class="col inner-heading">GRN No.</div>
+          <div class="col-5 inner-heading">Vendor</div>
+          <div class="col inner-heading text-center">Quantity</div>
+        </div>
+        <div>
+          <div style="display: flex; border-top: 1px solid #c8ced3;" *ngFor="let val of inwardlist;let i = index">
+            <div class="col-srno inner-column first-col">{{ i + 1 }}</div>
+            <div class="col inner-column">{{ val.CreatedDate }}</div>
+            <div class="col inner-column" (click)="inwardchallan(val.GRNId, type)">{{ val.GRNnumber }}</div>
+            <div class="col-5 inner-column">{{ val.Name }}</div>
+            <div class="col inner-column text-center">{{ val.SalesNoPacks }}</div>
+          </div>
+          <div *ngIf="inwardlist?.length!=0" style="display: flex; background :#ffffff; border-top: 1px solid #c8ced3;">
+            <div class="col-srno inner-column first-col"></div>
+            <div class="col inner-column"></div>
+            <div class="col inner-column"></div>
+            <div class="col-5 inner-column total-text-column"><b>Total</b></div>
+            <div style="text-align:center; cursor: pointer;background-color: #b2d9e4 !important;" (click)="showCategory('inward')"
+              class="col inner-column total-column">
+              <b>{{ totalInwards }}</b>
+            </div>
+          </div>
+          <div class="col no-found" *ngIf="inwardlist?.length==0">
+            No Records Found
+          </div>
+        </div>
+      </div>
+      <div style="border: 1px solid #c8ced3; margin-bottom: 35px;">
+        <div class="module-heading bg-dark">Outward</div>
+        <div style="display: flex;">
+          <div class="col-srno inner-heading first-col">Sr. No.</div>
+          <div class="col inner-heading">Date</div>
+          <div class="col inner-heading">Outlet</div>
+          <div class="col inner-heading">Outward No.</div>
+          <div class="col-5 inner-heading">Party</div>
+          <div class="col inner-heading text-center">Quantity</div>
+        </div>
+        <div>
+          <div style="display: flex; border-top: 1px solid #c8ced3;" *ngFor="let val of outwardlist;let i = index">
+            <div class="col-srno inner-column first-col">{{ i + 1 }}</div>
+            <div class="col inner-column">{{ val.CreatedDate }}</div>
+            <div class="col inner-column">{{ val.Outlet }}</div>
+            <!-- <div ngIf="val.OutletAssign=0" class="col inner-column">DIRECT</div> -->
+            <div class="col inner-column" (click)="outwardchallan(val.OutwardNumberId)">{{ val.OutwardNumber }}</div>
+            <div class="col-5 inner-column">{{ val.Party_Name }}</div>
+            <div class="col inner-column text-center">{{ val.NoPacks }}</div>
+          </div>
+          <div *ngIf="outwardlist?.length!=0"
+            style="display: flex; background :#ffffff; border-top: 1px solid #c8ced3;">
+            <div class="col-srno inner-column first-col"></div>
+            <div class="col inner-column"></div>
+            <div class="col inner-column"></div>
+            <div class="col inner-column"></div>
+            <div class="col-5 inner-column total-text-column"><b>Total</b></div>
+            <div style="text-align:center; cursor: pointer;background-color: #b2d9e4 !important;" (click)="showCategory('outward')"
+              class="col inner-column total-column">
+              <b>{{ totalOutwards }}</b>
+            </div>
+          </div>
+          <div class="col no-found" *ngIf="outwardlist?.length==0">
+            No Records Found
+          </div>
+        </div>
+      </div>
+      <div style="border: 1px solid #c8ced3; margin-bottom: 35px;">
+        <div class="module-heading bg-dark">Purchase Return</div>
+        <div style="display: flex;">
+          <div class="col-srno inner-heading first-col">Sr. No.</div>
+          <div class="col inner-heading">Date</div>
+          <div class="col inner-heading">Purchase Return No.</div>
+          <div class="col-5 inner-heading">Vendor</div>
+          <div class="col inner-heading text-center">Quantity</div>
+        </div>
+        <div>
+          <div style="display: flex; border-top: 1px solid #c8ced3;" *ngFor="let val of prlist;let i = index">
+            <div class="col-srno inner-column first-col">{{ i +1 }}</div>
+            <div class="col inner-column">{{ val.CreatedDate }}</div>
+            <div class="col inner-column" (click)="prchallan(val.PrnId)">{{ val.PRNumber }}</div>
+            <div class="col-5 inner-column">{{ val.Vendor_Name }}</div>
+            <div class="col inner-column text-center">{{ val.ReturnNoPacks }}</div>
+          </div>
+          <div *ngIf="prlist?.length!=0" style="display: flex; background :#ffffff; border-top: 1px solid #c8ced3;">
+            <div class="col-srno inner-column first-col"></div>
+            <div class="col inner-column"></div>
+            <div class="col inner-column"></div>
+            <div class="col-5 inner-column total-text-column"><b>Total</b></div>
+            <div style="text-align:center; cursor: pointer;background-color: #b2d9e4 !important;" (click)="showCategory('pr')"
+              class="col inner-column total-column">
+              <b>{{ totalPurchaseReturns }}</b>
+            </div>
+          </div>
+          <div class="col no-found" *ngIf="prlist?.length==0">
+            No Records Found
+          </div>
+        </div>
+      </div>
+      <div style="border: 1px solid #c8ced3; margin-bottom: 35px;">
+        <div class="module-heading bg-dark">Sales Return</div>
+        <div style="display: flex;">
+          <div class="col-srno inner-heading first-col">Sr. No.</div>
+          <div class="col inner-heading">Date</div>
+          <div class="col inner-heading">Sales Return No.</div>
+          <div class="col-5 inner-heading">Party</div>
+          <div class="col inner-heading text-center">Quantity</div>
+        </div>
+        <div>
+          <div style="display: flex; border-top: 1px solid #c8ced3;" *ngFor="let val of srlist;let i = index">
+            <div class="col-srno inner-column first-col">{{ i +1 }}</div>
+            <div class="col inner-column">{{ val.CreatedDate }}</div>
+            <div class="col inner-column" (click)="srchallan(val.SalesReturnNumberId)">{{ val.SRNumber }}</div>
+            <div class="col-5 inner-column">{{ val.PartyName }}</div>
+            <div class="col inner-column text-center">{{ val.NoPacks }}</div>
+          </div>
+          <div *ngIf="srlist?.length!=0" style="display: flex; background :#ffffff; border-top: 1px solid #c8ced3;">
+            <div class="col-srno inner-column first-col"></div>
+            <div class="col inner-column"></div>
+            <div class="col inner-column"></div>
+            <div class="col-5 inner-column total-text-column"><b>Total</b></div>
+            <div style="text-align:center; cursor: pointer;background-color: #b2d9e4 !important;" (click)="showCategory('sr')"
+              class="col inner-column total-column">
+              <b>{{ totalSalesReturn }}</b>
+            </div>
+          </div>
+          <div class="col no-found" *ngIf="srlist?.length==0">
+            No Records Found
+          </div>
+        </div>
+      </div>
+      <!-- <div *ngIf="AllStockCatShow" class="col-12 d-flex p-0"
+        style="position: fixed;top: 0;width: 100%;background: #000000b5;left: 0;z-index: 9999;height: 100%;justify-content: center;">
+        <div style="width: 35%;margin-top: 3%; position:relative;">
+          <i (click)="hideAllStockCategory()" class="fa fa-times"
+            style="font-size: 25px;position: absolute;top: -22px;right: -20px;color: black;cursor: pointer;height: 45px;justify-content: center;width: 45px;border-radius: 50%;box-shadow: 0px 4px 25px 16px rgb(0 0 0 / 7%);background: white;align-items: center;display: flex;box-shadow: beige;"></i>
+          <div class="module-heading bg-dark">Category Base All Stock</div>
+          <div class="col-12 p-0 d-flex" style="display: table-header-group;">
+            <div class="col-6 inner-cat-data total-text-column"><b>Category</b></div>
+            <div class="col-6 inner-cat-data total-column"><b>Quantity</b></div>
+          </div>
+          <div class="p-0 col-12 d-flex" *ngFor="let item of categories;let i = index">
+            <div class="col-6 inner-cat-data">{{ item.Title }}</div>
+            <div class="col-6 inner-cat-data">{{ CategoryWiseStock[i][item.Title] }}</div>
+          </div>
+          <div class="col-12 p-0 d-flex">
+            <div class="col-6 inner-cat-data total-text-column"><b>Total</b></div>
+            <div class="col-6 inner-cat-data total-column"><b>{{ TotalCategoryStock }}</b></div>
+          </div>
+        </div>
+      </div> -->
+      <div *ngIf="categoryShow">
+        <div *ngIf="inCatShow" class="col-12 d-flex p-0"
+          style="position: fixed;top: 0;width: 100%;background: #000000b5;left: 0;z-index: 9999;height: 100%;justify-content: center;">
+          <div style="width: 35%;margin-top: 3%; position:relative;">
+            <i (click)="hideCategory('inward')" class="fa fa-times"
+              style="font-size: 25px;position: absolute;top: -22px;right: -20px;color: black;cursor: pointer;height: 45px;justify-content: center;width: 45px;border-radius: 50%;box-shadow: 0px 4px 25px 16px rgb(0 0 0 / 7%);background: white;align-items: center;display: flex;box-shadow: beige;"></i>
+            <div class="module-heading bg-dark">Category Base Inward</div>
+            <div class="col-12 p-0 d-flex" style="display: table-header-group;">
+              <div class="col-6 inner-cat-data total-text-column"><b>Category</b></div>
+              <div class="col-6 inner-cat-data total-column text-center"><b>Quantity</b></div>
+            </div>
+            <div class="p-0 col-12 d-flex" *ngFor="let item of categories;let i = index">
+              <div class="col-6 inner-cat-data">{{ item.Title }}</div>
+              <div class="col-6 inner-cat-data text-center">{{ catinwardlist[i][item.Title] }}</div>
+            </div>
+            <div class="col-12 p-0 d-flex">
+              <div class="col-6 inner-cat-data total-text-column"><b>Total</b></div>
+              <div class="col-6 inner-cat-data total-column text-center"><b>{{ totalInwards }}</b></div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="ouCatShow" class="col-12 d-flex p-0"
+          style="position: fixed;top: 0;width: 100%;background: #000000b5;left: 0;z-index: 9999;height: 100%;justify-content: center;">
+          <div style="width: 35%;margin-top: 3%; position:relative;">
+            <i (click)="hideCategory('outward')" class="fa fa-times"
+              style="font-size: 25px;position: absolute;top: -22px;right: -20px;color: black;cursor: pointer;height: 45px;justify-content: center;width: 45px;border-radius: 50%;box-shadow: 0px 4px 25px 16px rgb(0 0 0 / 7%);background: white;align-items: center;display: flex;box-shadow: beige;"></i>
+            <div class="module-heading bg-dark">Category Base Outward</div>
+            <div class="col-12 p-0 d-flex">
+              <div class="col-6 inner-cat-data total-text-column"><b>Category</b></div>
+              <div class="col-6 inner-cat-data total-column text-center"><b>Quantity</b></div>
+            </div>
+            <div class="p-0 col-12 d-flex" *ngFor="let item of categories;let i = index">
+              <div class="col-6 inner-cat-data">{{ item.Title }}</div>
+              <div class="col-6 inner-cat-data text-center">{{ catoutwardlist[i][item.Title] }}</div>
+            </div>
+            <div class="col-12 p-0 d-flex">
+              <div class="col-6 inner-cat-data total-text-column"><b>Total</b></div>
+              <div class="col-6 inner-cat-data total-column text-center"><b>{{ totalOutwards }}</b></div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="prCatShow" class="col-12 d-flex p-0"
+          style="position: fixed;top: 0;width: 100%;background: #000000b5;left: 0;z-index: 9999;height: 100%;justify-content: center;">
+          <div style="width: 35%;margin-top: 3%; position:relative;">
+            <i (click)="hideCategory('pr')" class="fa fa-times"
+              style="font-size: 25px;position: absolute;top: -22px;right: -20px;color: black;cursor: pointer;height: 45px;justify-content: center;width: 45px;border-radius: 50%;box-shadow: 0px 4px 25px 16px rgb(0 0 0 / 7%);background: white;align-items: center;display: flex;box-shadow: beige;"></i>
+            <div class="module-heading bg-dark">Category Base Purchase Return</div>
+            <div class="col-12 p-0 d-flex">
+              <div class="col-6 inner-cat-data total-text-column"><b>Category</b></div>
+              <div class="col-6 inner-cat-data total-column text-center"><b>Quantity</b></div>
+            </div>
+            <div class="p-0 col-12 d-flex" *ngFor="let item of categories;let i = index">
+              <div class="col-6 inner-cat-data">{{ item.Title }}</div>
+              <div class="col-6 inner-cat-data text-center">{{ catprlist[i][item.Title] }}</div>
+            </div>
+            <div class="col-12 p-0 d-flex">
+              <div class="col-6 inner-cat-data total-text-column"><b>Total</b></div>
+              <div class="col-6 inner-cat-data total-column text-center"><b>{{ totalPurchaseReturns }}</b></div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="srCatShow" class="col-12 d-flex p-0"
+          style="position: fixed;top: 0;width: 100%;background: #000000b5;left: 0;z-index: 9999;height: 100%;justify-content: center;">
+          <div style="width: 35%;margin-top: 3%; position:relative;">
+            <i (click)="hideCategory('sr')" class="fa fa-times"
+              style="font-size: 25px;position: absolute;top: -22px;right: -20px;color: black;cursor: pointer;height: 45px;justify-content: center;width: 45px;border-radius: 50%;box-shadow: 0px 4px 25px 16px rgb(0 0 0 / 7%);background: white;align-items: center;display: flex;box-shadow: beige;"></i>
+            <div class="module-heading bg-dark">Category Base Sales Return</div>
+            <div class="col-12 p-0 d-flex">
+              <div class="col-6 inner-cat-data total-text-column"><b>Category</b></div>
+              <div class="col-6 inner-cat-data total-column text-center"><b>Quantity</b></div>
+            </div>
+            <div class="p-0 col-12 d-flex" *ngFor="let item of categories;let i = index">
+              <div class="col-6 inner-cat-data">{{ item.Title }}</div>
+              <div class="col-6 inner-cat-data text-center">{{ catsrlist[i][item.Title] }}</div>
+            </div>
+            <div class="col-12 p-0 d-flex">
+              <div class="col-6 inner-cat-data total-text-column"><b>Total</b></div>
+              <div class="col-6 inner-cat-data total-column text-center"><b>{{ totalSalesReturn }}</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- outlet data start -->
+    <div *ngIf="outletOpeningCategory" class="col-12 d-flex p-0"
+      style="position: fixed;top: 0;width: 100%;background: #000000b5;left: 0;z-index: 9999;height: 100%;justify-content: center;">
+      <div style="width: 35%;margin-top: 3%; position:relative;">
+        <i (click)="hideOutletOpeningClosing()" class="fa fa-times"
+          style="font-size: 25px;position: absolute;top: -22px;right: -20px;color: black;cursor: pointer;height: 45px;justify-content: center;width: 45px;border-radius: 50%;box-shadow: 0px 4px 25px 16px rgb(0 0 0 / 7%);background: white;align-items: center;display: flex;box-shadow: beige;"></i>
+        <div class="module-heading bg-dark">Category Base Opening Stock</div>
+        <div class="col-12 p-0 d-flex" style="display: table-header-group;">
+          <div class="col-6 inner-cat-data total-text-column"><b>Category</b></div>
+          <div class="col-6 inner-cat-data total-column text-center"><b>Quantity</b></div>
+        </div>
+        <div class="p-0 col-12 d-flex" *ngFor="let item of categories;let i = index">
+          <div class="col-6 inner-cat-data">{{ item.Title }}</div>
+          <div class="col-6 inner-cat-data text-center">{{ outletOpeningCat[i][item.Title] }}</div>
+        </div>
+        <div class="col-12 p-0 d-flex">
+          <div class="col-6 inner-cat-data total-text-column"><b>Total</b></div>
+          <div class="col-6 inner-cat-data total-column text-center"><b>{{ outletOpening }}</b></div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="outletClosingCategory" class="col-12 d-flex p-0"
+      style="position: fixed;top: 0;width: 100%;background: #000000b5;left: 0;z-index: 9999;height: 100%;justify-content: center;">
+      <div style="width: 35%;margin-top: 3%; position:relative;">
+        <i (click)="hideOutletOpeningClosing()" class="fa fa-times"
+          style="font-size: 25px;position: absolute;top: -22px;right: -20px;color: black;cursor: pointer;height: 45px;justify-content: center;width: 45px;border-radius: 50%;box-shadow: 0px 4px 25px 16px rgb(0 0 0 / 7%);background: white;align-items: center;display: flex;box-shadow: beige;"></i>
+        <div class="module-heading bg-dark">Category Base Closing Stock</div>
+        <div class="col-12 p-0 d-flex" style="display: table-header-group;">
+          <div class="col-6 inner-cat-data total-text-column"><b>Category</b></div>
+          <div class="col-6 inner-cat-data total-column text-center"><b>Quantity</b></div>
+        </div>
+        <div class="p-0 col-12 d-flex" *ngFor="let item of categories;let i = index">
+          <div class="col-6 inner-cat-data">{{ item.Title }}</div>
+          <div class="col-6 inner-cat-data text-center">{{ outletClosingCat[i][item.Title] }}</div>
+        </div>
+        <div class="col-12 p-0 d-flex">
+          <div class="col-6 inner-cat-data total-text-column"><b>Total</b></div>
+          <div class="col-6 inner-cat-data total-column text-center"><b>{{ outletClosing }}</b></div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="outletShowData" class="container-fluid" id="print-section" #drawMe>
+
+      <div class="col-12 d-flex text-center title-daily-report">
+        <div>Outlet Daily Report {{ latdate}} | {{ orgOutletName }} | Colorhunt</div>
+      </div>
+      <div class="col-12 d-flex p-0 justify-content-between">
+        <div (click)="outletOpeningCategoryw()" class="d-flex justify-content-center"
+          style="background-color: #6fcae16e; border-radius: 5px;margin-bottom:22px;">
+          <!-- <div class="d-flex justify-content-center" (click)="openingCategory()"
+        style="background-color: #6fcae16e; border-radius: 5px;margin-bottom:22px;"> -->
+          <div class=""
+            style="border-right: 1px solid #c8ced3; padding: 10px 15px; display: flex; align-items: center;">
+            <b>Opening Stock</b>
+          </div>
+          <div class="d-flex align-items-center" style="padding: 10px 15px;"><b>{{ outletOpening }}</b></div>
+        </div>
+        <!-- <div class="d-flex justify-content-center"></div> -->
+        <div (click)="outletClosingCategoryw()" class="d-flex justify-content-center"
+          style="background-color: #6fcae16e; border-radius: 5px; margin-bottom:22px;">
+          <div class=""
+            style="border-right: 1px solid #c8ced3; padding: 10px 15px; display: flex; align-items: center;">
+            <b>Closing Stock</b>
+          </div>
+          <div class="d-flex align-items-center" style="padding: 10px 15px;"><b>{{ outletClosing }}</b></div>
+        </div>
+      </div>
+
+
+      <div style="border: 1px solid #c8ced3; margin-bottom: 35px;">
+        <div class="module-heading bg-dark">Outlet Inward</div>
+        <div style="display: flex;">
+          <!-- <div class="col-srno inner-heading first-col">Sr. No.</div> -->
+          <div class="col inner-heading">Date</div>
+          <div class="col inner-heading">Outlet</div>
+          <div class="col inner-heading">Outward No.</div>
+
+          <!-- <div class="col-5 inner-heading">Vendor</div> -->
+          <div class="col inner-heading text-center">Quantity</div>
+        </div>
+        <div>
+          <div *ngFor="let val of outletInwardlist;let i = index">
+            <div style="display: flex; border-top: 1px solid #c8ced3;" *ngIf="val.NoPacks > 0">
+              <!-- <div class="col-srno inner-column first-col">{{ i + 1 }}</div> -->
+              <div class="col inner-column">{{ val.ReceivedDate }}</div>
+              <div class="col inner-column">{{ val.Outlet }}</div>
+              <!-- <div class="col inner-column" (click)="inwardchallan(val.GRNId, type)">{{ val.GRNnumber }}</div> -->
+              <div class="col inner-column" (click)="outwardchallan(val.OutwardNumberId)">{{ val.OutwardNumber }}</div>
+              <!-- <div class="col-5 inner-column">{{ val.Name }}</div> -->
+              <div class="col inner-column text-center">{{ val.NoPacks }}</div>
+            </div>
+          </div>
+
+          <div *ngFor="let val of outletJhsplOutwardlist;let i = index">
+            <div style="display: flex; border-top: 1px solid #c8ced3;" *ngIf="val.NoPacks > 0">
+              <!-- <div class="col-srno inner-column first-col">{{ i + 1 }}</div> -->
+              <div class="col inner-column">{{ val.OutletDate }}</div>
+              <div class="col inner-column">{{ val.Outlet }}</div>
+              <div class="col inner-column" (click)="outwardchallan(val.OutwardNumberId)">{{ val.OutwardNumber }}</div>
+              <div class="col inner-column text-center">{{ val.NoPacks }}</div>
+            </div>
+          </div>
+
+          <div *ngIf="outletInwardlist?.length!=0 || outletJhsplOutwardlist?.length!=0"
+            style="display: flex; background :#ffffff; border-top: 1px solid #c8ced3;">
+            <!-- <div class="col-srno inner-column first-col"></div> -->
+            <div class="col inner-column"></div>
+            <div class="col inner-column"></div>
+            <div class="col inner-column total-text-column"><b>Total</b></div>
+            <div style="text-align:center; cursor: pointer;background-color: #b2d9e4 !important;" (click)="showOutletCategory('inward')"
+              class="col inner-column total-column">
+              <b>{{ outletInwardTotal }}</b>
+            </div>
+          </div>
+          <div class="col no-found" *ngIf="outletInwardlist?.length==0 && outletJhsplOutwardlist?.length==0">
+            No Records Found
+          </div>
+        </div>
+      </div>
+
+
+      <div style="border: 1px solid #c8ced3; margin-bottom: 35px;">
+        <div class="module-heading bg-dark">Outlet Import</div>
+        <div style="display: flex;">
+          <!-- <div class="col-srno inner-heading first-col">Sr. No.</div> -->
+          <div class="col inner-heading">Date</div>
+          <div class="col inner-heading">Outlet</div>
+          <div class="col inner-heading">Article No.</div>
+          <!-- <div class="col inner-heading">Outward No.</div> -->
+
+          <!-- <div class="col-5 inner-heading">Vendor</div> -->
+          <div class="col inner-heading text-center">Quantity</div>
+        </div>
+        <div>
+          <div *ngFor="let val of outletImportlist;let i = index">
+            <div style="display: flex; border-top: 1px solid #c8ced3;" *ngIf="val.NoPacks > 0">
+              <!-- <div class="col-srno inner-column first-col">{{ i + 1 }}</div> -->
+              <div class="col inner-column">{{ val.CreatedDate }}</div>
+              <div class="col inner-column">{{ val.Outlet }}</div>
+              <div class="col inner-column">{{ val.ArticleNumber }}</div>
+              <!-- <div class="col inner-column" (click)="inwardchallan(val.GRNId, type)">{{ val.GRNnumber }}</div> -->
+              <!-- <div class="col inner-column" (click)="outwardchallan(val.OutwardNumberId)">{{ val.OutwardNumber }}</div> -->
+              <!-- <div class="col-5 inner-column">{{ val.Name }}</div> -->
+              <div class="col inner-column text-center">{{ val.NoPacks }}</div>
+            </div>
+          </div>
+          <div *ngIf="outletImportlist?.length!=0"
+            style="display: flex; background :#ffffff; border-top: 1px solid #c8ced3;">
+            <div class="col-srno inner-column first-col"></div>
+            <div class="col inner-column"></div>
+            <!-- <div class="col inner-column"></div> -->
+            <div class="col inner-column total-text-column"><b>Total</b></div>
+            <div style="text-align:center; cursor: pointer;background-color: #b2d9e4 !important;" (click)="showOutletCategory('import')"
+              class="col inner-column total-column">
+              <b>{{ outletImportTotal }}</b>
+            </div>
+          </div>
+          <div class="col no-found" *ngIf="outletImportlist?.length==0">
+            No Records Found
+          </div>
+        </div>
+      </div>
+
+
+      <div style="border: 1px solid #c8ced3; margin-bottom: 35px;">
+        <div class="module-heading bg-dark">Outlet Outward</div>
+        <div style="display: flex;">
+          <!-- <div class="col-srno inner-heading first-col">Sr. No.</div> -->
+          <div class="col inner-heading">Date</div>
+          <div class="col inner-heading">Outlet</div>
+          <div class="col inner-heading">Outlet No.</div>
+          <div class="col inner-heading">Party</div>
+          <div class="col inner-heading text-center">Quantity</div>
+        </div>
+        <div>
+          <div *ngFor="let val of outletOutwardlist;let i = index">
+            <div style="display: flex; border-top: 1px solid #c8ced3;" *ngIf="val.NoPacks > 0">
+              <!-- <div class="col-srno inner-column first-col">{{ i + 1 }}</div> -->
+              <div class="col inner-column">{{ val.OutletDate }}</div>
+              <div class="col inner-column">{{ val.Outlet }}</div>
+              <div class="col inner-column" (click)="outletchallan(val.OutletNumberId)">{{ val.OutletNumber }}</div>
+              <div class="col inner-column">{{ val.Party }}</div>
+              <div class="col inner-column text-center">{{ val.NoPacks }}</div>
+            </div>
+          </div>
+
+          <div *ngFor="let val of outletJhsplOutwardlist;let i = index">
+            <div style="display: flex; border-top: 1px solid #c8ced3;" *ngIf="val.NoPacks > 0">
+              <!-- <div class="col-srno inner-column first-col">{{ i + 1 }}</div> -->
+              <div class="col inner-column">{{ val.OutletDate }}</div>
+              <div class="col inner-column">{{ val.Outlet }}</div>
+              <div class="col inner-column" (click)="outletchallan(val.OutletNumberId)">{{ val.OutletNumber }}</div>
+              <div class="col inner-column">{{ val.Party }}</div>
+              <div class="col inner-column text-center">{{ val.NoPacks }}</div>
+            </div>
+          </div>
+
+          <div *ngIf="outletOutwardlist?.length!=0 || outletJhsplOutwardlist?.length!=0"
+            style="display: flex; background :#ffffff; border-top: 1px solid #c8ced3;">
+            <!-- <div class="col-srno inner-column first-col"></div> -->
+            <div class="col inner-column"></div>
+            <div class="col inner-column"></div>
+            <div class="col inner-column"></div>
+            <div class="col inner-column total-text-column"><b>Total</b></div>
+            <div style="text-align:center; cursor: pointer;background-color: #b2d9e4 !important;" (click)="showOutletCategory('outward')"
+              class="col inner-column total-column">
+              <b>{{ outletOutwardTotal }}</b>
+            </div>
+          </div>
+          <div class="col no-found" *ngIf="outletOutwardlist?.length==0 && outletJhsplOutwardlist?.length==0">
+            No Records Found
+          </div>
+        </div>
+      </div>
+
+      <div style="border: 1px solid #c8ced3; margin-bottom: 35px;">
+        <div class="module-heading bg-dark">Outlet Purchase Return</div>
+        <div style="display: flex;">
+          <!-- <div class="col-srno inner-heading first-col">Sr. No.</div> -->
+          <div class="col inner-heading">Date</div>
+          <div class="col inner-heading">Outlet</div>
+          <div class="col inner-heading">Sales Return No.</div>
+          <!-- <div class="col-5 inner-heading">Vendor</div> -->
+          <div class="col inner-heading text-center">Quantity</div>
+        </div>
+        <div>
+          <div *ngFor="let val of outletPRlist;let i = index">
+            <div style="display: flex; border-top: 1px solid #c8ced3;" *ngIf="val.NoPacks > 0">
+              <!-- <div class="col-srno inner-column">{{ i +1 }}</div> -->
+              <div class="col inner-column">{{ val.CreatedDate }}</div>
+              <div class="col inner-column">{{ val.Outlet }}</div>
+              <div class="col inner-column" (click)="srchallan(val.SalesReturnNumberId)">{{ val.SalesReturnNumber }}
+              </div>
+
+              <!-- <div class="col-5 inner-column">{{ val.Vendor_Name }}</div> -->
+              <div class="col inner-column text-center">{{ val.NoPacks }}</div>
+            </div>
+
+          </div>
+          <div *ngIf="outletPRlist?.length!=0"
+            style="display: flex; background :#ffffff; border-top: 1px solid #c8ced3;">
+            <!-- <div class="col-srno inner-column first-col"></div> -->
+            <div class="col inner-column"></div>
+            <div class="col inner-column"></div>
+            <div class="col inner-column total-text-column"><b>Total</b></div>
+            <div style="text-align:center; cursor: pointer;background-color: #b2d9e4 !important;" (click)="showOutletCategory('pr')"
+              class="col inner-column total-column">
+              <b>{{ outletPRTotal }}</b>
+            </div>
+          </div>
+          <div class="col no-found" *ngIf="outletPRlist?.length==0">
+            No Records Found
+          </div>
+        </div>
+      </div>
+
+      <div style="border: 1px solid #c8ced3; margin-bottom: 35px;">
+        <div class="module-heading bg-dark">Outlet Sales Return</div>
+        <div style="display: flex;">
+          <!-- <div class="col-srno inner-heading first-col">Sr. No.</div> -->
+          <div class="col inner-heading">Date</div>
+          <div class="col inner-heading">Outlet</div>
+          <div class="col inner-heading">Party</div>
+          <div class="col inner-heading">Outlet Sales Return No.</div>
+          <!-- <div class="col-5 inner-heading">Party</div> -->
+          <div class="col inner-heading text-center">Quantity</div>
+        </div>
+        <div>
+          <div *ngFor="let val of outletSRlist;let i = index">
+            <div style="display: flex; border-top: 1px solid #c8ced3;" *ngIf="val.NoPacks > 0">
+              <!-- <div class="col-srno inner-column">{{ i +1 }}</div> -->
+              <div class="col inner-column">{{ val.CreatedDate }}</div>
+              <div class="col inner-column">{{ val.Outlet }}</div>
+              <div class="col inner-column">{{ val.Party }}</div>
+              <div class="col inner-column" (click)="Outletsrchallan(val.SalesReturnNumberId)">{{ val.SalesReturnNumber
+                }}
+              </div>
+              <div class="col inner-column text-center">{{ val.NoPacks }}</div>
+            </div>
+          </div>
+          <div *ngIf="outletSRlist?.length!=0"
+            style="display: flex; background :#ffffff; border-top: 1px solid #c8ced3;">
+            <!-- <div class="col-srno inner-column first-col"></div> -->
+            <div class="col inner-column"></div>
+            <div class="col inner-column"></div>
+            <div class="col inner-column"></div>
+            <div class="col inner-column total-text-column"><b>Total</b></div>
+            <div style="text-align:center; cursor: pointer;background-color: #b2d9e4 !important;" (click)="showOutletCategory('sr')"
+              class="col inner-column total-column">
+              <b>{{ outletSRTotal }}</b>
+            </div>
+          </div>
+          <div class="col no-found" *ngIf="outletSRlist?.length==0">
+            No Records Found
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="outletCategoryShow">
+        <div *ngIf="OutletinCatShow" class="col-12 d-flex p-0"
+          style="position: fixed;top: 0;width: 100%;background: #000000b5;left: 0;z-index: 9999;height: 100%;justify-content: center;">
+          <div style="width: 35%;margin-top: 3%; position:relative;">
+            <i (click)="hideOutletCategory('inward')" class="fa fa-times"
+              style="font-size: 25px;position: absolute;top: -22px;right: -20px;color: black;cursor: pointer;height: 45px;justify-content: center;width: 45px;border-radius: 50%;box-shadow: 0px 4px 25px 16px rgb(0 0 0 / 7%);background: white;align-items: center;display: flex;box-shadow: beige;"></i>
+            <div class="module-heading bg-dark">Category Base Outlet Inward</div>
+            <div class="col-12 p-0 d-flex" style="display: table-header-group;">
+              <div class="col-6 inner-cat-data total-text-column"><b>Category</b></div>
+              <div class="col-6 inner-cat-data total-column text-center"><b>Quantity</b></div>
+            </div>
+            <div class="p-0 col-12 d-flex" *ngFor="let item of categories;let i = index">
+              <div class="col-6 inner-cat-data">{{ item.Title }}</div>
+              <div class="col-6 inner-cat-data text-center">{{ outletCatInwardlist[i][item.Title] }}</div>
+            </div>
+            <div class="col-12 p-0 d-flex">
+              <div class="col-6 inner-cat-data total-text-column"><b>Total</b></div>
+              <div class="col-6 inner-cat-data total-column text-center"><b>{{ outletCatInwardTotal }}</b></div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="OutletimpCatShow" class="col-12 d-flex p-0"
+          style="position: fixed;top: 0;width: 100%;background: #000000b5;left: 0;z-index: 9999;height: 100%;justify-content: center;">
+          <div style="width: 35%;margin-top: 3%; position:relative;">
+            <i (click)="hideOutletCategory('import')" class="fa fa-times"
+              style="font-size: 25px;position: absolute;top: -22px;right: -20px;color: black;cursor: pointer;height: 45px;justify-content: center;width: 45px;border-radius: 50%;box-shadow: 0px 4px 25px 16px rgb(0 0 0 / 7%);background: white;align-items: center;display: flex;box-shadow: beige;"></i>
+            <div class="module-heading bg-dark">Category Base Outlet Import</div>
+            <div class="col-12 p-0 d-flex" style="display: table-header-group;">
+              <div class="col-6 inner-cat-data total-text-column"><b>Category</b></div>
+              <div class="col-6 inner-cat-data total-column text-center"><b>Quantity</b></div>
+            </div>
+            <div class="p-0 col-12 d-flex" *ngFor="let item of categories;let i = index">
+              <div class="col-6 inner-cat-data">{{ item.Title }}</div>
+              <div class="col-6 inner-cat-data text-center">{{ outletCatImportlist[i][item.Title] }}</div>
+            </div>
+            <div class="col-12 p-0 d-flex">
+              <div class="col-6 inner-cat-data total-text-column"><b>Total</b></div>
+              <div class="col-6 inner-cat-data total-column text-center"><b>{{ outletCatImportTotal }}</b></div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="OutletouCatShow" class="col-12 d-flex p-0"
+          style="position: fixed;top: 0;width: 100%;background: #000000b5;left: 0;z-index: 9999;height: 100%;justify-content: center;">
+          <div style="width: 35%;margin-top: 3%; position:relative;">
+            <i (click)="hideOutletCategory('outward')" class="fa fa-times"
+              style="font-size: 25px;position: absolute;top: -22px;right: -20px;color: black;cursor: pointer;height: 45px;justify-content: center;width: 45px;border-radius: 50%;box-shadow: 0px 4px 25px 16px rgb(0 0 0 / 7%);background: white;align-items: center;display: flex;box-shadow: beige;"></i>
+            <div class="module-heading bg-dark">Category Base Outlet Outward</div>
+            <div class="col-12 p-0 d-flex" style="display: table-header-group;">
+              <div class="col-6 inner-cat-data total-text-column"><b>Category</b></div>
+              <div class="col-6 inner-cat-data total-column text-center"><b>Quantity</b></div>
+            </div>
+            <div class="p-0 col-12 d-flex" *ngFor="let item of categories;let i = index">
+              <div class="col-6 inner-cat-data">{{ item.Title }}</div>
+              <div class="col-6 inner-cat-data text-center">{{ outletCatOutwardlist[i][item.Title] }}</div>
+            </div>
+            <div class="col-12 p-0 d-flex">
+              <div class="col-6 inner-cat-data total-text-column"><b>Total</b></div>
+              <div class="col-6 inner-cat-data total-column text-center"><b>{{ outletCatOutwardTotal }}</b></div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="OutletprCatShow" class="col-12 d-flex p-0"
+          style="position: fixed;top: 0;width: 100%;background: #000000b5;left: 0;z-index: 9999;height: 100%;justify-content: center;">
+          <div style="width: 35%;margin-top: 3%; position:relative;">
+            <i (click)="hideOutletCategory('pr')" class="fa fa-times"
+              style="font-size: 25px;position: absolute;top: -22px;right: -20px;color: black;cursor: pointer;height: 45px;justify-content: center;width: 45px;border-radius: 50%;box-shadow: 0px 4px 25px 16px rgb(0 0 0 / 7%);background: white;align-items: center;display: flex;box-shadow: beige;"></i>
+            <div class="module-heading bg-dark">Category Base Outlet Purchase Return</div>
+            <div class="col-12 p-0 d-flex" style="display: table-header-group;">
+              <div class="col-6 inner-cat-data total-text-column"><b>Category</b></div>
+              <div class="col-6 inner-cat-data total-column text-center"><b>Quantity</b></div>
+            </div>
+            <div class="p-0 col-12 d-flex" *ngFor="let item of categories;let i = index">
+              <div class="col-6 inner-cat-data">{{ item.Title }}</div>
+              <div class="col-6 inner-cat-data text-center">{{ outletCatPRlist[i][item.Title] }}</div>
+            </div>
+            <div class="col-12 p-0 d-flex">
+              <div class="col-6 inner-cat-data total-text-column"><b>Total</b></div>
+              <div class="col-6 inner-cat-data total-column text-center"><b>{{ outletCatPRTotal }}</b></div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="OutletsrCatShow" class="col-12 d-flex p-0"
+          style="position: fixed;top: 0;width: 100%;background: #000000b5;left: 0;z-index: 9999;height: 100%;justify-content: center;">
+          <div style="width: 35%;margin-top: 3%; position:relative;">
+            <i (click)="hideOutletCategory('sr')" class="fa fa-times"
+              style="font-size: 25px;position: absolute;top: -22px;right: -20px;color: black;cursor: pointer;height: 45px;justify-content: center;width: 45px;border-radius: 50%;box-shadow: 0px 4px 25px 16px rgb(0 0 0 / 7%);background: white;align-items: center;display: flex;box-shadow: beige;"></i>
+            <div class="module-heading bg-dark">Category Base Outlet Sales Return</div>
+            <div class="col-12 p-0 d-flex" style="display: table-header-group;">
+              <div class="col-6 inner-cat-data total-text-column"><b>Category</b></div>
+              <div class="col-6 inner-cat-data total-column text-center"><b>Quantity</b></div>
+            </div>
+            <div class="p-0 col-12 d-flex" *ngFor="let item of categories;let i = index">
+              <div class="col-6 inner-cat-data">{{ item.Title }}</div>
+              <div class="col-6 inner-cat-data text-center">{{ outletCatSRlist[i][item.Title] }}</div>
+            </div>
+            <div class="col-12 p-0 d-flex">
+              <div class="col-6 inner-cat-data total-text-column"><b>Total</b></div>
+              <div class="col-6 inner-cat-data total-column text-center"><b>{{ outletCatSRTotal }}</b></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+    </div>
+  </div>
+
+</ng-template>
+<ng-template #other_content>
+  <div class="col-sm-12 col-md-12">
+    <div class="card text-white bg-info text-center">
+      <div class="card-body">
+        <blockquote class="card-bodyquote">
+          <h3>Rights that are not assignable</h3>
+          <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</ng-template>

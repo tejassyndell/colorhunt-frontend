@@ -1,0 +1,83 @@
+<!-- <form [formGroup]="myForm" (ngSubmit)="submit()">
+    <div class="form-group">
+        <label for="file">File</label>
+        <input formControlName="file" id="file" type="file" class="form-control" (change)="onFileChange($event)">
+        <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger">
+            <div *ngIf="f.file.errors.required">File is required.</div>
+        </div>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Submit</button>
+</form> -->
+
+
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+    <div class="row">
+        <div class="col-sm-6">
+            <form [formGroup]="myForm" (ngSubmit)="dosubmit()">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>CSV File - Stock Upload</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="file">File <span class="red">*</span></label>
+                            <input formControlName="file" accept=".xlsx, .xls, .csv" id="file" type="file" class="form-control" (change)="onFileChange($event)">
+                            <div class="w3-panel w3-red" *ngIf="myForm.controls.file.invalid && (myForm.controls.file.dirty || myForm.controls.file.touched)">
+                                This filed is required</div>
+                            <div class="w3-panel w3-red">{{errorexit}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <button type="button" (click)="goBack()" class="btn btn-primary px-4">Back</button>
+                            </div>
+                            <div class="col-6 text-right">
+                                <button type="submit" [disabled]="!myForm.valid" class="btn btn-primary px-4">Upload</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <form [formGroup]="myFormoutlet" (ngSubmit)="dooutletsubmit()">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>CSV File - Outlet Stock Upload</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="file">File <span class="red">*</span></label>
+                            <input formControlName="file" accept=".xlsx, .xls, .csv" id="file" type="file" class="form-control" (change)="onFileChange($event)">
+                            <div class="w3-panel w3-red" *ngIf="myFormoutlet.controls.file.invalid && (myFormoutlet.controls.file.dirty || myFormoutlet.controls.file.touched)">
+                                This filed is required</div>
+                            <div class="w3-panel w3-red">{{errorexit}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <button type="button" (click)="goBack()" class="btn btn-primary px-4">Back</button>
+                            </div>
+                            <div class="col-6 text-right">
+                                <button type="submit" [disabled]="!myFormoutlet.valid" class="btn btn-primary px-4">Upload</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>
+<ng-template #other_content>
+    <div class="col-sm-12 col-md-12">
+        <div class="card text-white bg-info text-center">
+            <div class="card-body">
+                <blockquote class="card-bodyquote">
+                    <h3>Rights that are not assignable</h3>
+                    <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!--/.col-->

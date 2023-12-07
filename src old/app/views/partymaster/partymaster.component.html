@@ -1,0 +1,309 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+    <div class="clear">
+        <form [formGroup]="partyForm" (ngSubmit)="dopartyadd()">
+            <div class="card">
+                <div class="card-header"> <strong>Party - {{PARTYPAGE}}</strong> </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="city">Party Name <span class="red">*</span></label>
+                                <input class="form-control" type="text" oninput="this.value = this.value.toUpperCase()"
+                                    formControlName="Name">
+                                <div class="w3-panel w3-red"
+                                    *ngIf="partyForm.controls.Name.invalid && (partyForm.controls.Name.dirty || partyForm.controls.Name.touched)">
+                                    This filed is required</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="city">Address <span class="red">*</span></label>
+                                <input class="form-control" type="text" oninput="this.value = this.value.toUpperCase()"
+                                    formControlName="Address">
+                                <div class="w3-panel w3-red"
+                                    *ngIf="partyForm.controls.Address.invalid && (partyForm.controls.Address.dirty || partyForm.controls.Address.touched)">
+                                    This filed is required</div>
+                            </div>
+                        </div>
+                         <!--adding aditional Code-->
+
+                         <div class="col-md-3">
+                            <!-- The main phone number field -->
+                            <div class="form-group">
+                              <label for="PhoneNumber">Phone Number <span class="red">*</span></label>
+                              <input class="form-control" type="text" pattern="^[0-9]{10}$"
+                                     (keydown)="onPhoneNumberKeyDown($event)"
+                                     formControlName="PhoneNumber" name="PhoneNumber">
+                              <div class="w3-panel w3-red"
+                                   *ngIf="partyForm.get('PhoneNumber').invalid && (partyForm.get('PhoneNumber').dirty || partyForm.get('PhoneNumber').touched)">
+                                Phone number should be exactly 10 digits long.
+                              </div>
+                            </div>
+                          
+                            <!-- The dynamic phone number fields -->
+                            <div formArrayName="phoneNumberControls">
+                              <div *ngFor="let control of phoneNumberControls.controls; let i = index" class="form-group">
+                                <label for="additionalPhoneNumber{{ i }}">Additional Phone Number <span class="red">*</span></label>
+                                <div class="input-group">
+                                  <input class="form-control" type="text" pattern="^[0-9]{10}$"
+                                         (keydown)="onPhoneNumberKeyDown($event)"
+                                         [formControl]="control" [attr.name]="'PhoneNumber' + i">
+                                  <div class="input-group-append">
+                                    <button class="btn btn-danger" type="button" (click)="removePhoneNumber(i)">
+                                      <i class="fa fa-trash"></i> Remove
+                                    </button>
+                                  </div>
+                                </div>
+                                <div class="w3-panel w3-red"
+                                     *ngIf="control.invalid && (control.dirty || control.touched)">
+                                  Phone number should be exactly 10 digits long.
+                                </div>
+                              </div>
+                            </div>
+                            <button class="btn btn-success" type="button" (click)="addPhoneNumberControl()">
+                              <i class="fa fa-plus"></i> Add Phone Number
+                            </button>
+                          </div>
+                          
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="city">Contact Person</label>
+                                <input class="form-control" type="text" oninput="this.value = this.value.toUpperCase()"
+                                    formControlName="ContactPerson">
+                                <div class="w3-panel w3-red"
+                                    *ngIf="partyForm.controls.ContactPerson.invalid && (partyForm.controls.ContactPerson.dirty || partyForm.controls.ContactPerson.touched)">
+                                    This filed is required</div>
+                            </div>
+                        </div>
+
+
+                        <!-- Code Added By  kts  -->
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="city">State <span class="red">*</span></label>
+                                <input list="states" class="form-control datalist-arrow" type="text"
+                                    oninput="this.value = this.value.toUpperCase()" formControlName="State">
+
+                                <div class="w3-panel w3-red"
+                                    *ngIf="partyForm.controls.State.invalid && (partyForm.controls.State.dirty || partyForm.controls.State.touched)">
+                                    This filed is required</div>
+
+                            </div>
+                            <datalist id="states" *ngIf="!partyForm.controls.State.invalid">
+                                <option *ngFor="let state of geoStates">{{state}} </option>
+                            </datalist>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="city">City <span class="red">*</span></label>
+                                <input list="cities" class="form-control datalist-arrow" type="text"
+                                    oninput="this.value = this.value.toUpperCase()" formControlName="City">
+                                <div class="w3-panel w3-red"
+                                    *ngIf="partyForm.controls.City.invalid && (partyForm.controls.City.dirty || partyForm.controls.City.touched)">
+                                    This filed is required</div>
+                            </div>
+                            <datalist id="cities" *ngIf="!partyForm.controls.City.invalid">
+                                <option *ngFor="let city of geoCities">{{city}} </option>
+                            </datalist>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="city">PinCode <span class="red">*</span></label>
+                                <input list="pincodes" class="form-control" type="number"
+                                    oninput="this.value = this.value.toUpperCase()" formControlName="PinCode">
+                                <div class="w3-panel w3-red"
+                                    *ngIf="partyForm.controls.PinCode.invalid && (partyForm.controls.PinCode.dirty || partyForm.controls.PinCode.touched)">
+                                    This filed is required</div>
+                                <datalist id="pincodes" *ngIf="!partyForm.controls.PinCode.invalid">
+                                    <option *ngFor="let pincode of geoPinCodes">{{pincode}} </option>
+                                </datalist>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="city">Country <span class="red">*</span></label>
+                                <input list="countries" class="form-control datalist-arrow" type="text"
+                                    oninput="this.value = this.value.toUpperCase()" formControlName="Country">
+                                <div class="w3-panel w3-red"
+                                    *ngIf="partyForm.controls.Country.invalid && (partyForm.controls.Country.dirty || partyForm.controls.Country.touched)">
+                                    This filed is required</div>
+                            </div>
+                            <datalist id="countries" *ngIf="!partyForm.controls.Country.invalid">
+                                <option *ngFor="let country of geoCountries">{{country}} </option>
+                            </datalist>
+                        </div>
+                        <!-- Code Added By  kts End -->
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="city">GST Number<span class="red">*</span> </label>
+                                <input class="form-control" type="text" 
+                                       (keydown.tab)="onTab($event)"
+                                       oninput="this.value = this.value.toUpperCase()"
+                                       formControlName="GSTNumber">
+                                <div class="w3-panel w3-red"
+                                     *ngIf="partyForm.controls.GSTNumber.invalid && (partyForm.controls.GSTNumber.dirty || partyForm.controls.GSTNumber.touched)">
+                                     Invalid GST Number
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="city">PAN Number<span class="red">*</span> </label>
+                                <input class="form-control" type="text" oninput="this.value = this.value.toUpperCase()"
+                                    formControlName="PanNumber">
+                                <div class="w3-panel w3-red"
+                                    *ngIf="partyForm.controls.PanNumber.invalid && (partyForm.controls.PanNumber.dirty || partyForm.controls.PanNumber.touched)">
+                                    This filed is required</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="city">GST Type</label>
+                                <br>
+                                <div class="pretty p-default p-round">
+                                    <input type="radio" value="IGST" name="GSTType" formControlName="GSTType" />
+                                    <div class="state p-success">
+                                        <i class="icon mdi mdi-check"></i>
+                                        <label>IGST</label>
+                                    </div>
+                                </div>
+
+                                <div class="pretty p-default p-round">
+                                    <input type="radio" value="GST" name="GSTType" formControlName="GSTType" />
+                                    <div class="state p-success">
+                                        <i class="icon mdi mdi-check"></i>
+                                        <label>GST</label>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="pretty p-default p-round">
+                  <input type="radio" name="radio1">
+                  <div class="state">
+                      <label>Male</label>
+                  </div>
+              </div> -->
+
+                                <!-- <div class="pretty p-default p-round">
+                  <input type="radio" name="radio1">
+                  <div class="state">
+                      <label>Female</label>
+                  </div>
+              </div> -->
+                                <!-- <input class="form-control"  type="radio" value="male" name="gender" formControlName="GSTType">
+      <label for="male">IGST</label>
+      <input class="form-control"  type="radio" value="male" name="gender" formControlName="GSTType">
+      <label for="male">GST</label> -->
+
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="city">Discount <i class="fa fa-info-circle fa-lg"
+                                        tooltip="<p>Set default discount for outward</p>"></i></label>
+                                <input class="form-control" type="number" min="0" max="100" formControlName="Discount">
+                                <div class="w3-panel w3-red"
+                                    *ngIf="partyForm.controls.Discount.invalid && (partyForm.controls.Discount.dirty || partyForm.controls.Discount.touched)">
+                                    This filed is required</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3" *ngIf="outletDisable">
+                            <div class="form-group">
+                                <div class="col-md-12">&nbsp;</div>
+                                <div class="pt-2 mt-2">
+                                    <label for="street">Outlet</label>
+                                    <div class="ml-1 pretty p-svg p-curve">
+                                        <input type="checkbox" [checked]="OutletAssign == 1"
+                                            formControlName="OutletAssign" />
+                                        <div class="state p-success">
+                                            <svg class="svg svg-icon" viewBox="0 0 20 20">
+                                                <path
+                                                    d="M7.629,14.566c0.125,0.125,0.291,0.188,0.456,0.188c0.164,0,0.329-0.062,0.456-0.188l8.219-8.221c0.252-0.252,0.252-0.659,0-0.911c-0.252-0.252-0.659-0.252-0.911,0l-7.764,7.763L4.152,9.267c-0.252-0.251-0.66-0.251-0.911,0c-0.252,0.252-0.252,0.66,0,0.911L7.629,14.566z"
+                                                    style="stroke: white;fill:white;"></path>
+                                            </svg>
+                                            <label></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="city">Additional Rate <i class="fa fa-info-circle fa-lg"
+                                        tooltip="<p>Outward Rate Adjustment</p>"></i></label>
+                                <input class="form-control" type="number" formControlName="OutletArticleRate">
+                                <div class="w3-panel w3-red"
+                                    *ngIf="partyForm.controls.OutletArticleRate.invalid && (partyForm.controls.OutletArticleRate.dirty || partyForm.controls.OutletArticleRate.touched)">
+                                    This filed is required</div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="city">Sales person <span class="red">*</span></label>
+                                <!-- <ng-select [clearable]="false" [(ngModel)]="SalesPerson"bindLabel="Name"
+                                    class="custom sales-placeholder" formControlName="SalesPerson"
+                                    [items]="salespersons" placeholder="Select Sales Person">
+                                    <ng-option *ngFor="let person of salespersons" [value]="person['Id']">
+                                        {{person['Name']}}</ng-option>
+                                </ng-select> -->
+                                <select [clearable]="false" [(ngModel)]="SalesPerson"bindLabel="Name"
+                                class="form-control sales-placeholder" formControlName="SalesPerson"
+                                [items]="salespersons" placeholder="Select Sales Person">
+                                <option *ngFor="let person of salespersons" [value]="person['Id']">
+                                    {{person['Name']}}</option>
+                            </select>
+                                <div class="w3-panel w3-red"
+                                    *ngIf="partyForm.controls.SalesPerson.invalid && (partyForm.controls.Country.dirty || partyForm.controls.Country.touched)">
+                                    This filed is required</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="Source">Source <span class="red">*</span></label>
+                                <input list="sources" class="form-control" type="text" oninput="this.value = this.value.toUpperCase()"
+                                    formControlName="Source">
+                                <div class="w3-panel w3-red"
+                                    *ngIf="partyForm.controls.Source.invalid && (partyForm.controls.Source.dirty || partyForm.controls.Source.touched)">
+                                    This filed is required</div>
+                                <datalist id="sources" *ngIf="!partyForm.controls.Source.invalid">
+                                    <option *ngFor="let source of sources">{{source}} </option>
+                                </datalist>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <button type="button" id="submit-button" (click)="goBack()" class="btn btn-primary px-4">Back</button>
+                        </div>
+                        <div class="col-6 text-right">
+                            <button type="submit" [disabled]="!partyForm.valid"
+                                class="btn btn-primary px-4">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</ng-template>
+<ng-template #other_content>
+    <div class="col-sm-12 col-md-12">
+        <div class="card text-white bg-info text-center">
+            <div class="card-body">
+                <blockquote class="card-bodyquote">
+                    <h3>Rights that are not assignable</h3>
+                    <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</ng-template>
+

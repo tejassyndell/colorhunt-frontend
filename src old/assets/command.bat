@@ -1,0 +1,1 @@
+COPY /B C:\Users\abc\Desktop\subhash\Output.prn \\ExportDispatched-PC\POSTEK-EM-Series-(203-dpi)

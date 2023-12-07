@@ -1,0 +1,29 @@
+<div *ngIf="accessdenied;then other_content else content"></div> 
+<ng-template #content>
+  <div class="animated fadeIn">
+    <div class="row fornmainview">
+      <div class="col-sm-6 col-lg-2" style="display: flex;" *ngFor="let val of categorylist;let i = index">
+        <a (click)="gotoSofront(val.Id)" style="display:flex; width:100%;">
+          <div class="card text-white">
+            <div class="card-body text-center view-product">
+              <img onError="this.src='assets/img/noimage.png';" src="{{BaseURL}}uploads/{{val.Image}}">
+              <div class="view-title">{{val.Title}}</div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #other_content>
+  <div class="col-sm-12 col-md-12">
+    <div class="card text-white bg-info text-center">
+      <div class="card-body">
+        <blockquote class="card-bodyquote">
+          <h3>Rights that are not assignable</h3>
+          <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</ng-template>

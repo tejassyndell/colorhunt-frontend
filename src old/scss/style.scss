@@ -1,0 +1,217 @@
+// If you want to override variables do it here
+@import "variables";
+// Import styles
+// @import "~@coreui/coreui/scss/coreui";
+// If you want to add something do it here
+@import "custom";
+@import 'pretty-checkbox.scss';
+@media screen {
+    #divFooter {
+        display: none;
+    }
+}
+
+a {
+    cursor: pointer;
+}
+
+.nav-item.nav-dropdown .nav-dropdown-items a.nav-link {
+    padding-left: 45px;
+}
+
+.pb-40 {
+    padding-bottom: 40px;
+}
+
+@media screen and (min-width:320px) and (max-width:450px) {
+    .app-header .navbar-brand {
+        left: 0;
+        margin-left: 40px;
+    }
+    .app-header .navbar-brand img {
+        width: 120px;
+        height: auto;
+    }
+}
+
+@media screen and (min-width:320px) and (max-width:767px) {
+    .Bg-area .navbar {
+        padding: 0px 0 15px;
+    }
+    .Bg-area .contain-section #sidebar {
+        padding: 0 0 15px !important
+    }
+    #custom-search-input {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+    .contain-section #sidebar h3 {
+        margin-top: 15px;
+    }
+    .checklist.categories .form-check {
+        width: 50%;
+        float: left;
+    }
+}
+
+@media screen and (min-width:320px) and (max-width:600px) {
+    .breadcrumb {
+        margin-bottom: 0 !important;
+        border-bottom: none !important;
+    }
+    .container-fluid {
+        padding: 0 !important;
+    }
+    .container-fluid .card {
+        border-left: 0 !important;
+        border-right: 0 !important;
+    }
+    .card-header {
+        padding: 0.75rem 15px;
+    }
+    .card-header button.btn {
+        padding: 6px 8px;
+    }
+    .card.text-white.bg-info,
+    .card.text-white.bg-success,
+    .card.text-white.bg-warning,
+    .card.text-white.bg-danger,
+    .card.text-white.bg-primary {
+        margin: 10px 15px;
+    }
+    .fornmainview {
+        margin-bottom: 15px;
+    }
+    .fornmainview .col-sm-6.col-lg-2 {
+        width: 50%;
+        padding: 0 1px;
+    }
+    .fornmainview .col-sm-6.col-lg-2 .card {
+        margin-bottom: 0;
+    }
+    .row.product-list .col-sm-6 {
+        border-right: none !important;
+        border-bottom: none !important;
+    }
+    .Bg-area {
+        margin: 1px 0 0 !important;
+    }
+    .Bg-area .navbar {
+        padding: 0px 0 15px;
+    }
+    .Bg-area .contain-section #sidebar {
+        padding: 0 0 15px !important
+    }
+    #custom-search-input {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+    .contain-section #sidebar h3 {
+        margin-top: 15px;
+    }
+    .checklist.categories .form-check {
+        width: 50%;
+        float: left;
+    }
+    .Bg-area form .mt-40 {
+        margin-top: 1px;
+    }
+    .challan-btn {
+        padding: 0 1.25rem;
+    }
+    .product-grid2 {
+        border-left: #ccc solid 1px
+    }
+}
+
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+/* .main{ background-color: #fff;} */
+
+@media print {
+    body {
+        background-color: #fff;
+    }
+}
+
+#custom-search-input {
+    margin: 0;
+    padding: 0;
+    width: 220px;
+}
+
+#custom-search-input .search-query {
+    padding-right: 3px;
+    padding-right: 4px \9;
+    padding-left: 3px;
+    padding-left: 4px \9;
+    /* IE7-8 doesn't have border-radius, so don't indent the padding */
+    margin-bottom: 0;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    width: 100%;
+}
+
+#custom-search-input button {
+    border: 0;
+    background: none;
+    /** belows styles are working good */
+    padding: 2px 5px;
+    margin-top: 2px;
+    position: relative;
+    /* IE7-8 doesn't have border-radius, so don't indent the padding */
+    margin-bottom: 0;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    color: #20a8d8;
+}
+
+.search-query:focus+button {
+    z-index: 3;
+}
+
+// span.input-group-btn {
+//     position: absolute;
+//     right: 20px;
+//     top: 2px;
+//     z-index: 99;
+// }
+// span.input-group-btn {
+//     position: absolute;
+//     right: -37%;
+//     top: 0px;
+//     height: 36px;
+//     z-index: 99;
+//     width: 27px;
+//     padding-top: 2px;
+//     border-radius: 5px;
+//     border: 1px solid #cccccc;
+// }
+
+span.input-group-btn {
+    position: absolute;
+    right: -36px;
+    top: 0px;
+    height: 36px;
+    z-index: 99;
+    width: 27px;
+    padding-top: 2px;
+    border-radius: 5px;
+    border: 1px solid #cccccc;
+}
+
+.article-search-button:focus{
+    box-shadow: none !important;
+}
+
+.multiselectarrow .multiselect-dropdown .dropdown-btn .dropdown-down {
+    display: inline-block;
+    top: 10px;
+    width: 0;
+    height: 0;
+    border-top: 7px solid #adadad !important;
+    border-left: 7px solid transparent !important;
+    border-right: 7px solid transparent !important;
+}

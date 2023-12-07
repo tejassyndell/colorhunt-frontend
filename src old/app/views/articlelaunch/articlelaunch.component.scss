@@ -1,0 +1,95 @@
+// .col1 {width:20%; float:left; padding:0 15px;}
+.row {display: inherit;}
+.sub-btn {margin-top: 80px;}
+.inwardmark {background:#eee; margin:-20px -20px 10px; padding:10px 0 0; border-bottom:#dadada solid 1px;}
+.backcancel_button { position: absolute; right: 20px; bottom: 20px; }
+.mgr5 {margin-right:5px;}
+.mw-300{max-width:300px;}
+@media screen and (max-width:1024px) {
+.col1 {width:33%;}
+}
+
+@media screen and (max-width:855px) {
+.col1 {width:100%;}
+}
+
+.col-md-6.text-center.Export-btn {
+    text-align: initial !important;
+    top: 35px ;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Styling for the dropdown container */
+.ng-multiselect-dropdown {
+    width: 300px; /* Set the desired width */
+  }
+  
+  /* Styling for the dropdown button */
+  .multiselect-dropdown {
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #333;
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .multiselect-dropdown:hover {
+    background-color: #f5f5f5;
+  }
+  
+  /* Styling for the dropdown options */
+  .dropdown-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    max-height: 200px; /* Set the desired maximum height */
+    overflow-y: auto;
+  }
+  
+  .dropdown-list li {
+    padding: 5px;
+    cursor: pointer;
+  }
+  
+  .dropdown-list li:hover {
+    background-color: #f5f5f5;
+  }
+  
+  /* Styling for the selected options */
+  .selected-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+  }
+  
+  .selected-list li {
+    padding: 5px;
+  }
+  
+  /* Styling for the search input */
+  .search-input {
+    padding: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  

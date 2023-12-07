@@ -1,0 +1,24 @@
+<div *ngIf="accessdenied == false" class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-6 col-lg-3">
+      <a [routerLink]="'/salesreportsolist'" style="text-decoration:none">
+        <div class="card text-white bg-info">
+          <div class="card-body text-center"> <i class="nav-icon fa fa-file-text font30"></i>
+            <div>Sales Order List</div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="accessdenied != false" id="other_content" class="col-sm-12 col-md-12">
+  <div class="card text-white bg-info text-center">
+    <div class="card-body">
+      <blockquote class="card-bodyquote">
+        <h3>Rights that are not assignable</h3>
+        <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+      </blockquote>
+    </div>
+  </div>
+</div>

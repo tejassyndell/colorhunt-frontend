@@ -1,0 +1,55 @@
+// Here you can add other styles
+.login-page {min-width:380px;}
+.login-page img {margin:0 auto 20px; width:170px; display:block;}
+.login-page .card-body {border-top:#c8c6c6 solid 1px;}
+.w3-panel.w3-red {color:red; width:100%;}
+.w3-panel.w3-red  {color:red; padding:0;}
+ul.nav.navbar-nav.ml-auto {margin-right:16px;}
+.app-header .navbar-toggler:nth-last-child(2) {display:none;}
+.app-header .navbar-toggler:nth-last-child(1) {display:none;}
+.red {color:red; font-size:15px;}
+.table-title {float:left; line-height:34px;}
+table.dataTable thead th:last-child {width:auto !important;}
+td.flex {display: flex;}
+table.dataTable thead th, table.dataTable thead td {border-bottom:1px solid #dddddd !important; color:#fff; background-color:#2f353a; border-color:#40484f;}
+table.dataTable.no-footer {border-bottom:1px solid #dddddd !important;}
+input[type="search"] {box-shadow:none; border:#c8ced3 solid 1px;}
+table.dataTable .btn {padding:0.300rem 0.65rem;}
+.container-fluid .dataTables_wrapper .dataTables_paginate .paginate_button.current, .container-fluid .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    color:#fff !important;
+    border:1px solid #2f353a;
+    background-color:#2f353a;
+    background:linear-gradient(to bottom, #5a6065 0%, #2f353a 100%);
+}
+ol.breadcrumb li:first-child {margin-left:0;}
+.font30 {font-size:30px;}
+.dataTables_wrapper {overflow:auto;}
+.article-form .ng-placeholder {
+    display: none !important;
+}
+.art-search-div{
+    display: flex;
+}
+.article-search-inner-div{
+    margin-left: 9%;
+}
+@media screen and (max-width:745px){
+    .art-search-div{
+        display: block;
+    }
+    .article-search-inner-div{
+        margin: 8px 0px 0px 0px;
+    }
+}
+body.app{
+    user-select: auto;
+}
+@media screen and (min-width:320px) and (max-width:767px) {
+.dataTables_wrapper.no-footer {overflow:auto;}
+.login-page {min-width:320px;}
+.container-fluid .dataTables_wrapper .dataTables_paginate span .paginate_button {padding:4px 10px;}
+.container-fluid .dataTables_wrapper .dataTables_paginate .paginate_button {padding:4px 5px;}
+.container-fluid .dataTables_wrapper .dataTables_paginate .ellipsis {padding:0 5px;}
+.card-body button.btn.btn-primary.px-4 {padding-left:0.75rem !important; padding-right:0.75rem !important;}
+}
+

@@ -1,0 +1,286 @@
+<div *ngIf="accessdenied;then other_content else content"></div>
+<ng-template #content>
+  <div class="animated fadeIn">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="table-title"><i class="fa fa-align-justify"></i> Stock Transfer List</div>
+            <div class="pull-right" *ngIf='isAdd==1'>
+              <a type="submit" [routerLink]="['/stocktransfer',{STNO:'Add'}]" class="btn btn-primary">Add
+                Stock Transfer </a>
+            </div>
+          </div>
+          <div class="col-md-12 pt-3 pb-3">
+            <table width="100%" datatable [dtOptions]="dtOptions" class="row-border hover">
+              <thead class="thead-dark">
+                <tr>
+                  <th class="no-sort">No</th>
+                  <th>Stock Transfer Number</th>
+                  <th>Remarks</th>
+                  <th>Transfer No Packs</th>
+                  <th>Date</th>
+                  <th class="no-sort">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let val of stocktransferlist;let i = index">
+                  <td>{{startnumber + i + 1}}</td>
+                  <td>{{val.StocktransferNumber}}</td>
+                  <td>{{val.Remarks}}</td>
+                  <td>{{val.TransferNoPacks}}</td>
+                  <td>{{val.StocktransferDate}}</td>
+                  <td class="flex">
+                    <button type="button" *ngIf="UserRole==2" class="pull-left mr-1 btn btn-secondary"
+                      (click)="viewlogs(val.Id)">
+                      <i class="fa fa-eye" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" *ngIf='isEdit==1' class="btn btn-primary mr-1" (click)="edit(val.Id)">
+                      <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary mr-1" (click)="printstocktransferchallan(val.Id)"> <i
+                        class="fa fa-print" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" *ngIf='isDelete==1' class="btn btn-danger mr-1" (click)="delete(val.Id)">
+                      <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </button>
+
+                  </td>
+                </tr>
+                <tr *ngIf="stocktransferlist?.length == 0">
+                  <td colspan="3" class="no-data-available">No data available in table!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div *ngIf="showStockTransferChallan==true"
+    style="position: fixed;top: 0;z-index: 10000;left: 0;width: 100%;display: flex;justify-content: center;align-items: center;height: 100vh; background: #000000b3;">
+    <div id="contentToConvert" class="card page" style="width: 77%;height: 85%;max-height: 825px;">
+      <i (click)="goBack()" class="fa fa-times"
+        style="font-size: 25px;position: absolute;top: -22px;right: -20px;color: black;cursor: pointer;height: 45px;justify-content: center;width: 45px;border-radius: 50%;box-shadow: 0px 4px 25px 16px rgb(0 0 0 / 7%);background: white;align-items: center;display: flex;box-shadow: beige;"></i>
+      <div id="print-section" #drawMe class="card-body"
+        style="overflow:auto; margin:1.25rem 1.25rem; padding:0; height:100%;">
+        <table width="100%" border="0" cellspacing="0" style="font-family:Arial; border:0;">
+          <tbody>
+            <tr>
+              <td colspan="3"
+                style="border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; text-align:center;">
+                <h4 style="margin:0; padding:6px; text-align:center;"><strong>STOCK TRANSFER</strong></h4>
+              </td>
+            </tr>
+            <tr style="background:#000;">
+              <td colspan="3"
+                style="border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; border-right:1px solid #c8ced3; text-align:center;">
+                <h2 style="margin:0; padding:6px; color:#fff; text-align:center;">
+                  <!-- <strong>dfdsfsdf{{UserName}}</strong></h2> -->
+                  <strong>{{UserName}} </strong>
+                </h2>
+              </td>
+            </tr>
+            <tr style="width: 100%;">
+              <td style="padding:6px;  border: 1px solid #c8ced3; font-size:14px;">
+                <strong>STOCK TRANSFER NO: </strong>{{STNumber}}
+              </td>
+
+              <td style="padding:6px; font-size:14px;">
+                <strong>DATE: </strong> {{STDate | date:'dd/MM/y'}}
+              </td>
+
+              <td style="padding:6px; border-left:1px solid #c8ced3; border-right:1px solid #c8ced3; font-size:14px;">
+                <strong>REMARKS:</strong> {{ Remarks }}
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="3" style="border-top:1px solid #c8ced3; height:30px;"></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="page-footer" style="font-family:Arial; position: fixed; bottom: 0; width: 100%;">
+          <div style="float: left;"><strong>Prepared by: </strong>{{UserName}}</div>
+          <div style="position: absolute; left: 0; right: 0; margin: 0 auto; width: 240px;">
+            <strong>Verified by: </strong>{{UserName}}
+          </div>
+          <div style="float: right;"> <strong>Authorized by: </strong> <span
+              style="border-bottom: #000 solid 1px;">______________________</span> </div>
+        </div>
+        <table class="desktopview" width="100%" border="0" cellspacing="0" style="font-family:Arial; border:0;">
+          <thead>
+            <tr style="text-align:center; font-size:14px;">
+              <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                <strong>SN</strong>
+              </td>
+              <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                <strong>CONSUMED ARTICLE</strong>
+              </td>
+              <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                <strong>CONSUMED CATEGORY</strong>
+              </td>
+              <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                <strong>CONSUMED SIZE</strong>
+              </td>
+              <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                <strong>CONSUMED COLOR</strong>
+              </td>
+              <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                <strong>CONSUMED PIECES</strong>
+              </td>
+              <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                <strong>TRANSFER ARTICLE</strong>
+              </td>
+              <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                <strong>TRANSFER CATEGORY</strong>
+              </td>
+              <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                <strong>TRANSFER SIZE</strong>
+              </td>
+              <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                <strong>TRANSFER COLOR</strong>
+              </td>
+              <td
+                style="padding:6px; border-left:1px solid #c8ced3; border-right:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                <strong>TRANSFER PIECES</strong>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="text-align:center; font-size:14px;"
+              *ngFor="let val of stocktransferlistchallan; let i = index; last as islast">
+              <td
+                style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;width: 94px;">
+                {{ i + 1}}</td>
+              <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                {{val.ConsumedArticleNumber}}</td>
+              <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                {{val.ConsumedTitle}}</td>
+              <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                {{val.ConsumedArticleSize}}</td>
+              <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                {{val.ConsumedArticleColor}}</td>
+              <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                {{val.ConsumedNoPacks}}</td>
+              <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                {{val.TransferArticleNumber}}</td>
+              <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                {{val.TransferTitle}}</td>
+              <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                {{val.TransferArticleSize}}</td>
+              <td style="padding:6px; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:left;">
+                {{val.TransferArticleColor}}</td>
+              <td
+                style="padding:6px; border-left:1px solid #c8ced3; border-right:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                {{val.TransferNoPacks}}</td>
+            </tr>
+            <tr style="text-align:center; font-size:14px;">
+              <td colspan="5"
+                style="padding:6px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;">
+                <strong>TOTAL</strong>
+              </td>
+              <td
+                style="padding:6px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                <strong>{{TotalConsumedNoPacks}}</strong>
+                <!-- <strong>{{TotalQuantityPic}}</strong> -->
+              </td>
+              <td colspan="4"
+                style="padding:6px; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3; text-align:right;">
+                <strong></strong>
+              </td>
+              <td
+                style="padding:6px; border-right:1px solid #c8ced3; border-bottom:1px solid #c8ced3; border-left:1px solid #c8ced3; border-top:1px solid #c8ced3;">
+                <strong>{{ TotalTransferNoPacks }}</strong>
+              </td>
+            </tr>
+          </tbody>
+          <!-- <tfoot>
+            <tr>
+            <td>
+              <div class="page-footer-space" style="height: 30px;"> <strong>Prepared By :</strong> {{ UserName}}</div>
+            </td>
+            </tr>
+          </tfoot> -->
+        </table>
+
+        <!-- <div class="page-footer-space" style="height: 30px;"> <strong>Prepared By :</strong> {{ UserName}}</div> -->
+      </div>
+      <div class="challan-btn" style="margin: 1.25rem;">
+        <div class="pull-left"><button type="button" (click)="goBack()" class="btn btn-primary px-4">Back</button></div>
+
+        <button type="button" [useExistingCss]="true" printSectionId="print-section"
+          class="printbutton btn btn-primary mr-1 mb-3 mt-1 pull-right" ngxPrint> <i class="fa fa-print"
+            aria-hidden="true"></i> </button>
+        <button type="button" (click)="pdf(drawMe)" class="btn btn-primary mr-1 mb-3 mt-1 pull-right"><i
+            class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div *ngIf="showStockTransferLogs==true"
+  style="position: fixed;top: 0;z-index: 10000;left: 0;width: 100%;display: flex;justify-content: center;align-items: center;height: 100vh; background: #000000b3;">
+  <div class="card" style="width: 77%;">
+    <i (click)="CloseLogs()" class="fa fa-times"
+      style="font-size: 25px;position: absolute;top: -22px;right: -20px;color: black;cursor: pointer;height: 45px;justify-content: center;width: 45px;border-radius: 50%;box-shadow: 0px 4px 25px 16px rgb(0 0 0 / 7%);background: white;align-items: center;display: flex;box-shadow: beige;"></i>
+
+    <div class="card-header">
+      <div class="table-title"><i class="fa fa-align-justify"></i> Stock Transfer Logs</div>
+    </div>
+    <div class="col-md-12 pt-3 pb-3" style="max-height: 729px; height: 100%; overflow: scroll;">
+      <table class="w-100 dataTable row-border hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>No</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>User Name</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Log Type</th>
+            <th>Log Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let val of StockTransferLogsData;let i = index">
+            <td>{{ i + 1}}</td>
+            <td>{{val.CreatedDate}}</td>
+            <td>{{val.CreatedTime}}</td>
+            <td>{{val.Name}}</td>
+            <td>{{ val.Role }}</td>
+            <td *ngIf="val.Status == 1">Active</td>
+            <td *ngIf="val.Status == 0">Inactive</td>
+            <td>{{ val.LogType }}</td>
+            <td>{{ val.LogDescription }}</td>
+          </tr>
+          <tr *ngIf="StockTransferLogsData?.length == 0">
+            <td colspan="8" class="no-data-available text-center">No data available in table!</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+</ng-template>
+
+<ng-template #other_content>
+  <div class="col-sm-12 col-md-12">
+    <div class="card text-white bg-info text-center">
+      <div class="card-body">
+        <blockquote class="card-bodyquote">
+          <h3>Rights that are not assignable</h3>
+          <footer>Please contact <cite title="Source Title">Admin</cite></footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ngx-spinner type="ball-beat" size="20px">
+</ngx-spinner>

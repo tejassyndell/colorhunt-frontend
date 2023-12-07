@@ -12,8 +12,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Title } from '@angular/platform-browser';
 import { start } from 'repl';
 import { HttpClient } from '@angular/common/http';
+import { Location } from '@angular/common';
 import { environment } from '../../../environments/environment';
-import { Console } from 'console';
 
 class Person {
   Id: number;
@@ -42,11 +42,10 @@ class DataTablesResponse {
   styleUrls: ['./stocktransfer.component.scss']
 })
 export class StocktransferComponent implements OnInit {
-
   ApiURL: string = environment.apiURL;
   public startnumber: any;
+  @ViewChild(DataTableDirective, { static: false }) datatableElement: DataTableDirective;
 
-  @ViewChild("myInputBox") myInputBox: ElementRef;
   public colordropdown: any = [];
   public sizedropdown: any = [];
   public ratiodropdown: any = [];
@@ -56,7 +55,6 @@ export class StocktransferComponent implements OnInit {
   public stocktransferlist: any = [];
   accessdenied: boolean = true;
   //Table1
-  @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtOptions: any;
     dtTrigger: Subject<any> = new Subject<any>();
@@ -155,7 +153,7 @@ export class StocktransferComponent implements OnInit {
 
   ProArticleNumber: any;
   //statusdispaly:boolean=false;
-  constructor( private http: HttpClient, private el: ElementRef, private formBuilder: FormBuilder, private router: Router, private userService: UserService, private toastr: ToastrService, private route: ActivatedRoute, private spinner: NgxSpinnerService, private titleService: Title) {
+  constructor( private http: HttpClient, private el: ElementRef, private formBuilder: FormBuilder, private router: Router, private userService: UserService, private toastr: ToastrService, private route: ActivatedRoute, private spinner: NgxSpinnerService,private location: Location, private titleService: Title) {
     this.titleService.setTitle("Add Stock Transfer | Colorhunt");
     this.stocktransfer = this.formBuilder.group({
       StocktransferNumberId: [''],
@@ -307,7 +305,6 @@ export class StocktransferComponent implements OnInit {
   }
 
   onChangeTranferType(event) {
-    console.log('Exat value:',event.target.value)
     this.resetdataall()
     if (event.target.value == 2) {
       this.stocktransferflag = false;
@@ -341,6 +338,13 @@ export class StocktransferComponent implements OnInit {
 //end
 
 
+refreshTable() {
+  console.log('REFRESHING...')
+  
+  this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
+    dtInstance.draw();
+  });
+}
 
   resetdataall() {
     if (this.ArticleSelectedColor.length > 0) {
@@ -414,11 +418,13 @@ export class StocktransferComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.dtTrigger.complete();
+    this.dtTrigger.next();
+    //  this.dtTrigger.complete();  
   }
     ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
+    // this.dtTrigger2.unsubscribe();
     }
 
 
@@ -879,15 +885,19 @@ export class StocktransferComponent implements OnInit {
             this.formrestvalue();
 
           }
+          console.log('Delete!')
+          this.refreshTable();
         });
       } else {
 
       }
     });
+
   }
 
   getOWList(STNO) {
 
+  
     if (this.accessdenied == false) {
       setTimeout(() => this.spinner.show(), 25);
       //add new call
@@ -942,98 +952,34 @@ export class StocktransferComponent implements OnInit {
 
 
   
-
-    // this.userService.stocktransferlistfromstno(STNO).subscribe((res) => {
-    //   const data = res;
-
-    //   if (typeof this.dtElement !== 'undefined' && typeof this.dtElement.dtInstance !== 'undefined') {
-    //     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-    //       // Destroy the table first
-    //       dtInstance.destroy();
-    //       this.stocktransferlist = data;
-    //       // Call the dtTrigger to rerender again
-    //       this.dtTrigger.complete();
-    //       this.spinner.hide();
-    //     });
-    //   } else {
-    //     setTimeout(() => {
-    //       this.stocktransferlist = data;
-    //       this.dtTrigger.complete();
-    //       this.spinner.hide();
-    //     }, 100);
-
-    //   }
-
-    // }, (errror => {
-    //   this.spinner.hide();
-    //   console.log(errror);
-    // }));
   }
 
   getshortage() {
-    console.log('DDDDSHORTGE')
     let STNO = this.route.snapshot.paramMap.get('STNO');
-    if (this.accessdenied == false) {
-      setTimeout(() => this.spinner.show(), 25);
-      //add new call
-      const that = this;
-      this.dtOptions = {
-        serverSide: true,
-        processing: true,
-        columnDefs: [{
-          "targets": 'no-sort',
-          "orderable": false,
-        }], "order": [[1,"desc"]],
+    this.userService.stockshortagelistfromstno(STNO).subscribe((res) => {
+      const data = res;
+      if (typeof this.dtElement2 !== 'undefined' && typeof this.dtElement2.dtInstance !== 'undefined') {
+        this.dtElement2.dtInstance.then((dtInstance2: DataTables.Api) => {
+          // Destroy the table first
+          dtInstance2.destroy();
+          this.shortagetransferlist = data;
+          // Call the dtTrigger to rerender again
+          this.dtTrigger.next();         
+           this.spinner.hide();
+        });
+      } else {
+        setTimeout(() => {
+          this.shortagetransferlist = data;
+          this.dtTrigger.next();
+          this.spinner.hide();
+        }, 100);
 
-        ajax: (dataTablesParameters: any, callback) => {
-          that.http.post<DataTablesResponse>(
-              this.ApiURL+`/stockshortagelistfromstno/${STNO}`,
-              dataTablesParameters, {}
-            ).subscribe(resp => {
-              that.shortagetransferlist = resp.data;
-              console.log('sadsad', resp.data)
-              that.startnumber = resp.startnumber;
-              this.spinner.hide();
-              callback({
-                recordsTotal: resp.recordsTotal,
-                recordsFiltered: resp.recordsFiltered,
-                data: []
-              });
-            });
-        },
-        columns: [{ data: 'No' }, { data: 'Name' },{ data: 'ArticleNumber' }, { data: 'ReturnNoPacks' },{data:'CreatedDate' },{ data: 'Action' }]
+      }
 
-        // columns: [{ data: 'No' }, { data: 'GRN' },{ data: 'VendorName' }, { data: 'ArticleNumber' },{data:'Category' },{data:'Pieces' },{data:'CreatedDate' },{ data: 'Action' }]
-      };
-      //end
-
-    } else {
+    }, (errror => {
       this.spinner.hide();
-    }
-    // this.userService.stockshortagelistfromstno(STNO).subscribe((res) => {
-    //   const data = res;
-    //   if (typeof this.dtElement2 !== 'undefined' && typeof this.dtElement2.dtInstance !== 'undefined') {
-    //     this.dtElement2.dtInstance.then((dtInstance2: DataTables.Api) => {
-    //       // Destroy the table first
-    //       dtInstance2.destroy();
-    //       this.shortagetransferlist = data;
-    //       // Call the dtTrigger to rerender again
-    //       this.dtTrigger.complete();         
-    //        this.spinner.hide();
-    //     });
-    //   } else {
-    //     setTimeout(() => {
-    //       this.shortagetransferlist = data;
-    //       this.dtTrigger.complete();
-    //       this.spinner.hide();
-    //     }, 100);
-
-    //   }
-
-    // }, (errror => {
-    //   this.spinner.hide();
-    //   console.log(errror);
-    // }));
+      console.log(errror);
+    }));
   }
 
   TotalQualityPeace() {
@@ -1051,7 +997,7 @@ export class StocktransferComponent implements OnInit {
         }
 
         this.noofpackcount = true;
-        console.log('yashvi',this.totalQuantity);
+        // alert(this.totalQuantity);
 
         $(".totalquality").text(this.totalQuantity);
 
@@ -1109,6 +1055,7 @@ export class StocktransferComponent implements OnInit {
 
   // Initicate user add
   doStocktransfer() {
+   
     {
       document.getElementById('submit-button').setAttribute('disabled', 'true');
       this.spinner.show();
@@ -1204,12 +1151,20 @@ export class StocktransferComponent implements OnInit {
                     this.spinner.hide();
                     this.success(userdata, 1);
 
+                    // this.router.navigate(['/stocktransfer', { STNO: this.route.snapshot.paramMap.get('STNO') }]);
+                    console.log('ADDED@!!', this.route.snapshot.paramMap.get('STNO'))
+                    // window.location.reload();
+               
+          
+                    
                     document.getElementById('submit-button').removeAttribute('disabled');
                   }
                 );
                 this.spinner.hide();
                 document.getElementById('submit-button').removeAttribute('disabled');
                 // this.toastr.error('Sucess', 'OK');
+
+              
               } else {
                 this.spinner.hide();
                 document.getElementById('submit-button').removeAttribute('disabled');
@@ -1234,6 +1189,13 @@ export class StocktransferComponent implements OnInit {
               userdata => {
                 this.spinner.hide();
                 this.success(userdata, 1);
+
+              // this.router.navigate(['/stocktransfer', { STNO: this.route.snapshot.paramMap.get('STNO') }]);
+              console.log('ADDED@!!', this.route.snapshot.paramMap.get('STNO'))
+
+                // window.location.reload();
+      
+                
                 document.getElementById('submit-button').removeAttribute('disabled');
               }
             );
@@ -1244,13 +1206,12 @@ export class StocktransferComponent implements OnInit {
             this.toastr.error('Failed', 'No of piecesis is zero,Please add the No of pieces');
             document.getElementById('submit-button').removeAttribute('disabled');
           }
-
+       
         }
         // this.spinner.hide();
       }
-
     }
-
+    
   }
   // User Add success function
   success(data, flag) {
@@ -1267,7 +1228,16 @@ export class StocktransferComponent implements OnInit {
         this.DropdownSO = false;
       }
       this.StocktransferOrderLabel = true;
-      this.router.navigate(['/stocktransfer', { STNO: stnumberId }]);
+
+      this.router.navigate(['/stocktransfer', { STNO: stnumberId }], {
+        queryParamsHandling: 'preserve'
+      }).then(() => {
+        // window.location.reload();
+      });
+      
+      console.log('fff', stnumberId)
+      // window.location.reload();
+
       if (this.stocktransferflag == true) {
         this.getOWList(stnumberId);
       } else {
@@ -1285,6 +1255,8 @@ export class StocktransferComponent implements OnInit {
     } else {
       this.toastr.error('Failed', 'Please try agin later');
     }
+    this.refreshTable();
+
   }
 
   error() {
@@ -1444,6 +1416,7 @@ export class StocktransferComponent implements OnInit {
       this.productionarticalData = false;
       this.formrestvalue();
     }
+    this.refreshTable();
   }
 }
 

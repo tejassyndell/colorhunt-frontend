@@ -14,7 +14,7 @@
             </div>
           </div>
           <div class="col-md-12 pt-3 pb-3">
-            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table tabHeading">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
               <thead class="thead-dark">
                 <tr>
                   <th>Article Number</th>
@@ -25,15 +25,29 @@
               <tbody>
                 <tr *ngFor="let val of articlephotolist;">
                   <td>{{val.ArticleNumber}}</td>
-                  <td><img *ngIf="val.Name != null" width="100" height="100" src="{{ BaseURL }}/uploads/{{ val.Name }}">
-                    <img *ngIf="val.Name == null" width="100" height="100" src="{{ BaseURL }}/uploads/default-art-photo.png">
-                  </td>
                   <td>
-                    <button type="button" *ngIf="UserRole==2" class="pull-left mr-1 btn btn-secondary"
-                      (click)="viewlogs(val.Id)">
-                      <i class="fa fa-eye" aria-hidden="true"></i>
-                    </button>
-                    <button type="button" *ngIf='isDelete==1' class="btn btn-danger mr-1" (click)="delete(val.Id)">
+                    <ng-container *ngIf="val.Name != null; else defaultImage">
+                      <div class="horizontal-images">
+                        <div *ngFor="let imageUrl of val.Name">
+                          <img width="100" height="100" [src]="imageUrl" alt="Article Photo">
+                        </div>
+                      </div>
+                    </ng-container>
+                    <ng-template #defaultImage>
+                      <img width="100" height="100" [src]="BaseURL + '/uploads/default-art-photo.png'" alt="Default Image">
+                    </ng-template>
+                  </td>
+                  
+                  
+                  
+                  <td>
+                    
+                    <button type="button" *ngIf='isEdit==1' class="btn btn-primary mr-1"
+                    (click)="edit(val.ArticlesId )">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </button>
+
+                    <button type="button" *ngIf='isDelete==1' class="btn btn-danger mr-1" (click)="delete(val.id)">
                       <i class="fa fa-trash-o" aria-hidden="true"></i>
                     </button>
                   </td>
@@ -106,3 +120,6 @@
   </div>
 </ng-template>
 
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RequestOptions, ResponseContentType } from '@angular/http';
 import { environment } from '../../environments/environment';
+//added aditional code
+import { Observable } from 'rxjs';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json'
@@ -143,6 +145,28 @@ export class UserService {
   public deletecategory(id) {
     return this.http.delete(`${this.apiURL}/deletecategory/${id}`);
   }
+  public updatecategorystatus(catid) {
+    return this.http.get(`${this.apiURL}/updatecategorystatus/${catid}`);
+  }
+
+  //Beaner API
+  public doBeaner(data) {
+    return this.http.post(`${this.apiURL}/addbeaner`, data);
+  }
+  public updateBeaner(catlist: any) {
+    return this.http.post(`${this.apiURL}/updatebeaner`, catlist);
+  }
+  public Beanerlist() {
+    return this.http.get(`${this.apiURL}/beanarlist`);
+  }
+  public getBeaneridwise(id) {
+    return this.http.get(`${this.apiURL}/getbeaneridwise/${id}`);
+  }
+  public deleteBeaner(id) {
+    return this.http.delete(`${this.apiURL}/deletebeaner/${id}`);
+  }
+  
+
 
 
   //SubCategory API
@@ -304,6 +328,25 @@ export class UserService {
     return this.http.delete(`${this.apiURL}/deletebrand/${id}`);
   }
 
+  //transportation api
+   //Transportation API
+   public dobrandadd1(data) {
+    return this.http.post(`${this.apiURL}/addtransportation`, data);
+  }
+  public updateTransportation(transportationlist) {
+    return this.http.put(`${this.apiURL}/updatetransportation/${transportationlist.id}`, transportationlist, httpOptions);
+  }
+  public transportationlist() {
+
+    return this.http.get(`${this.apiURL}/transportationlist`);
+  }
+  public gettransportationidwise(id) {
+    return this.http.get(`${this.apiURL}/gettransportationidwise/${id}`);
+  }
+  public deletetransportation(id) {
+    return this.http.delete(`${this.apiURL}/deletetransportation/${id}`);
+  }
+
   //Rack API
   public dorackadd(data) {
     return this.http.post(`${this.apiURL}/addrack`, data);
@@ -430,6 +473,10 @@ export class UserService {
   public updatepartystatus(partyid) {
     return this.http.get(`${this.apiURL}/updatepartystatus/${partyid}`);
   }
+  public Gstnumber(gstNumber) {
+    return this.http.get(`${this.apiURL}/gstin-verification/${gstNumber}`);
+  }
+
 
   // Code Added By Kts
   public getgeoofparties() {
@@ -888,6 +935,17 @@ export class UserService {
   public articlephotos(formData: any) {
     return this.http.post(`${this.apiURL}/articlephotos`, formData);
   }
+  //added aditional code
+  deleteImage(imageUrl: string): Observable<any> {
+    const apiUrl = `${this.apiURL}/images/${encodeURIComponent(imageUrl)}`;
+    return this.http.delete<any>(apiUrl);
+  }
+
+
+  updatePrimaryImage(formData: FormData): Observable<any> {
+    const url = `${this.apiURL}/update-primary-image`; // Construct the API URL
+    return this.http.post(url, formData);
+  }
 
   public GetArticlePhotosList() {
     return this.http.get(`${this.apiURL}/getarticlephotoslist`);
@@ -913,10 +971,13 @@ export class UserService {
     return this.http.get(`${this.apiURL}/withoutopenflagarticallist`);
   }
 
-  public approvedarticallist() {
-    return this.http.get(`${this.apiURL}/approvedarticallist`);
-  }
-
+  // public approvedarticallist() {
+  //   return this.http.get(`${this.apiURL}/approvedarticallist`);
+  // }
+//added aditional code
+public approvedarticallist(id) {
+  return this.http.get(`${this.apiURL}/approvedarticallist/${id}`);
+}
 
 
   //Reports

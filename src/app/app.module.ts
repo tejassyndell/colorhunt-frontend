@@ -84,6 +84,8 @@ import { VendorComponent } from './views/vendor/vendor.component';
 import { BrandComponent } from './views/brand/brand.component';
 import { CategoryComponent } from './views/category/category.component';
 import { CategorylistComponent } from './views/categorylist/categorylist.component';
+import { BeanerComponent } from './views/beaner/beaner.component';
+import { BeanerlistComponent } from './views/beanerlist/beanerlist.component';
 import { ArticlesizeComponent } from './views/articlesize/articlesize.component';
 import { ArticlecolorComponent } from './views/articlecolor/articlecolor.component';
 import { AccessrightsComponent } from './views/accessrights/accessrights.component';
@@ -93,6 +95,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { ArticlecolorlistComponent } from './views/articlecolorlist/articlecolorlist.component';
 import { SizelistComponent } from './views/sizelist/sizelist.component';
 import { BrandlistComponent } from './views/brandlist/brandlist.component';
+//adding aditional code
+import { TransportationComponent } from './views/transportation/transportation.component';
+import { TransportationlistComponent } from './views/transportationlist/transportationlist.component';
 import { RackComponent } from './views/rack/rack.component';
 import { VendorlistComponent } from './views/vendorlist/vendorlist.component';
 import { OutwardlistComponent } from './views/outwardlist/outwardlist.component';
@@ -249,6 +254,8 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     BrandComponent,
     CategoryComponent,
     CategorylistComponent,
+    BeanerComponent,
+    BeanerlistComponent,
     ArticlecolorComponent,
     ArticlesizeComponent,
     AccessrightsComponent,
@@ -256,6 +263,9 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     ArticlecolorlistComponent,
     SizelistComponent,
     BrandlistComponent,
+     //adding aditional code
+     TransportationComponent,
+     TransportationlistComponent,
     RacklistComponent,
     RackComponent,
     VendorlistComponent,

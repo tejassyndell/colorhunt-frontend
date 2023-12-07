@@ -87,6 +87,7 @@ export class DefaultLayoutComponent implements OnDestroy {
       var Vendor_Rules = {};
       var Party_Rules = {};
       var Brand_Rules = {};
+       //adding aditional code
       var Article_Photos_Rules = {};
       var WorkorderStatus_Rules = {};
       var Outlet_Rules = {};
@@ -104,6 +105,8 @@ export class DefaultLayoutComponent implements OnDestroy {
       var ImportCsv_Rules = {};
 
       var Rection_Rules ={};
+      var Transportation_Rules = {};
+     var Beaner_Rules = {};
       var Bug_Rules ={};
       var Article_Launch_Edit_Rules ={};
       for (let i = 0; i <= 49; i++) {
@@ -288,6 +291,25 @@ export class DefaultLayoutComponent implements OnDestroy {
                 icon: 'icon-tag'
               }
             }
+            //adding aditional code
+            if (38 == getPageId) {
+            Transportation_Rules = {
+              name: 'Transportation',
+              url: '/transportationlist',
+              icon: 'cui-people'
+            }
+          }
+
+           //adding aditional code
+           if (49 == getPageId) {
+            Transportation_Rules = {
+              name: 'Banner',
+              url: '/beanerlist',
+              icon: 'cui-people'
+            }
+          }
+          
+
             if (17 == getPageId) {
               Party_Rules = {
                 name: 'Party Master',
@@ -493,6 +515,7 @@ export class DefaultLayoutComponent implements OnDestroy {
       var Vendor_Rules_Count = Object.keys(Vendor_Rules).length;
       var Party_Rules_Count = Object.keys(Party_Rules).length;
       var Brand_Rules_Count = Object.keys(Brand_Rules).length;
+       //adding aditional code
       var Rack_Rules_Count = Object.keys(Rack_Rules).length;
       var Userrole_Rules_Count = Object.keys(Userrole_Rules).length;
       var OutletSalesReturn_Rules_Count = Object.keys(OutletSalesReturn_Rules).length;
@@ -501,11 +524,13 @@ export class DefaultLayoutComponent implements OnDestroy {
       var FinancialYear_Rules_Count = Object.keys(FinancialYear_Rules).length;
       var ArticlePublish_Rules_Count = Object.keys(ArticlePublish_Rules).length;
       var Rection_Rules_Count = Object.keys(Rection_Rules).length;
+      var Transportation_Rules_Count = Object.keys( Transportation_Rules).length;
+      var Beaner_Rules_Count = Object.keys( Beaner_Rules).length;
       var Bug_Rules_Count = Object.keys(Bug_Rules).length;
       var Article_Launch_Edit_Rules_Count =Object.keys(Article_Launch_Edit_Rules).length;
 
 
-      if (Category_Rules_Count > 0 || Article_Launch_Edit_Rules_Count > 0 || ImportCsv_Rules_Count > 0 || SubCategory_Rules_Count > 0 || Article_Rules_Count > 0 || Article_Color_Rules_Count > 0 || Article_Size_Rules_Count > 0 || Article_Ratio_Rules_Count > 0 || Vendor_Rules_Count > 0 || Party_Rules_Count > 0 || Brand_Rules_Count > 0 || Rack_Rules_Count > 0 || Userrole_Rules_Count > 0 || Rection_Rules_Count > 0 || Bug_Rules_Count > 0  ) {
+      if (Category_Rules_Count > 0 || Article_Launch_Edit_Rules_Count > 0 || ImportCsv_Rules_Count > 0 || SubCategory_Rules_Count > 0 || Article_Rules_Count > 0 || Transportation_Rules_Count>0 || Article_Color_Rules_Count > 0 || Article_Size_Rules_Count > 0 || Article_Ratio_Rules_Count > 0 || Vendor_Rules_Count > 0 || Party_Rules_Count > 0 || Brand_Rules_Count > 0 || Rack_Rules_Count > 0 || Userrole_Rules_Count > 0 || Rection_Rules_Count > 0 || Bug_Rules_Count > 0  ) {
         MasterLabel_Rules = {
           title: true,
           name: 'Master '
@@ -540,6 +565,7 @@ export class DefaultLayoutComponent implements OnDestroy {
         SO_Rules,
         Sofrontview_Rules,
         Outward_Rules,
+        //adding aditional code
         SOStatus_Rules,
         ArticleRate_Rules,
         Return_Rules,
@@ -556,6 +582,8 @@ export class DefaultLayoutComponent implements OnDestroy {
         Article_Color_Rules,
         Article_Size_Rules,
         //Article_Ratio_Rules,
+        Transportation_Rules,
+        Beaner_Rules,
         Vendor_Rules,
         Brand_Rules,
         Party_Rules,
@@ -595,6 +623,8 @@ export class DefaultLayoutComponent implements OnDestroy {
         var Category_Rules = {};
         var SubCategory_Rules = {};
         var RangeSeries_Rules = {};
+         //adding aditional code
+         
         //var Article_Rules = {};
         var Inward_Rules = {};
         var Outward_Rules = {};
@@ -626,6 +656,8 @@ export class DefaultLayoutComponent implements OnDestroy {
         var ImportCsv_Rules = {};
         var StockTransfer_Rules = {};
         var Rection_Rules ={};
+        var  Transportation_Rules = {};
+        var  Baner_Rules = {};
         var Bug_Rules ={};
         var Article_Launch_Edit_Rules = {};
 
@@ -754,6 +786,8 @@ export class DefaultLayoutComponent implements OnDestroy {
                 }
               }
 
+
+
               if (30 == getPageId) {
                 ImportCsv_Rules = {
                   name: 'ImportCSV',
@@ -806,6 +840,8 @@ export class DefaultLayoutComponent implements OnDestroy {
                   icon: 'icon-tag'
                 }
               }
+                //adding aditional code
+         
               if (17 == getPageId) {
                 Party_Rules = {
                   name: 'Party Master',
@@ -1024,16 +1060,19 @@ export class DefaultLayoutComponent implements OnDestroy {
         var Brand_Rules_Count = Object.keys(Brand_Rules).length;
         var Rack_Rules_Count = Object.keys(Rack_Rules).length;
         var Userrole_Rules_Count = Object.keys(Userrole_Rules).length;
+        //adding aditional code
         var OutletSalesReturn_Rules_Count = Object.keys(OutletSalesReturn_Rules).length;
         var SalesReturn_Rules_Count = Object.keys(SalesReturn_Rules).length;
         var PurchaseReturn_Rules_Count = Object.keys(PurchaseReturn_Rules).length;
         var FinancialYear_Rules_Count = Object.keys(FinancialYear_Rules).length;
         var ArticlePublish_Rules_Count = Object.keys(ArticlePublish_Rules).length;
         var Rection_Rules_Count = Object.keys(Rection_Rules).length;
+        var  Transportation_Rules_Count = Object.keys( Transportation_Rules).length;
+        var  Beaner_Rules_Count = Object.keys( Beaner_Rules).length;
         var Bug_Rules_Count = Object.keys(Rection_Rules).length;
         var Article_Launch_Edit_Rules_Count = Object.keys(Article_Launch_Edit_Rules).length;
 
-        if (Category_Rules_Count > 0 || ImportCsv_Rules_Count > 0 || SubCategory_Rules_Count > 0 || Article_Launch_Edit_Rules_Count > 0 || Article_Rules_Count > 0 || Article_Color_Rules_Count > 0 || Article_Size_Rules_Count > 0 || Article_Ratio_Rules_Count > 0 || Vendor_Rules_Count > 0 || Party_Rules_Count > 0 || Brand_Rules_Count > 0 || Rack_Rules_Count > 0 || Userrole_Rules_Count > 0 || Rection_Rules_Count > 0 || Bug_Rules_Count > 0 ) {
+        if (Category_Rules_Count > 0 || ImportCsv_Rules_Count > 0 || SubCategory_Rules_Count > 0 || Article_Launch_Edit_Rules_Count > 0 || Article_Rules_Count > 0 || Transportation_Rules_Count > 0|| Article_Color_Rules_Count > 0 || Article_Size_Rules_Count > 0 || Article_Ratio_Rules_Count > 0 || Vendor_Rules_Count > 0 || Party_Rules_Count > 0 || Brand_Rules_Count > 0 || Rack_Rules_Count > 0 || Userrole_Rules_Count > 0 || Rection_Rules_Count > 0 || Bug_Rules_Count > 0 ) {
           MasterLabel_Rules = {
             title: true,
             name: 'Master '
@@ -1065,6 +1104,7 @@ export class DefaultLayoutComponent implements OnDestroy {
           Inward_Rules,
           ArticlePublish_Rules,
           Article_Launch_Rules,
+           //adding aditional code
           SO_Rules,
           Sofrontview_Rules,
           Outward_Rules,
@@ -1084,6 +1124,8 @@ export class DefaultLayoutComponent implements OnDestroy {
           Article_Color_Rules,
           Article_Size_Rules,
           //Article_Ratio_Rules,
+          Transportation_Rules,
+          Beaner_Rules,
           Vendor_Rules,
           Brand_Rules,
           Party_Rules,

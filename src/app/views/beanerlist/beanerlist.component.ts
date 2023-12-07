@@ -1,29 +1,24 @@
-import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { Subject } from 'rxjs';
-import { Router } from '@angular/router';
+import { RouterModule, Routes, Router } from '@angular/router';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import Swal from 'sweetalert2'
 import { DataTableDirective } from 'angular-datatables';
+import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import * as XLSX from 'xlsx';
 import { Title } from '@angular/platform-browser';
 
 class Person {
   Id: number;
   Name: string;
-  PhoneNumber: string;
-  ContactPerson: string;
-  State: string;
-  City: string;
-  PinCode: number;
-  Country: string;
-  GSTNumber: string;
-  UserName: string;
-  Action: string;
+  Description: string;
+  startnumber:number;
+  Action: string
 }
+
 class DataTablesResponse {
   data: any[];
   draw: number;
@@ -34,30 +29,31 @@ class DataTablesResponse {
 
 
 @Component({
-  selector: 'app-partylist',
-  templateUrl: './partylist.component.html',
-  styleUrls: ['./partylist.component.scss']
+  selector: 'app-beanerlist',
+  templateUrl: './beanerlist.component.html',
+  styleUrls: ['./beanerlist.component.scss']
 })
-export class PartylistComponent implements OnInit {
+export class  BeanerlistComponent  implements OnInit {
   ApiURL: string = environment.apiURL;
-  public partylist: Person[];
-  public startnumber: any;
+  public beanerlist: Person[];
+  public startnumber:  any;
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtOptions: any;
-    dtTrigger: Subject<any> = new Subject<any>();
+  dtTrigger: Subject<any> = new Subject();
   isAdd: any;
   isEdit: any;
   isDelete: any;
+  BaseURL: any;
   isList: any;
-  allparties: any;
-  AdminRoleId: any;
   accessdenied: boolean = true;
+  constructor(private userService: UserService, public router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService, private http: HttpClient,private titleService: Title) {
+    this.titleService.setTitle("Beaner List | Colorhunt");
+  }
 
-  constructor(private userService: UserService, public router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService, private http: HttpClient, private titleService: Title) {
-    this.titleService.setTitle("Party List | Colorhunt");
+  ngOnInit() {
+    this.BaseURL = environment.UploadBaseURL;
     let item = JSON.parse(localStorage.getItem('userdata'));
-    this.AdminRoleId = item[0]['Role'];
     let rolerights = JSON.parse(localStorage.getItem('roleright'));
     if (rolerights != "" && rolerights != null && rolerights != undefined) {
       this.rightscheck(rolerights, 1);
@@ -66,37 +62,40 @@ export class PartylistComponent implements OnInit {
         this.rightscheck(res, 2);
       });
     }
-  }
-
-  ngOnInit() {
-
     if (this.accessdenied == false) {
-      setTimeout(() => this.spinner.show(), 25);
-
-      this.getParty();
+      setTimeout(() => this.spinner.show(), 25);   
+       this.getdata();
 
 
     } else {
       this.spinner.hide();
     }
-
   }
 
-  //adding aditional code
+ 
 
-  mergePhoneNumbers(val: any): string {
-    const phoneNumbers = [val.PhoneNumber]; // Add the main phone number
+  public getBrand() {
+    if (typeof this.dtElement !== 'undefined' && typeof this.dtElement.dtInstance !== 'undefined') {
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        // Destroy the table first
+        dtInstance.destroy();
+        this.getdata();
+        // Call the dtTrigger to rerender again
+        this.dtTrigger.next();
+        this.spinner.hide();
+      });
+    } else {
+      setTimeout(() => {
+        this.getdata();
+        this.dtTrigger.next();
+        this.spinner.hide();
+      }, 100);
 
-    if (val.Additional_phone_numbers) {
-      phoneNumbers.push(val.Additional_phone_numbers); // Add the additional phone number if available
     }
-
-    return phoneNumbers.join(', '); // Combine phone numbers with a comma
   }
 
-
-
-  public getParty() {
+  public getdata() {
+    
     const that = this;
     this.dtOptions = {
       serverSide: true,
@@ -107,42 +106,43 @@ export class PartylistComponent implements OnInit {
       }], "order": [[1, "asc"]],
       ajax: (dataTablesParameters: any, callback) => {
         that.http.post<DataTablesResponse>(
-          this.ApiURL + "/partypostlist",
+          this.ApiURL + "/beanerpostlist",
           dataTablesParameters, {}
         ).subscribe(resp => {
-          that.partylist = resp.data;
+          that.beanerlist = resp.data;
+          console.log(' that.beanerlist', resp.data);
           that.startnumber = resp.startnumber;
           this.spinner.hide();
           callback({
-
             recordsTotal: resp.recordsTotal,
             recordsFiltered: resp.recordsFiltered,
             data: []
           });
         });
       },
-      columns: [{ data: 'No' }, { data: 'Name' }, { data: 'PhoneNumber', render: (data, type, row) => this.mergePhoneNumbers(row)  }, { data: 'ContactPerson' }, { data: 'State' }, { data: 'City' }, { data: 'PinCode' }, { data: 'Country' }, { data: 'GSTNumber' }, { data: 'UserName' }, { data: 'Source' }, { data: 'Action' }]
+      columns: [{ data: 'No' }, { data: 'Name' }, { data: 'Action' }]
     };
   }
-
   ngAfterViewInit(): void {
 
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.on('draw.dt', function () {
-        if ($('.dataTables_empty').length > 0) {
-          $('.dataTables_empty').remove();
-        }
-      });
-
+      dtInstance.on( 'draw.dt', function () {
+      if($('.dataTables_empty').length > 0)
+      {
+        $('.dataTables_empty').remove();
+      }
     });
-  }
+  
+    });
+  } 
 
   rightscheck(data, no) {
     let item = JSON.parse(localStorage.getItem('userdata'));
+  
     if (no == 1) {
       var Count = Object.keys(data).length;
       for (let i = 0; i < Count; i++) {
-        if (data[i].PageId == 17) {
+        if (data[i].PageId == 15) {
           if (data[i].ListRights == 1) {
             this.accessdenied = false;
           } else {
@@ -160,7 +160,7 @@ export class PartylistComponent implements OnInit {
       }
     } else {
       for (let i = 0; i < data.length; i++) {
-        if (data[i].PageId == 17) {
+        if (data[i].PageId == 15) {
           if (data[i].ListRights == 1) {
             this.accessdenied = false;
           } else {
@@ -180,6 +180,8 @@ export class PartylistComponent implements OnInit {
     }
   }
 
+
+
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
@@ -195,10 +197,11 @@ export class PartylistComponent implements OnInit {
       cancelButtonText: 'No, keep it'
     }).then((result) => {
       if (result.value == true) {
-        this.userService.deleteparty(id).subscribe((res) => {
-          this.dtElement.dtInstance.then
-            ((dtInstance: DataTables.Api) => dtInstance.ajax.reload()
-            );
+        this.userService.deleteBeaner(id).subscribe((res) => {
+         this.dtElement.dtInstance.then
+          ((dtInstance: DataTables.Api) => dtInstance.ajax.reload()
+         );
+          
           this.success(res);
         });
       } else {
@@ -207,60 +210,17 @@ export class PartylistComponent implements OnInit {
     });
   }
 
-  public changePartyStatus(partyid) {
-    this.userService.updatepartystatus(partyid).subscribe((res) => {
-      if (res['status'] === 'Active') {
-        this.toastr.success('Activated', `${res['Party'].Name} is active now`);
-      } else {
-        this.toastr.error('Deactivated', `${res['Party'].Name} is deactive now`);
-      }
-    });
-  }
-
   public edit(id) {
-    this.router.navigate(['partymaster', { id: id }])
+    this.router.navigate(['beaner', { id: id }])
   }
-  public exportPartyList(partyist) {
 
-    // console.log(partylist);
-    this.userService.getallparty().subscribe((res) => {
-      this.allparties = res;
-      // console.log('Jaimin',this.allparties);
-      const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.allparties);
-      var wscols = [
-        { width: 22.63 },
-        { width: 11.75 }, // second column
-        { width: 20.38 }, //...
-        { width: 12.63 },
-        { width: 11.75 },
-        { width: 11.13 },
-        { width: 7.25 },
-        { width: 7.25 },
-        { width: 15.5 },
-        { width: 21.13 },
-        { width: 7.25 },
-        { width: 7.38 },
-        { width: 10.75 },
-        { width: 14.5 }
-      ];
-      ws["!cols"] = wscols;
-      const wb: XLSX.WorkBook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-      /* save to file */
-      XLSX.writeFile(wb, "PartyList.xlsx");
-    });
-
-  }
   success(data) {
-    if (data.status == "success") {
-      this.toastr.success('Success', 'Party Deleted Successfully');
-    }
-    else if (data.status == 'failed') {
-      this.toastr.success('Failed', 'Party cannot be deleted');
-    }
-    else {
+    if (data.id != "") {
+      this.toastr.success('Success', 'Transportation Deleted Successfully');
+    } else {
       this.toastr.error('Failed', 'Please try agin later');
     }
   }
+
 
 }

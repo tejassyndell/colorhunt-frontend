@@ -4,35 +4,81 @@
   <!-- console.log(123123); -->
 </script>
 <ng-template #content>
+
   <div class="row">
-    <div class="col-sm-6">
-      <form [formGroup]="articleimgForm" (ngSubmit)="ArticlePhotos()">
+    <div class="col-sm-12">
+      <form [formGroup]="articleimgForm" (ngSubmit)="articlephotos()">
         <div class="card">
           <div class="card-header">
-            <strong>Article Images - Add</strong>
+            <strong>Article Images - {{articlePhotopage}}</strong>
           </div>
           <div class="card-body">
-            <div class="form-group">
+            <div class="form-group col-md-6">
               <label for="vat">Article <span class="red">*</span></label>
-              <ng-select [clearable]="false" class="custom" [(ngModel)]="ArticleId" formControlName="ArticleId"
-                [items]="articdropdown" bindLabel="ArticleNumber" placeholder="Select Article">
+              <ng-select [clearable]="false" class="custom" (ngModelChange)="onChangeArticle($event)"
+                [(ngModel)]="ArticleId" formControlName="ArticleId" [items]="articdropdown" bindLabel="ArticleNumber"
+                placeholder="Select Article">
               </ng-select>
               <div class="w3-panel w3-red"
                 *ngIf="articleimgForm.controls.ArticleId.invalid && (articleimgForm.controls.ArticleId.dirty || articleimgForm.controls.ArticleId.touched)">
                 This filed is required</div>
             </div>
             <div class="form-group">
-              <input type="file" formControlName="Image" id="file" multiple (change)="uploadFile($event)">
-              <div class="w3-panel w3-red"
-                *ngIf="articleimgForm.controls.Image.invalid && (articleimgForm.controls.Image.dirty || articleimgForm.controls.Image.touched)">
-                This filed is required</div>
+              <div class="row">
+                <div class="col-md-12 vibes">
+                  <label for="text"> <b>Add More Images</b></label>
+                  <div>
+                    <input type="file" formControlName="Image" id="file" multiple (change)="uploadFile($event)">
+                    <div class="w3-panel w3-red"
+                      *ngIf="articleimgForm.controls.Image.invalid && (articleimgForm.controls.Image.dirty || articleimgForm.controls.Image.touched)">
+                      This filed is required</div>
+                  </div>
+                  <div *ngIf="selectedFileName">
+                    Selected File: {{ selectedFileName }}
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div *ngFor="let imageObj of editarray.Images; let i = index">
+
+              <div class="row ace">
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <img [src]="getImageUrl(imageObj.photo)" alt="Image" width="100px" height="100px">
+                        </div>
+                        <div class="col-md-6 dot">
+                          <button *ngIf="i === primaryImageIndex" type="button" class="btn btn-primary"
+                            style="background-color: green; color: white; font-weight: normal; padding: 7px 7px; width: 120px;  margin: 10px 10px;">Primary
+                            Image</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 mat">
+                      <button *ngIf="i !== primaryImageIndex" type="button" class="btn btn-primary"
+                        style="background-color:white; color: black; font-weight: normal;  cursor: pointer; padding: 7px 7px; width: 120px; line-height: 22px; margin: 10px 10px;"
+                        (click)="updatePrimaryImage(imageObj, null)">Make it Primary</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <button class="btn btn-danger don" (click)="removeImage(imageObj.photo)">Remove Image</button>
+                </div>
+              </div>
             </div>
             <div class="row">
-              <div class="col-6">
+              <div class="col-6" style="padding: 10px 10px;">
                 <button type="button" (click)="goBack()" class="btn btn-primary px-4">Back</button>
               </div>
+
               <div class="col-6 text-right">
-                <button id="submit-button" type="submit" [disabled]="!articleimgForm.valid" class="btn btn-primary px-4">Submit</button>
+                <button id="submit-button" type="submit" [disabled]="!articleimgForm.valid"
+                  class="btn btn-primary px-4">Submit</button>
               </div>
             </div>
           </div>
@@ -54,3 +100,6 @@
     </div>
   </div>
 </ng-template>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

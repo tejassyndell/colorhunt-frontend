@@ -19,7 +19,6 @@ export const environment = {
   UploadBaseURL: 'https://webportalstaging.colorhunt.in/colorHuntApiStaging/public/',
   getuploadURL: 'https://webportalstaging.colorhunt.in/colorHuntApiStaging/public/uploads/',
   debugMode: false,
-
   
   
   // apiURL: 'https://webportal.colorhunt.in/colorHuntApi/public/api',

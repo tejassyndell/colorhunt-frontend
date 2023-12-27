@@ -86,6 +86,7 @@ export class DefaultLayoutComponent implements OnDestroy {
       var Article_Rules = {};
       var Vendor_Rules = {};
       var Party_Rules = {};
+      var Beaner_Rules = {};
       var Brand_Rules = {};
        //adding aditional code
       var Article_Photos_Rules = {};
@@ -106,7 +107,6 @@ export class DefaultLayoutComponent implements OnDestroy {
 
       var Rection_Rules ={};
       var Transportation_Rules = {};
-     var Beaner_Rules = {};
       var Bug_Rules ={};
       var Article_Launch_Edit_Rules ={};
       for (let i = 0; i <= 49; i++) {
@@ -300,9 +300,8 @@ export class DefaultLayoutComponent implements OnDestroy {
             }
           }
 
-           //adding aditional code
-           if (49 == getPageId) {
-            Transportation_Rules = {
+          if (49 == getPageId) {
+            Beaner_Rules = {
               name: 'Banner',
               url: '/beanerlist',
               icon: 'cui-people'
@@ -514,6 +513,7 @@ export class DefaultLayoutComponent implements OnDestroy {
       var Article_Ratio_Rules_Count = Object.keys(Article_Ratio_Rules).length;
       var Vendor_Rules_Count = Object.keys(Vendor_Rules).length;
       var Party_Rules_Count = Object.keys(Party_Rules).length;
+      var  Beaner_Rules_Count = Object.keys( Beaner_Rules).length;
       var Brand_Rules_Count = Object.keys(Brand_Rules).length;
        //adding aditional code
       var Rack_Rules_Count = Object.keys(Rack_Rules).length;
@@ -525,12 +525,11 @@ export class DefaultLayoutComponent implements OnDestroy {
       var ArticlePublish_Rules_Count = Object.keys(ArticlePublish_Rules).length;
       var Rection_Rules_Count = Object.keys(Rection_Rules).length;
       var Transportation_Rules_Count = Object.keys( Transportation_Rules).length;
-      var Beaner_Rules_Count = Object.keys( Beaner_Rules).length;
       var Bug_Rules_Count = Object.keys(Bug_Rules).length;
       var Article_Launch_Edit_Rules_Count =Object.keys(Article_Launch_Edit_Rules).length;
 
 
-      if (Category_Rules_Count > 0 || Article_Launch_Edit_Rules_Count > 0 || ImportCsv_Rules_Count > 0 || SubCategory_Rules_Count > 0 || Article_Rules_Count > 0 || Transportation_Rules_Count>0 || Article_Color_Rules_Count > 0 || Article_Size_Rules_Count > 0 || Article_Ratio_Rules_Count > 0 || Vendor_Rules_Count > 0 || Party_Rules_Count > 0 || Brand_Rules_Count > 0 || Rack_Rules_Count > 0 || Userrole_Rules_Count > 0 || Rection_Rules_Count > 0 || Bug_Rules_Count > 0  ) {
+      if (Category_Rules_Count > 0 || Beaner_Rules_Count > 0 || Article_Launch_Edit_Rules_Count > 0 || ImportCsv_Rules_Count > 0 || SubCategory_Rules_Count > 0 || Article_Rules_Count > 0 || Transportation_Rules_Count>0 || Article_Color_Rules_Count > 0 || Article_Size_Rules_Count > 0 || Article_Ratio_Rules_Count > 0 || Vendor_Rules_Count > 0 || Party_Rules_Count > 0 || Brand_Rules_Count > 0 || Rack_Rules_Count > 0 || Userrole_Rules_Count > 0 || Rection_Rules_Count > 0 || Bug_Rules_Count > 0  ) {
         MasterLabel_Rules = {
           title: true,
           name: 'Master '
@@ -583,10 +582,10 @@ export class DefaultLayoutComponent implements OnDestroy {
         Article_Size_Rules,
         //Article_Ratio_Rules,
         Transportation_Rules,
-        Beaner_Rules,
         Vendor_Rules,
         Brand_Rules,
         Party_Rules,
+        Beaner_Rules,
         Rack_Rules,
         Userrole_Rules,
         FinancialYear_Rules,
@@ -639,6 +638,7 @@ export class DefaultLayoutComponent implements OnDestroy {
         var Article_Rules = {};
         var Vendor_Rules = {};
         var Party_Rules = {};
+        var Beaner_Rules = {};
         var Brand_Rules = {};
         var Article_Photos_Rules = {};
         var WorkorderStatus_Rules = {};
@@ -657,7 +657,6 @@ export class DefaultLayoutComponent implements OnDestroy {
         var StockTransfer_Rules = {};
         var Rection_Rules ={};
         var  Transportation_Rules = {};
-        var  Baner_Rules = {};
         var Bug_Rules ={};
         var Article_Launch_Edit_Rules = {};
 
@@ -841,6 +840,14 @@ export class DefaultLayoutComponent implements OnDestroy {
                 }
               }
                 //adding aditional code
+
+                if (49 == getPageId) {
+                  Beaner_Rules = {
+                    name: 'Banner',
+                    url: '/beanerlist',
+                    icon: 'cui-people'
+                  }
+                }
          
               if (17 == getPageId) {
                 Party_Rules = {
@@ -1057,6 +1064,7 @@ export class DefaultLayoutComponent implements OnDestroy {
         var Article_Ratio_Rules_Count = Object.keys(Article_Ratio_Rules).length;
         var Vendor_Rules_Count = Object.keys(Vendor_Rules).length;
         var Party_Rules_Count = Object.keys(Party_Rules).length;
+        var Beaner_Rules_Count = Object.keys( Beaner_Rules).length;
         var Brand_Rules_Count = Object.keys(Brand_Rules).length;
         var Rack_Rules_Count = Object.keys(Rack_Rules).length;
         var Userrole_Rules_Count = Object.keys(Userrole_Rules).length;
@@ -1068,11 +1076,10 @@ export class DefaultLayoutComponent implements OnDestroy {
         var ArticlePublish_Rules_Count = Object.keys(ArticlePublish_Rules).length;
         var Rection_Rules_Count = Object.keys(Rection_Rules).length;
         var  Transportation_Rules_Count = Object.keys( Transportation_Rules).length;
-        var  Beaner_Rules_Count = Object.keys( Beaner_Rules).length;
         var Bug_Rules_Count = Object.keys(Rection_Rules).length;
         var Article_Launch_Edit_Rules_Count = Object.keys(Article_Launch_Edit_Rules).length;
 
-        if (Category_Rules_Count > 0 || ImportCsv_Rules_Count > 0 || SubCategory_Rules_Count > 0 || Article_Launch_Edit_Rules_Count > 0 || Article_Rules_Count > 0 || Transportation_Rules_Count > 0|| Article_Color_Rules_Count > 0 || Article_Size_Rules_Count > 0 || Article_Ratio_Rules_Count > 0 || Vendor_Rules_Count > 0 || Party_Rules_Count > 0 || Brand_Rules_Count > 0 || Rack_Rules_Count > 0 || Userrole_Rules_Count > 0 || Rection_Rules_Count > 0 || Bug_Rules_Count > 0 ) {
+        if (Category_Rules_Count > 0 || ImportCsv_Rules_Count > 0 || SubCategory_Rules_Count > 0 || Article_Launch_Edit_Rules_Count > 0 || Article_Rules_Count > 0 || Transportation_Rules_Count > 0|| Article_Color_Rules_Count > 0 || Article_Size_Rules_Count > 0 || Article_Ratio_Rules_Count > 0 || Vendor_Rules_Count > 0 || Beaner_Rules_Count>0 || Party_Rules_Count > 0 || Brand_Rules_Count > 0 || Rack_Rules_Count > 0 || Userrole_Rules_Count > 0 || Rection_Rules_Count > 0 || Bug_Rules_Count > 0 ) {
           MasterLabel_Rules = {
             title: true,
             name: 'Master '
@@ -1125,10 +1132,10 @@ export class DefaultLayoutComponent implements OnDestroy {
           Article_Size_Rules,
           //Article_Ratio_Rules,
           Transportation_Rules,
-          Beaner_Rules,
           Vendor_Rules,
           Brand_Rules,
           Party_Rules,
+          Beaner_Rules,
           Rack_Rules,
           Userrole_Rules,
           FinancialYear_Rules,
